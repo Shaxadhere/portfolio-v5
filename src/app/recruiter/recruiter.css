@@ -1,0 +1,549 @@
+.recruiter {
+  --rec-bg: #f4f1eb;
+  --rec-surface: #ffffff;
+  --rec-text: #1a1a18;
+  --rec-muted: #6b6560;
+  --rec-border: rgba(26, 26, 24, 0.08);
+  --rec-accent: #1a1a18;
+
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+  background: var(--rec-bg);
+  color: var(--rec-text);
+  font-family: var(--font-newsreader), Georgia, serif;
+}
+
+.recruiter__sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  border-right: 1px solid var(--rec-border);
+  background: var(--rec-surface);
+}
+
+.recruiter__back {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+  text-decoration: none;
+  margin-bottom: 40px;
+  transition: color 0.2s;
+}
+
+.recruiter__back:hover {
+  color: var(--rec-text);
+}
+
+.recruiter__name {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+
+.recruiter__title {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+  margin: 0 0 32px;
+}
+
+.recruiter__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.recruiter__nav a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--rec-muted);
+  transition: background 0.2s, color 0.2s;
+}
+
+.recruiter__nav a:hover {
+  background: var(--rec-bg);
+  color: var(--rec-text);
+}
+
+.recruiter__resume-btn {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--rec-accent);
+  color: var(--rec-surface);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.recruiter__resume-btn:hover {
+  opacity: 0.85;
+}
+
+.recruiter__main {
+  padding: clamp(32px, 5vw, 64px);
+  max-width: 1100px;
+}
+
+.recruiter__hero {
+  margin-bottom: 48px;
+}
+
+.recruiter__eyebrow {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+  margin: 0 0 16px;
+}
+
+.recruiter__hero h1 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0 0 20px;
+  max-width: 720px;
+}
+
+.recruiter__summary {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--rec-muted);
+  max-width: 640px;
+  margin: 0 0 24px;
+}
+
+.recruiter__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--rec-muted);
+}
+
+.recruiter__contact a {
+  color: var(--rec-text);
+  text-decoration: none;
+}
+
+.recruiter__contact a:hover {
+  text-decoration: underline;
+}
+
+.recruiter__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+
+.bento {
+  background: var(--rec-surface);
+  border: 1px solid var(--rec-border);
+  border-radius: 20px;
+  padding: clamp(24px, 3vw, 32px);
+}
+
+.bento__label {
+  display: block;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+  margin-bottom: 12px;
+}
+
+.bento h2 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+
+.bento--tools {
+  grid-column: span 4;
+}
+
+.bento--skills {
+  grid-column: span 8;
+}
+
+.bento--products {
+  grid-column: span 12;
+}
+
+.bento--experience {
+  grid-column: span 8;
+}
+
+.bento--education {
+  grid-column: span 4;
+}
+
+.bento--resume {
+  grid-column: span 12;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--rec-accent);
+  color: var(--rec-surface);
+  border-color: transparent;
+}
+
+.bento--resume .bento__label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.bento--resume p {
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 24px;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.bento-tools {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bento-tools li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rec-border);
+}
+
+.bento-tools li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bento-tools__name {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.bento-tools__cat {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+}
+
+.bento-skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.bento-skill-group__num {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.62rem;
+  color: var(--rec-muted);
+  letter-spacing: 0.08em;
+}
+
+.bento-skill-group h3 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 6px 0 10px;
+}
+
+.bento-skill-group__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bento-skill-group__tags span {
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: var(--rec-bg);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+.bento-products__count {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+  margin: -12px 0 20px;
+}
+
+.bento-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  max-height: 720px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.bento-product {
+  display: flex;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--rec-bg);
+}
+
+.bento-product__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.bento-product__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.bento-product__date {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  color: var(--rec-muted);
+  white-space: nowrap;
+}
+
+.bento-product h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.bento-product h3 a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.bento-product__accent {
+  width: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.bento-product__tag {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rec-muted);
+}
+
+.bento-product h3 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 4px 0 8px;
+}
+
+.bento-product p {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--rec-muted);
+  margin: 0 0 12px;
+}
+
+.bento-product__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bento-product__stack span {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.58rem;
+  color: var(--rec-muted);
+}
+
+.bento-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.bento-job__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.bento-job h3 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.bento-job__company {
+  font-size: 0.85rem;
+  color: var(--rec-muted);
+  margin: 0;
+}
+
+.bento-job time {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--rec-muted);
+  white-space: nowrap;
+}
+
+.bento-job ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.bento-job li {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--rec-muted);
+  margin-bottom: 6px;
+}
+
+.bento-job__projects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.bento-job__projects span {
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid var(--rec-border);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.58rem;
+}
+
+.bento-edu {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--rec-border);
+}
+
+.bento-edu:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.bento-edu h3 {
+  font-family: var(--font-bricolage), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.bento-edu p {
+  font-size: 0.85rem;
+  color: var(--rec-muted);
+  margin: 0 0 6px;
+}
+
+.bento-edu time {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.62rem;
+  color: var(--rec-muted);
+}
+
+.bento-resume-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 100px;
+  background: var(--rec-surface);
+  color: var(--rec-accent);
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.bento-resume-link:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 960px) {
+  .recruiter {
+    grid-template-columns: 1fr;
+  }
+
+  .recruiter__sidebar {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .recruiter__back {
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .recruiter__nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex: unset;
+    width: 100%;
+  }
+
+  .recruiter__resume-btn {
+    width: 100%;
+  }
+
+  .bento--tools,
+  .bento--skills,
+  .bento--products,
+  .bento--experience,
+  .bento--education,
+  .bento--resume {
+    grid-column: span 12;
+  }
+}

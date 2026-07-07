@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0c;
+  --bg-elevated: #121216;
+  --surface: #1a1a20;
+  --cream: #f0ebe3;
+  --cream-muted: #a8a29e;
+  --accent: #e8ff47;
+  --accent-dim: #b8c938;
+  --coral: #ff5c3d;
+  --cyan: #3de8ff;
+  --border: rgba(240, 235, 227, 0.08);
+  --border-strong: rgba(240, 235, 227, 0.16);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-cream: var(--cream);
+  --color-cream-muted: var(--cream-muted);
+  --color-accent: var(--accent);
+  --color-coral: var(--coral);
+  --color-cyan: var(--cyan);
+  --font-display: var(--font-bricolage);
+  --font-body: var(--font-newsreader);
+  --font-mono: var(--font-space-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-newsreader), Georgia, serif;
+  overflow-x: hidden;
+}
+
+main section {
+  position: relative;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.diagonal-accent {
+  background: linear-gradient(
+    135deg,
+    transparent 48%,
+    var(--accent) 48%,
+    var(--accent) 52%,
+    transparent 52%
+  );
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.section-label {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+}
+
+.timeline-line {
+  background: linear-gradient(
+    180deg,
+    var(--accent) 0%,
+    var(--border-strong) 30%,
+    var(--border) 100%
+  );
+}
+
+.project-card {
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-track {
+    animation: none;
+  }
+
+  .project-card:hover {
+    transform: none;
+  }
+}

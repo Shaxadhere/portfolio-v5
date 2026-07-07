@@ -208,11 +208,43 @@ function FolderIcon({ accent, size }: IconProps) {
   );
 }
 
+function ImageIcon({ iconImage, size }: { iconImage: string; size: number }) {
+  const radius = Math.round(size * 0.21875);
+  return (
+    <span
+      className="curious-app-icon-image"
+      style={{
+        width: size,
+        height: size,
+        borderRadius: radius,
+        display: "block",
+        overflow: "hidden",
+        flexShrink: 0,
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={iconImage}
+        alt=""
+        width={size}
+        height={size}
+        draggable={false}
+        style={{ display: "block", width: "100%", height: "100%", objectFit: "cover", padding: 3, borderRadius: 12 }}
+      />
+    </span>
+  );
+}
+
 export function CuriousAppIcon({
   icon,
   accent,
   size = 48,
-}: Pick<CuriousItem, "icon" | "accent"> & { size?: number }) {
+  iconImage,
+}: Pick<CuriousItem, "icon" | "accent"> & { size?: number; iconImage?: string }) {
+  if (iconImage) {
+    return <ImageIcon iconImage={iconImage} size={size} />;
+  }
+
   const props = { accent, size };
 
   switch (icon) {
@@ -228,10 +260,12 @@ export function CuriousAppIcon({
       return <DaVinciIcon {...props} />;
     case "range":
       return <RangeIcon {...props} />;
+    case "instagram":
+      return <ImageIcon iconImage="/icons/instagram.png" size={54} />;
     case "github":
-      return <GitHubIcon {...props} />;
+      return <ImageIcon iconImage="/icons/github.png" size={54} />;
     case "linkedin":
-      return <LinkedInIcon {...props} />;
+      return <ImageIcon iconImage="/icons/linkedin.webp" size={54} />;
     case "mail":
       return <MailIcon {...props} />;
     case "globe":

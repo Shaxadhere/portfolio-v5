@@ -15,6 +15,7 @@ import {
   links,
   recruiterNav,
 } from "@/data/portfolio";
+import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -111,7 +112,12 @@ export function RecruiterView() {
             <div className="bento-products">
               {projects.map((project) => (
                 <article key={project.id} className="bento-product">
-                  <div className="bento-product__accent" style={{ background: project.accent }} />
+                  <CuriousAppIcon
+                    icon={project.icon}
+                    accent={project.accent}
+                    iconImage={project.iconImage}
+                    size={44}
+                  />
                   <div className="bento-product__body">
                     <div className="bento-product__meta">
                       <span className="bento-product__tag">{project.tag}</span>
@@ -145,7 +151,13 @@ export function RecruiterView() {
               {experience.map((job) => (
                 <article key={`${job.company}-${job.period}`} className="bento-job">
                   <div className="bento-job__header">
-                    <div>
+                    <CuriousAppIcon
+                      icon={job.icon ?? "folder"}
+                      accent="#86868b"
+                      iconImage={job.iconImage}
+                      size={40}
+                    />
+                    <div className="bento-job__header-text">
                       <h3>{job.role}</h3>
                       <p className="bento-job__company">
                         {job.company} · {job.location}
@@ -161,7 +173,15 @@ export function RecruiterView() {
                   {job.projects ? (
                     <div className="bento-job__projects">
                       {job.projects.map((p) => (
-                        <span key={p.name}>{p.name}</span>
+                        <span key={p.name} className="bento-job__project-chip">
+                          <CuriousAppIcon
+                            icon={p.icon ?? "simplifi"}
+                            accent="#0071e3"
+                            iconImage={p.iconImage}
+                            size={18}
+                          />
+                          {p.name}
+                        </span>
                       ))}
                     </div>
                   ) : null}

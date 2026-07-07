@@ -31,7 +31,12 @@ export function PreviewWindow({ item, onClose }: PreviewWindowProps) {
         </div>
         <div className="curious-preview__body">
           <div className="curious-preview__icon">
-            <CuriousAppIcon icon={item.icon} accent={item.accent} size={72} />
+            <CuriousAppIcon
+              icon={item.icon}
+              accent={item.accent}
+              iconImage={item.iconImage}
+              size={72}
+            />
           </div>
           <h2>{item.label}</h2>
           <p>{item.description ?? "A product built by Shehzad Ahmed."}</p>

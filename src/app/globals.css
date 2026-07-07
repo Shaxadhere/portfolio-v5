@@ -43,6 +43,10 @@ body {
   overflow-x: hidden;
 }
 
+.curious-app-icon-image {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
 main section {
   position: relative;
 }

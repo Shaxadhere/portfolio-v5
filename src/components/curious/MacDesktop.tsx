@@ -6,8 +6,8 @@ import { useGSAP } from "@gsap/react";
 import { desktopFiles, dockItems, curiousWallpaper } from "@/data/portfolio";
 import type { CuriousItem } from "@/data/portfolio";
 import { MenuBar } from "@/components/curious/MenuBar";
+import { ProjectCloud } from "@/components/curious/ProjectCloud";
 import { MacDock } from "@/components/curious/MacDock";
-import { DesktopIcon } from "@/components/curious/DesktopIcon";
 import { PreviewWindow } from "@/components/curious/PreviewWindow";
 
 gsap.registerPlugin(useGSAP);
@@ -62,18 +62,12 @@ export function MacDesktop() {
       <MenuBar />
 
       <main className="curious-desktop__surface" onClick={(event) => event.stopPropagation()}>
-        <div className="curious-desktop__grid">
-          {desktopFiles.map((item, index) => (
-            <DesktopIcon
-              key={item.id}
-              item={item}
-              index={index}
-              selected={selectedId === item.id}
-              onSelect={setSelectedId}
-              onOpen={openItem}
-            />
-          ))}
-        </div>
+        <ProjectCloud
+          items={desktopFiles}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          onOpen={openItem}
+        />
       </main>
 
       <MacDock items={dockItems} onOpen={openItem} />

@@ -321,6 +321,7 @@
   padding: 18px;
   border-radius: 14px;
   background: var(--rec-bg);
+  align-items: flex-start;
 }
 
 .bento-product__body {
@@ -355,9 +356,7 @@
 }
 
 .bento-product__accent {
-  width: 4px;
-  border-radius: 4px;
-  flex-shrink: 0;
+  display: none;
 }
 
 .bento-product__tag {
@@ -404,8 +403,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 12px;
+}
+
+.bento-job__header-text {
+  flex: 1;
+  min-width: 0;
 }
 
 .bento-job h3 {
@@ -448,8 +452,11 @@
   margin-top: 12px;
 }
 
-.bento-job__projects span {
-  padding: 4px 10px;
+.bento-job__project-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
   border-radius: 100px;
   border: 1px solid var(--rec-border);
   font-family: var(--font-space-mono), monospace;

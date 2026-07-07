@@ -1,65 +1,11 @@
 // =============================================================================
 // PORTFOLIO DATA — single source of truth. Edit everything here.
+
+import { CuriousItem, Experience, Project, ProjectEntry, ProjectIcon } from "./types";
+
+export type { CuriousItem, Experience, ExperienceProject, Project, ProjectEntry, ProjectIcon } from "./types";
+
 // =============================================================================
-
-export type ProjectIcon =
-  | "simplifi"
-  | "ydrive"
-  | "bhealthy"
-  | "fishfin"
-  | "davinci"
-  | "range"
-  | "github"
-  | "linkedin"
-  | "mail"
-  | "globe"
-  | "pdf"
-  | "folder";
-
-/** Raw project entry — match this shape when adding new projects */
-export type ProjectEntry = {
-  title: string;
-  category: string;
-  link?: string;
-  date: string;
-  shortDesc: string;
-  stack: string;
-};
-
-export type Project = {
-  id: string;
-  name: string;
-  tag: string;
-  description: string;
-  stack: string[];
-  accent: string;
-  icon: ProjectIcon;
-  url?: string;
-  date: string;
-  curiousFileName?: string;
-  curiousLabel?: string;
-};
-
-export type Experience = {
-  company: string;
-  role: string;
-  location: string;
-  period: string;
-  highlights: string[];
-  projects?: { name: string; description: string }[];
-};
-
-export type CuriousItem = {
-  id: string;
-  name: string;
-  label: string;
-  url?: string;
-  kind: "product" | "link" | "pdf" | "folder";
-  description?: string;
-  accent: string;
-  icon: ProjectIcon;
-};
-
 export const PORTFOLIO = {
   personal: {
     name: "Shehzad Ahmed",
@@ -181,6 +127,7 @@ export const PORTFOLIO = {
       role: "Senior Software Engineer",
       location: "Dubai, UAE",
       period: "Sep 2024 — May 2026",
+      // iconImage: "/company-icons/simplifi.png",
       highlights: [
         "Developed core fintech product across web and mobile, elevating performance and reliability.",
         "Built transaction reporting, receipt workflows, debit card branding, and a reusable React Web SDK.",
@@ -277,6 +224,7 @@ export const PORTFOLIO = {
   ],
 
   // ── PROJECTS — add / edit entries here ──────────────────────────────────────
+  // Optional: iconImage: "/project-icons/my-project.png"
   projects: [
     {
       title: "Aroya Cruise Booking",
@@ -286,6 +234,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A modern cruise-booking frontend built to deliver a smooth, visually rich, and user-friendly reservation experience.",
       stack: "React.js, Tailwind CSS, React Query.",
+      iconImage: "/icons/aroya-cruises.png",
     },
     {
       title: "Simplifi Portal",
@@ -295,6 +244,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A production-grade financial portal frontend designed for secure, seamless digital transactions and account management.",
       stack: "React.js, Tailwind CSS, Ant Design, React Query",
+      iconImage: "/icons/simplifi-pay.webp"
     },
     {
       title: "SimplifiPay Website",
@@ -304,6 +254,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A high-performance fintech website designed to communicate SimplifiPay's payment solutions through modern UI/UX.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/simplifi-pay.webp"
     },
     {
       title: "SimplifiGo Website",
@@ -313,6 +264,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting SimplifiGo's payment offerings and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/simplifi-pay.webp"
     },
     {
       title: "Income Bridge Solutions Website",
@@ -326,11 +278,12 @@ export const PORTFOLIO = {
     {
       title: "WithMe App Website",
       category: "Website Development.",
-      link: "https://make-friends-two.vercel.app/",
+      link: "https://www.withmeapp.pk/",
       date: "April 2026",
       shortDesc:
         "A sleek, mobile-optimized website highlighting WithMe App's services and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/withmeapp.ico",
     },
     {
       title: "Pets Care n Cure Website",
@@ -700,7 +653,7 @@ export const PORTFOLIO = {
   ],
 
   curious: {
-    wallpaper: "/desktop-me.png",
+    wallpaper: "/desktop-me.jpg",
     menuBarItems: ["Finder", "File", "Edit", "View", "Go", "Window", "Help"],
     /** Project ids pinned to the macOS dock (see derived ids from titles) */
     dockProjectIds: [
@@ -786,6 +739,7 @@ function enrichProject(entry: ProjectEntry, index: number): Project {
     stack: parseStack(entry.stack),
     accent: ACCENT_PALETTE[index % ACCENT_PALETTE.length],
     icon: iconForCategory(entry.category),
+    iconImage: entry.iconImage,
     url: entry.link,
     date: entry.date,
     curiousFileName: toCuriousFileName(entry.title),
@@ -807,6 +761,7 @@ function projectToCuriousItem(project: Project): CuriousItem {
     description: project.description,
     accent: project.accent,
     icon: project.icon,
+    iconImage: project.iconImage,
   };
 }
 
@@ -817,7 +772,7 @@ function getProject(id: string): Project {
 }
 
 export const featuredProjects = projects.map(
-  ({ id, name, tag, description, stack, accent, url, date }) => ({
+  ({ id, name, tag, description, stack, accent, url, date, icon, iconImage }) => ({
     id,
     name,
     tag,
@@ -826,11 +781,13 @@ export const featuredProjects = projects.map(
     accent,
     url,
     date,
+    icon,
+    iconImage,
   }),
 );
 
 export const builtProjects = projects.map(
-  ({ id, name, tag, description, stack, url, date }) => ({
+  ({ id, name, tag, description, stack, url, date, icon, iconImage, accent }) => ({
     id,
     name,
     type: tag,
@@ -838,6 +795,9 @@ export const builtProjects = projects.map(
     stack,
     url,
     date,
+    icon,
+    iconImage,
+    accent,
   }),
 );
 
@@ -892,10 +852,11 @@ export const {
   founderTitleRoles,
   tools,
   skillGroups,
-  experience,
   education,
   canBuild,
 } = PORTFOLIO;
+
+export const experience: Experience[] = PORTFOLIO.experience;
 
 export { personal, links };
 export const calendlyUrl = links.calendly;

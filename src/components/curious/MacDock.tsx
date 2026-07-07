@@ -110,7 +110,12 @@ export function MacDock({ items, onOpen }: MacDockProps) {
                   }}
                 >
                   <span className="curious-dock__icon-wrap">
-                    <CuriousAppIcon icon={item.icon} accent={item.accent} size={54} />
+                    <CuriousAppIcon
+                      icon={item.icon}
+                      accent={item.accent}
+                      iconImage={item.iconImage}
+                      size={54}
+                    />
                   </span>
                   <span className="curious-dock__dot" aria-hidden />
                 </button>

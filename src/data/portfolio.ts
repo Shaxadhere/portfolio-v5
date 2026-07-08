@@ -389,7 +389,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A research-focused web app that lets tax advisors and students search large datasets of case laws, statutes, while creating drafts and notices directly from the content.",
       stack: "React.js, Tailwind CSS, Shadcn UI",
-      iconImage: "/icons/digitaltaxfirm"
+      iconImage: "/icons/digitaltaxfirm.png"
     },
     {
       title: "PeopleWhoDevelop Website",

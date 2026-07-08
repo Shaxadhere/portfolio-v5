@@ -699,7 +699,6 @@ export const PORTFOLIO = {
       "simplifi-portal",
       "simplifipay-website",
       "artt-website",
-      "ai-reel-maker",
     ],
     /** Leave empty to auto-populate all projects with a live link on the desktop */
     desktopProjectIds: [] as string[],

@@ -245,7 +245,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A production-grade financial portal frontend designed for secure, seamless digital transactions and account management.",
       stack: "React.js, Tailwind CSS, Ant Design, React Query",
-      iconImage: "/icons/simplifi-pay.webp"
+      iconImage: "/icons/simplifipay.png"
     },
     {
       title: "SimplifiPay Website",
@@ -255,7 +255,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A high-performance fintech website designed to communicate SimplifiPay's payment solutions through modern UI/UX.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
-      iconImage: "/icons/simplifi-pay.webp"
+      iconImage: "/icons/simplifipay.png"
     },
     {
       title: "SimplifiGo Website",
@@ -265,7 +265,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting SimplifiGo's payment offerings and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
-      iconImage: "/icons/simplifi-pay.webp"
+      iconImage: "/icons/simplifipay.png"
     },
     {
       title: "Income Bridge Solutions Website",
@@ -295,7 +295,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting Pets Care n Cure's services and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
-      iconImage: "/icons/petscarencure.webp"
+      iconImage: "/icons/petscarencure.png"
     },
     {
       title: "AI Reel Maker",
@@ -519,7 +519,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A performance-tracking app for mortgage loan officers to monitor daily sales activity and boost origination productivity.",
       stack: "React Native, React Query",
-      iconImage: "/icons/originboost.webp"
+      iconImage: "/icons/originboost.png"
     },
     {
       title: "Cofit 365",
@@ -761,9 +761,6 @@ function toCuriousFileName(title: string): string {
   return `${cleaned}.app`;
 }
 
-function toCuriousLabel(title: string): string {
-  return title.length > 14 ? title.split(" ")[0] : title;
-}
 
 function enrichProject(entry: ProjectEntry, index: number): Project {
   const id = toProjectId(entry.title);
@@ -781,7 +778,7 @@ function enrichProject(entry: ProjectEntry, index: number): Project {
     url: entry.link,
     date: entry.date,
     curiousFileName: toCuriousFileName(entry.title),
-    curiousLabel: toCuriousLabel(entry.title),
+    curiousLabel: entry.title,
   };
 }
 

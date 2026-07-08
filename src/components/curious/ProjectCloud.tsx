@@ -26,6 +26,33 @@ export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectClo
     setSavedPositions(loadIconPositions());
   }, []);
 
+  useEffect(() => {
+    const onReset = () => {
+      setSavedPositions({});
+      saveIconPositions({});
+    };
+
+    const onScramble = () => {
+      const next: SavedIconPositions = {};
+      items.forEach((item, index) => {
+        const base = defaultLayouts[index] ?? { x: 50, y: 50 };
+        next[item.id] = {
+          x: Math.min(105, Math.max(0, base.x + (Math.random() - 0.5) * 16)),
+          y: Math.min(100, Math.max(4, base.y + (Math.random() - 0.5) * 16)),
+        };
+      });
+      setSavedPositions(next);
+      saveIconPositions(next);
+    };
+
+    window.addEventListener("curious:reset-icons", onReset);
+    window.addEventListener("curious:scramble-icons", onScramble);
+    return () => {
+      window.removeEventListener("curious:reset-icons", onReset);
+      window.removeEventListener("curious:scramble-icons", onScramble);
+    };
+  }, [items, defaultLayouts]);
+
   const getPosition = useCallback(
     (id: string, index: number) =>
       savedPositions[id] ?? {

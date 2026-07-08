@@ -13,6 +13,7 @@ import {
   calendlyUrl,
   founderTitleRoles,
   curiousWallpaper,
+  sourceRepoUrl,
 } from "@/data/portfolio";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -264,6 +265,14 @@ export function FounderView() {
 
       <footer className="founder__footer">
         <span>{personal.name}</span>
+        <a
+          href={sourceRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="founder__footer-link"
+        >
+          Fork on GitHub
+        </a>
         <span>{personal.city}</span>
       </footer>
     </div>

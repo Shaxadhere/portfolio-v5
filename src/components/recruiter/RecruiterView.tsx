@@ -14,6 +14,7 @@ import {
   education,
   links,
   recruiterNav,
+  sourceRepoUrl,
 } from "@/data/portfolio";
 import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
 
@@ -223,6 +224,19 @@ export function RecruiterView() {
           </section>
         </div>
       </main>
+
+      <footer className="recruiter__footer">
+        <span>{personal.city}</span>
+        <a
+          href={sourceRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="recruiter__footer-link"
+        >
+          Fork on GitHub
+        </a>
+        <a href={`mailto:${personal.email}`}>{personal.email}</a>
+      </footer>
     </div>
   );
 }

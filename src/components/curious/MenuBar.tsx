@@ -420,6 +420,13 @@ export function MenuBar() {
             window.location.href = `mailto:${personal.email}?subject=Hello%20from%20Curious%20Desktop`;
           },
         },
+        { label: "", separator: true },
+        {
+          label: "Fork on GitHub",
+          action: () => {
+            window.open(links.sourceRepo, "_blank", "noopener,noreferrer");
+          },
+        },
       ],
     },
   ];

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { personal, roles } from "@/data/portfolio";
+import { personal, roles, sourceRepoUrl } from "@/data/portfolio";
 import "./role-gate.css";
 
 gsap.registerPlugin(useGSAP);
@@ -119,6 +119,14 @@ export function RoleSelector() {
 
       <footer className="gate__footer" data-gate-line>
         <span>{personal.city}</span>
+        <a
+          href={sourceRepoUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="gate__fork"
+        >
+          Fork on GitHub
+        </a>
         <a href={`mailto:${personal.email}`}>{personal.email}</a>
       </footer>
     </div>

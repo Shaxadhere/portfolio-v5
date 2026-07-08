@@ -522,12 +522,27 @@
 .founder__footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
   padding: 24px clamp(24px, 4vw, 48px);
   border-top: 1px solid var(--founder-border);
   font-family: var(--font-space-mono), monospace;
   font-size: 0.65rem;
   letter-spacing: 0.06em;
   color: var(--founder-muted);
+}
+
+.founder__footer-link {
+  color: inherit;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+
+.founder__footer-link:hover {
+  color: var(--founder-text);
 }
 
 @media (prefers-reduced-motion: reduce) {

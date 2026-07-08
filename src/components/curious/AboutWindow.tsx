@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { links, personal, curiousWallpaper } from "@/data/portfolio";
+import { links, personal, curiousWallpaper, sourceRepoUrl } from "@/data/portfolio";
 
 type AboutWindowProps = {
   onClose: () => void;
@@ -118,6 +118,10 @@ export function AboutWindow({ onClose }: AboutWindowProps) {
             </a>
             <span aria-hidden>·</span>
             <a href={`mailto:${personal.email}`}>Email</a>
+            <span aria-hidden>·</span>
+            <a href={sourceRepoUrl} target="_blank" rel="noopener noreferrer">
+              Fork on GitHub
+            </a>
           </div>
 
           <p className="curious-about__copyright">

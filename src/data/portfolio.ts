@@ -23,6 +23,7 @@ export const PORTFOLIO = {
     linkedin: "https://linkedin.com/in/shaxadhere",
     calendly: "https://calendly.com/shaxad-here/30min",
     resume: "/resume.pdf",
+    sourceRepo: "https://github.com/shaxadhere/portfolio-v5",
   },
 
   roles: [
@@ -899,5 +900,6 @@ export const experience: Experience[] = PORTFOLIO.experience;
 
 export { personal, links };
 export const calendlyUrl = links.calendly;
+export const sourceRepoUrl = links.sourceRepo;
 export const menuBarItems = curious.menuBarItems;
 export const curiousWallpaper = curious.wallpaper;

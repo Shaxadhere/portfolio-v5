@@ -140,7 +140,7 @@
   position: relative;
   z-index: 10;
   height: calc(100vh - 30px - 108px);
-  overflow: hidden;
+  overflow: visible;
   pointer-events: none;
 }
 
@@ -152,6 +152,7 @@
   width: min(980px, 98vw);
   height: min(calc(100vh - 130px), 980px);
   pointer-events: none;
+  overflow: visible;
 }
 
 .curious-cloud::before {
@@ -178,12 +179,25 @@
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
   pointer-events: auto;
   transition:
     transform 0.28s cubic-bezier(0.23, 1, 0.32, 1),
     filter 0.28s ease;
   will-change: transform;
+}
+
+.curious-float--dragging {
+  cursor: grabbing;
+  transition: none;
+  transform: translate(-50%, -50%) rotate(0deg) scale(calc(var(--float-scale, 1) * 1.06));
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5));
+  z-index: 300 !important;
+}
+
+.curious-float--dragging .curious-float__icon-label {
+  opacity: 0.9;
 }
 
 .curious-float:hover {
@@ -257,11 +271,36 @@
   white-space: nowrap;
 }
 
+.curious-float__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: center top;
+}
+
 .curious-float__icon {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 7px;
+}
+
+.curious-float__icon .curious-app-icon,
+.curious-float__icon .curious-app-icon-image {
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  flex-shrink: 0;
+}
+
+.curious-float__icon .curious-app-icon-image img {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: inherit;
+  object-fit: cover;
 }
 
 .curious-float__icon-label {
@@ -320,21 +359,23 @@
   -webkit-box-orient: vertical;
 }
 
-.curious-float:nth-child(6n + 2) {
-  opacity: 0.88;
-  filter: blur(0.4px);
-}
-
-.curious-float:nth-child(6n + 2):hover {
-  opacity: 1;
-  filter: none;
-}
-
 .curious-app-icon-image {
+  display: block;
+  overflow: hidden;
+  flex-shrink: 0;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
+.curious-app-icon-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .curious-app-icon {
+  display: block;
+  flex-shrink: 0;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
@@ -413,19 +454,144 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transform-origin: bottom center;
-  will-change: transform;
   flex-shrink: 0;
+}
+
+/* Instant project tooltip — desktop + dock */
+.curious-tooltip {
+  position: absolute;
+  left: 50%;
+  z-index: 400;
+  width: max-content;
+  max-width: min(240px, calc(100vw - 20px));
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(28, 28, 32, 0.92);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 28px rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.92);
+  text-align: left;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+.curious-tooltip--above {
+  bottom: calc(100% + 10px);
+  top: auto;
+}
+
+.curious-tooltip--below {
+  top: calc(100% + 10px);
+  bottom: auto;
+}
+
+.curious-tooltip--center {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) translateY(4px);
+}
+
+.curious-tooltip--left {
+  left: 0;
+  right: auto;
+  transform: translateX(0) translateY(4px);
+}
+
+.curious-tooltip--right {
+  left: auto;
+  right: 0;
+  transform: translateX(0) translateY(4px);
+}
+
+.curious-float:hover .curious-tooltip,
+.curious-float:focus-visible .curious-tooltip,
+.curious-dock__item:hover .curious-tooltip,
+.curious-dock__item:focus-visible .curious-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.curious-float:hover .curious-tooltip--center,
+.curious-float:focus-visible .curious-tooltip--center,
+.curious-dock__item:hover .curious-tooltip--center,
+.curious-dock__item:focus-visible .curious-tooltip--center {
+  transform: translateX(-50%) translateY(0);
+}
+
+.curious-float:hover .curious-tooltip--left,
+.curious-float:focus-visible .curious-tooltip--left,
+.curious-dock__item:hover .curious-tooltip--left,
+.curious-dock__item:focus-visible .curious-tooltip--left,
+.curious-float:hover .curious-tooltip--right,
+.curious-float:focus-visible .curious-tooltip--right,
+.curious-dock__item:hover .curious-tooltip--right,
+.curious-dock__item:focus-visible .curious-tooltip--right {
+  transform: translateX(0) translateY(0);
+}
+
+.curious-tooltip--measuring {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  /* Keep it in layout for size measurement */
+  display: block !important;
+  pointer-events: none !important;
+}
+
+.curious-tooltip__name {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.curious-tooltip__desc {
+  display: block;
+  margin-top: 5px;
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.curious-tooltip__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.curious-tooltip__stack,
+.curious-tooltip__date {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.curious-tooltip__date {
+  color: rgba(10, 132, 255, 0.9);
 }
 
 .curious-dock__icon-wrap {
   display: flex;
   border-radius: 14px;
   overflow: hidden;
+  transform-origin: bottom center;
+  will-change: transform;
 }
 
 .curious-dock__item .curious-app-icon {
-  background-color: white;
+
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
 }
 

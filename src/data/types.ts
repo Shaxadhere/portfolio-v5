@@ -66,6 +66,8 @@ export type CuriousItem = {
     url?: string;
     kind: "product" | "link" | "pdf" | "folder";
     description?: string;
+    stack?: string;
+    date?: string;
     accent: string;
     icon: ProjectIcon;
     iconImage?: string;

@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { CuriousItem } from "@/data/portfolio";
 import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
+import { IconTooltip } from "@/components/curious/IconTooltip";
 
 gsap.registerPlugin(useGSAP);
 
@@ -100,16 +101,16 @@ export function MacDock({ items, onOpen }: MacDockProps) {
                 {showSeparator ? <span className="curious-dock__sep" aria-hidden /> : null}
                 <button
                   type="button"
-                  data-dock-item
                   className="curious-dock__item"
                   aria-label={item.label}
-                  title={item.label}
                   onClick={(event) => {
-                    bounce(event.currentTarget);
+                    const icon = event.currentTarget.querySelector<HTMLElement>("[data-dock-item]");
+                    if (icon) bounce(icon);
                     onOpen(item);
                   }}
                 >
-                  <span className="curious-dock__icon-wrap">
+                  <IconTooltip item={item} preferredPlacement="above" />
+                  <span data-dock-item className="curious-dock__icon-wrap">
                     <CuriousAppIcon
                       icon={item.icon}
                       accent={item.accent}

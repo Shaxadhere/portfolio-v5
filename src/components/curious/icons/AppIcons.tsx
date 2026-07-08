@@ -181,7 +181,7 @@ function GlobeIcon({ accent, size }: IconProps) {
 
 function PdfIcon({ size = 48 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden>
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden className="curious-app-icon">
       <rect x="12" y="8" width="36" height="48" rx="4" fill="white" stroke="#d1d1d6" strokeWidth="1.5" />
       <path d="M36 8v12h12" fill="#f5f5f7" stroke="#d1d1d6" strokeWidth="1.5" />
       <rect x="18" y="34" width="24" height="10" rx="2" fill="#ff3b30" />
@@ -194,7 +194,7 @@ function PdfIcon({ size = 48 }: { size?: number }) {
 
 function FolderIcon({ accent, size }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden>
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden className="curious-app-icon">
       <path
         d="M8 20c0-2.2 1.8-4 4-4h12l4 4h24c2.2 0 4 1.8 4 4v28c0 2.2-1.8 4-4 4H12c-2.2 0-4-1.8-4-4V20z"
         fill={accent}
@@ -217,19 +217,13 @@ function ImageIcon({ iconImage, size }: { iconImage: string; size: number }) {
         width: size,
         height: size,
         borderRadius: radius,
-        display: "block",
-        overflow: "hidden",
-        flexShrink: 0,
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={iconImage}
         alt=""
-        width={size}
-        height={size}
         draggable={false}
-        style={{ display: "block", width: "100%", height: "100%", objectFit: "cover", padding: 3, borderRadius: 12 }}
       />
     </span>
   );
@@ -261,11 +255,11 @@ export function CuriousAppIcon({
     case "range":
       return <RangeIcon {...props} />;
     case "instagram":
-      return <ImageIcon iconImage="/icons/instagram.png" size={54} />;
+      return <ImageIcon iconImage="/icons/instagram.png" size={size} />;
     case "github":
-      return <ImageIcon iconImage="/icons/github.png" size={54} />;
+      return <ImageIcon iconImage="/icons/github.png" size={size} />;
     case "linkedin":
-      return <ImageIcon iconImage="/icons/linkedin.webp" size={54} />;
+      return <ImageIcon iconImage="/icons/linkedin.webp" size={size} />;
     case "mail":
       return <MailIcon {...props} />;
     case "globe":

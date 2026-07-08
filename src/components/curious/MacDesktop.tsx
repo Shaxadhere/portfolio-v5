@@ -54,7 +54,7 @@ export function MacDesktop() {
       <div className="curious-wallpaper" data-wallpaper aria-hidden>
         <div
           className="curious-wallpaper__image"
-          style={{ backgroundImage: `url(${curiousWallpaper})` }}
+          style={{ backgroundImage: `url(${curiousWallpaper})`,backgroundPositionY:30 }}
         />
         <div className="curious-wallpaper__vignette" />
       </div>

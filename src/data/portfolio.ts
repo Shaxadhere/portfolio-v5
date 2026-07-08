@@ -274,6 +274,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting Income Bridge Solutions' services and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/growthbridgesolutions.png"
     },
     {
       title: "WithMe App Website",
@@ -293,6 +294,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting Pets Care n Cure's services and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/petscarencure.webp"
     },
     {
       title: "AI Reel Maker",
@@ -319,6 +321,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A clean and responsive marketing website showcasing RunOcean's services and brand identity.",
       stack: "Next.js, Tailwind CSS, Vercel",
+      iconImage: "/icons/ocean-logo.png"
     },
     {
       title: "Maryam Haider Portfolio",
@@ -328,6 +331,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A personal portfolio site built with premium design, animations, and a strong focus on professional presentation.",
       stack: "React.js, Chakra UI",
+      iconImage: "/icons/maryam-display.jpeg"
     },
     {
       title: "Evolv LMS Admin",
@@ -337,6 +341,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A robust admin dashboard enabling course management, student tracking, and analytics for an LMS ecosystem.",
       stack: "React.js, Chakra UI, React Query, Redux",
+      iconImage: "/icons/evolv.png"
     },
     {
       title: "YDrive Admin",
@@ -345,6 +350,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A structured frontend dashboard enabling management of vehicles, drivers, and fleet operations.",
       stack: "React.js, Chakra UI, React Query, Redux",
+      iconImage: "/icons/ydrive.webp"
     },
     {
       title: "Evolv LMS Student Web App",
@@ -354,6 +360,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A student-centric LMS application offering course access, progress tracking, and interactive learning tools.",
       stack: "React.js, Chakra UI, React Query, Redux",
+      iconImage: "/icons/evolv.png"
     },
     {
       title: "Evolv Accounts App",
@@ -363,6 +370,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A dedicated accounts/finance interface for managing invoicing, transactions, and LMS-related billing.",
       stack: "React.js, Chakra UI, React Query, Redux",
+      iconImage: "/icons/evolv.png"
     },
     {
       title: "Evolv LMS Landing Site",
@@ -371,6 +379,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A modern landing page showcasing the LMS platform's features, benefits, and user journeys.",
       stack: "Astro.js, Tailwind CSS",
+      iconImage: "/icons/evolv.png"
     },
     {
       title: "Digital Tax Firm",
@@ -380,6 +389,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A research-focused web app that lets tax advisors and students search large datasets of case laws, statutes, while creating drafts and notices directly from the content.",
       stack: "React.js, Tailwind CSS, Shadcn UI",
+      iconImage: "/icons/digitaltaxfirm"
     },
     {
       title: "PeopleWhoDevelop Website",
@@ -389,6 +399,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A professional agency website highlighting development services, portfolio, and brand identity.",
       stack: "Astro.js, Tailwind CSS",
+      iconImage: "/icons/peoplewhodevelop.png"
     },
     {
       title: "Media Creative Hub",
@@ -398,6 +409,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A Next.js-based e-commerce platform where vendors sell digital assets and admins manage vendors, customers, and payments.",
       stack: "Next.js, Tailwind CSS, Shadcn UI",
+      iconImage: "/icons/mediacreativehub.png"
     },
     {
       title: "Evolv Invoices",
@@ -407,6 +419,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A dynamic invoicing system with real-time invoice creation, tracking, and financial reporting.",
       stack: "React.js, Shadcn UI, Tailwind CSS, Node.js, MongoDB, React Query",
+      iconImage: "/icons/evolv.png"
     },
     {
       title: "Forgot Me Knot Website",
@@ -416,6 +429,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A beautifully designed wedding-planner site offering booking flows, venue details, and services.",
       stack: "HTML, CSS, Javascript",
+      iconImage: "/icons/forgotmeknot.png"
     },
     {
       title: "DenVenues Booking",
@@ -434,6 +448,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A health-focused website presenting Vitalize's wellness services with clean visuals and modern UX.",
       stack: "React.js, Tailwind CSS, Shadcn UI",
+      iconImage: "/icons/vitalize.png"
     },
     {
       title: "Vitalize WebApp",
@@ -443,6 +458,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A patient-oriented web app providing appointment scheduling, wellness tracking, and service management.",
       stack: "React.js, Tailwind CSS, Shadcn UI",
+      iconImage: "/icons/vitalize.png"
     },
     {
       title: "Fishfin Admin Portal",
@@ -452,6 +468,7 @@ export const PORTFOLIO = {
       shortDesc:
         "Admin dashboard for a fishing-focused social app where users can create in-app stores; admins manage users, stores, and revenue shares.",
       stack: "Vue.js, Vuestrap UI",
+      iconImage: "/icons/fishfinapp.webp"
     },
     {
       title: "Range Webchat Admin Portal",
@@ -461,6 +478,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A complete admin interface for managing chat bots, users, and conversation automation.",
       stack: "React.js, Redux, HTML, CSS",
+      iconImage: "/icons/digital-range.png"
     },
     {
       title: "Range Clubchat Client Portal",
@@ -470,6 +488,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A client portal enabling real-time chat, group communication, and user interactions.",
       stack: "React.js, Redux, HTML, CSS",
+      iconImage: "/icons/clubchat.png"
     },
     {
       title: "Range Webchat Floating ChatSDK",
@@ -479,6 +498,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A frontend chat SDK providing embeddable real-time messaging for websites.",
       stack: "React.js, Redux, HTML, CSS",
+      iconImage: "/icons/rangewebchat.png"
     },
     {
       title: "Robopac",
@@ -488,6 +508,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A mobile app showcasing Robopac USA's industrial packaging machines, providing product information across multiple manufacturing industries.",
       stack: "React Native, React Query",
+      iconImage: "/icons/robopac.webp"
     },
     {
       title: "Origination Boost",
@@ -497,15 +518,17 @@ export const PORTFOLIO = {
       shortDesc:
         "A performance-tracking app for mortgage loan officers to monitor daily sales activity and boost origination productivity.",
       stack: "React Native, React Query",
+      iconImage: "/icons/originboost.webp"
     },
     {
       title: "Cofit 365",
       category: "Mobile App Development.",
-      link: "https://apps.apple.com/us/app/cofit-365/id6443740496",
+      link: "https://play.google.com/store/apps/details?id=com.newcofit365&hl=en",
       date: "Aug 2024",
       shortDesc:
         "A fitness and social networking app connecting outdoor activity enthusiasts through events, group workouts, and local community engagement.",
       stack: "React Native, React Query",
+      iconImage: "/icons/cofit365.webp"
     },
     {
       title: "The Wedding App",
@@ -515,15 +538,18 @@ export const PORTFOLIO = {
       shortDesc:
         "A centralized wedding coordination platform offering real-time updates, guest list access, and seamless communication for couples, planners, vendors, and guests.",
       stack: "React Native, React Query",
+      iconImage: "/icons/thewedding.webp"
     },
     {
-      title: "Wezcards",
+      title: "Wezaads",
       category: "Website Development.",
       link: "https://wezaads.com/index.html",
       date: "Aug 2023",
       shortDesc:
         "A simple, elegant digital business card platform built as a marketing and identity solution.",
       stack: "Wordpress",
+      iconImage: "/icons/wezaad.png"
+
     },
     {
       title: "Siplifleet Admin",
@@ -533,6 +559,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A fleet-management frontend portal supporting vehicle tracking, reporting, and administrative tasks.",
       stack: "React.js, MUI, React Query, Zustand",
+      iconImage: "/icons/splifleet.webp"
     },
     {
       title: "Shehzad Ahmed Portfolio",
@@ -542,6 +569,7 @@ export const PORTFOLIO = {
       shortDesc:
         "My own personal developer portfolio showcasing projects, skills, and professional story.",
       stack: "Gatsby.js, Styled Components",
+      iconImage: "/icons/shaxad-portfolio.png"
     },
     {
       title: "Bhealthy - Therapy Portal",
@@ -552,12 +580,14 @@ export const PORTFOLIO = {
       stack: "React.js, React Query, Zustand, Tailwind CSS",
     },
     {
-      title: "Evolv Point of Sale",
+      title: "Bytetrons Point of Sale",
       category: "Full Stack Development.",
       date: "Oct 2023",
+      link: "https://app.bytetrons.com/",
       shortDesc:
         "A complete POS system with inventory, billing, and real-time sales management.",
       stack: "React.js, Chakra UI, React Query, Redux",
+      iconImage: "/icons/bytetrons-pos.png"
     },
     {
       title: "PTax, Your Complete Tax Assistant",
@@ -566,15 +596,17 @@ export const PORTFOLIO = {
       shortDesc:
         "A full-stack digital tax solution built for managing filings, calculations, and tax workflows.",
       stack: "React.js, Chakra UI, Node.js, MongoDB, React Query, Redux",
+      iconImage: '/icons/ptax.jpg'
     },
     {
       title: "UrAudits Web App",
       category: "Full Stack Development.",
-      link: "https://uraudits.com/",
+      link: "https://www.uraudits.com/",
       date: "Aug 2022",
       shortDesc:
         "A full-featured auditing platform enabling companies to create, manage, and review digital audits.",
       stack: "React.js, Node.js, MySQL, Express.js, MUI",
+      iconImage: "/icons/uraudits.webp"
     },
     {
       title: "Fixnxl Web App",
@@ -600,6 +632,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A clean, educational website representing the ARTT institute and its programs.",
       stack: "PHP, MySQL, Bootstrap",
+      iconImage: "/icons/artt.png"
     },
     {
       title: "EARTT - Accounting System",
@@ -608,6 +641,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A full-stack accounting platform supporting ledger management, reports, and transaction tracking.",
       stack: "PHP, MySQL, Bootstrap",
+      iconImage: '/icons/artt.png'
     },
     {
       title: "ARTT LMS Web App",
@@ -616,6 +650,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A full LMS system offering course modules, student management, and performance tracking.",
       stack: "PHP, MySQL, Bootstrap",
+      iconImage: "/icons/artt.png"
     },
   ] satisfies ProjectEntry[],
 
@@ -658,9 +693,12 @@ export const PORTFOLIO = {
     /** Project ids pinned to the macOS dock (see derived ids from titles) */
     dockProjectIds: [
       "aroya-cruise-booking",
+      "withme-app-website",
+      "siplifleet-admin",
+      "vitalize-website",
       "simplifi-portal",
       "simplifipay-website",
-      "simplifigo-website",
+      "artt-website",
       "ai-reel-maker",
     ],
     /** Leave empty to auto-populate all projects with a live link on the desktop */
@@ -759,6 +797,8 @@ function projectToCuriousItem(project: Project): CuriousItem {
     url: project.url,
     kind: "product",
     description: project.description,
+    stack: project.stack.join(", "),
+    date: project.date,
     accent: project.accent,
     icon: project.icon,
     iconImage: project.iconImage,

@@ -50,7 +50,7 @@ export function Navigation() {
         </ul>
 
         <a
-          href="/resume.pdf"
+          href="/api/resume"
           download
           className="font-[family-name:var(--font-mono)] text-[0.65rem] uppercase tracking-[0.18em] border border-[var(--border-strong)] px-4 py-2 text-[var(--cream)] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
         >

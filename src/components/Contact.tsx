@@ -83,7 +83,7 @@ export function Contact() {
             </div>
 
             <a
-              href="/resume.pdf"
+              href="/api/resume"
               download
               className="contact-item inline-flex items-center gap-4 bg-[var(--cream)] px-8 py-5 font-[family-name:var(--font-mono)] text-[0.7rem] font-bold uppercase tracking-[0.15em] text-[var(--bg)] transition-transform hover:scale-[1.02]"
             >

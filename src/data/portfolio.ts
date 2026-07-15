@@ -22,7 +22,7 @@ export const PORTFOLIO = {
     github: "https://github.com/shaxadhere",
     linkedin: "https://linkedin.com/in/shaxadhere",
     calendly: "https://calendly.com/shaxad-here/30min",
-    resume: "/resume.pdf",
+    resume: "/api/resume",
     sourceRepo: "https://github.com/shaxadhere/portfolio-v5",
   },
 

@@ -99,7 +99,7 @@ export function Hero() {
               <span aria-hidden>→</span>
             </a>
             <a
-              href="/resume.pdf"
+              href="/api/resume"
               download
               className="hero-cta inline-flex items-center gap-3 border border-[var(--border-strong)] px-7 py-4 font-[family-name:var(--font-mono)] text-[0.7rem] uppercase tracking-[0.15em] text-[var(--cream)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
             >

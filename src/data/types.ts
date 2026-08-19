@@ -71,4 +71,5 @@ export type CuriousItem = {
     accent: string;
     icon: ProjectIcon;
     iconImage?: string;
+    children?: CuriousItem[];
 };

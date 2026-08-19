@@ -19,8 +19,8 @@ import { IconTooltip } from "@/components/curious/IconTooltip";
 gsap.registerPlugin(useGSAP);
 
 const DRAG_THRESHOLD = 5;
-const DESKTOP_ICON_SIZE = 80;
-const POSITION_BOUNDS = { minX: 0, maxX: 108, minY: 2, maxY: 102 };
+const DESKTOP_ICON_SIZE = 72;
+const POSITION_BOUNDS = { minX: 2, maxX: 98, minY: 2, maxY: 93 };
 
 type DragState = {
   pointerId: number;
@@ -33,7 +33,7 @@ type DragState = {
 type FloatingProjectProps = {
   item: CuriousItem;
   layout: FloatLayout;
-  position: SavedIconPosition;
+  savedPosition?: SavedIconPosition;
   index: number;
   selected: boolean;
   cloudRef: RefObject<HTMLDivElement | null>;
@@ -52,7 +52,7 @@ function clampPosition(x: number, y: number) {
 export function FloatingProject({
   item,
   layout,
-  position,
+  savedPosition,
   index,
   selected,
   cloudRef,
@@ -64,6 +64,7 @@ export function FloatingProject({
   const innerRef = useRef<HTMLSpanElement>(null);
   const clickTimer = useRef<number | null>(null);
   const dragState = useRef<DragState | null>(null);
+  const dragPosRef = useRef<{ x: number; y: number } | null>(null);
   const didDragRef = useRef(false);
   const isDraggingRef = useRef(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -75,7 +76,7 @@ export function FloatingProject({
         opacity: 0,
         scale: 0.35,
         duration: 0.65,
-        delay: 0.06 + index * 0.018,
+        delay: 0.04 + index * 0.015,
         ease: "power3.out",
         onComplete: () => {
           if (innerRef.current) {
@@ -116,15 +117,36 @@ export function FloatingProject({
     event.stopPropagation();
     onSelect(item.id);
 
+    const cloud = cloudRef.current;
+    const element = ref.current;
+    let startX = savedPosition?.x;
+    let startY = savedPosition?.y;
+
+    if ((startX === undefined || startY === undefined) && cloud && element) {
+      const cloudRect = cloud.getBoundingClientRect();
+      const elemRect = element.getBoundingClientRect();
+      const centerX = elemRect.left + elemRect.width / 2 - cloudRect.left;
+      const centerY = elemRect.top + elemRect.height / 2 - cloudRect.top;
+      startX = (centerX / cloudRect.width) * 100;
+      startY = (centerY / cloudRect.height) * 100;
+    }
+
+    const currentX = startX ?? 5;
+    const currentY = startY ?? 5;
+
     dragState.current = {
       pointerId: event.pointerId,
       startClientX: event.clientX,
       startClientY: event.clientY,
-      startX: position.x,
-      startY: position.y,
+      startX: currentX,
+      startY: currentY,
     };
 
-    event.currentTarget.setPointerCapture(event.pointerId);
+    dragPosRef.current = { x: currentX, y: currentY };
+
+    if (event.currentTarget.setPointerCapture) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
   };
 
   const handlePointerMove = (event: PointerEvent<HTMLButtonElement>) => {
@@ -136,6 +158,21 @@ export function FloatingProject({
 
     if (!isDraggingRef.current && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
 
+    const cloud = cloudRef.current;
+    if (!cloud || !ref.current) return;
+
+    const rect = cloud.getBoundingClientRect();
+    const next = clampPosition(
+      state.startX + (dx / rect.width) * 100,
+      state.startY + (dy / rect.height) * 100,
+    );
+
+    dragPosRef.current = next;
+    ref.current.style.left = `${next.x}%`;
+    ref.current.style.top = `${next.y}%`;
+    ref.current.style.position = "absolute";
+    ref.current.style.transform = "translate(-50%, -50%)";
+
     if (!isDraggingRef.current) {
       didDragRef.current = true;
       isDraggingRef.current = true;
@@ -146,66 +183,62 @@ export function FloatingProject({
         clickTimer.current = null;
       }
     }
-
-    const cloud = cloudRef.current;
-    if (!cloud || !ref.current) return;
-
-    const rect = cloud.getBoundingClientRect();
-    const next = clampPosition(
-      state.startX + (dx / rect.width) * 100,
-      state.startY + (dy / rect.height) * 100,
-    );
-
-    ref.current.style.left = `${next.x}%`;
-    ref.current.style.top = `${next.y}%`;
   };
 
   const handlePointerUp = (event: PointerEvent<HTMLButtonElement>) => {
     const state = dragState.current;
     if (!state || state.pointerId !== event.pointerId) return;
 
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
     dragState.current = null;
 
-    if (isDraggingRef.current && ref.current) {
-      const x = parseFloat(ref.current.style.left);
-      const y = parseFloat(ref.current.style.top);
-      if (!Number.isNaN(x) && !Number.isNaN(y)) {
-        onPositionChange(x, y);
+    if (isDraggingRef.current) {
+      const finalX = dragPosRef.current?.x ?? (ref.current ? parseFloat(ref.current.style.left) : 5);
+      const finalY = dragPosRef.current?.y ?? (ref.current ? parseFloat(ref.current.style.top) : 5);
+      if (!Number.isNaN(finalX) && !Number.isNaN(finalY)) {
+        onPositionChange(finalX, finalY);
       }
     }
 
     isDraggingRef.current = false;
     setIsDragging(false);
+    dragPosRef.current = null;
   };
 
   const handlePointerCancel = (event: PointerEvent<HTMLButtonElement>) => {
     if (!dragState.current) return;
-    event.currentTarget.releasePointerCapture(event.pointerId);
+    if (event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
     dragState.current = null;
     isDraggingRef.current = false;
     setIsDragging(false);
-
-    if (ref.current) {
-      ref.current.style.left = `${position.x}%`;
-      ref.current.style.top = `${position.y}%`;
-    }
+    dragPosRef.current = null;
   };
 
-  const style = {
-    left: `${position.x}%`,
-    top: `${position.y}%`,
-    zIndex: isDragging ? 300 : selected ? 200 : layout.zIndex,
-    "--float-rotate": `${layout.rotate}deg`,
-    "--float-scale": 1,
-  } as CSSProperties;
+  const activePos = isDragging && dragPosRef.current ? dragPosRef.current : savedPosition;
+  const isCustomPos = activePos !== undefined;
+
+  const style: CSSProperties = isCustomPos
+    ? {
+        position: "absolute",
+        left: `${activePos.x}%`,
+        top: `${activePos.y}%`,
+        transform: "translate(-50%, -50%)",
+        zIndex: isDragging ? 300 : selected ? 200 : layout.zIndex,
+      }
+    : {
+        zIndex: selected ? 200 : layout.zIndex,
+      };
 
   return (
     <button
       ref={ref}
       type="button"
       data-float-item
-      className={`curious-float curious-float--${layout.variant} ${selected ? "curious-float--selected" : ""} ${isDragging ? "curious-float--dragging" : ""}`}
+      className={`curious-float curious-float--${layout.variant} ${selected ? "curious-float--selected" : ""} ${isDragging ? "curious-float--dragging" : ""} ${isCustomPos ? "curious-float--custom-pos" : ""}`}
       style={style}
       onClick={handleClick}
       onPointerDown={handlePointerDown}

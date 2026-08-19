@@ -34,11 +34,10 @@ export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectClo
 
     const onScramble = () => {
       const next: SavedIconPositions = {};
-      items.forEach((item, index) => {
-        const base = defaultLayouts[index] ?? { x: 50, y: 50 };
+      items.forEach((item) => {
         next[item.id] = {
-          x: Math.min(105, Math.max(0, base.x + (Math.random() - 0.5) * 16)),
-          y: Math.min(100, Math.max(4, base.y + (Math.random() - 0.5) * 16)),
+          x: Math.min(95, Math.max(5, 5 + Math.random() * 85)),
+          y: Math.min(90, Math.max(5, 5 + Math.random() * 80)),
         };
       });
       setSavedPositions(next);
@@ -51,16 +50,7 @@ export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectClo
       window.removeEventListener("curious:reset-icons", onReset);
       window.removeEventListener("curious:scramble-icons", onScramble);
     };
-  }, [items, defaultLayouts]);
-
-  const getPosition = useCallback(
-    (id: string, index: number) =>
-      savedPositions[id] ?? {
-        x: defaultLayouts[index]?.x ?? 50,
-        y: defaultLayouts[index]?.y ?? 50,
-      },
-    [savedPositions, defaultLayouts],
-  );
+  }, [items]);
 
   const handlePositionChange = useCallback((id: string, x: number, y: number) => {
     setSavedPositions((prev) => {
@@ -77,7 +67,7 @@ export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectClo
           key={item.id}
           item={item}
           layout={defaultLayouts[index]}
-          position={getPosition(item.id, index)}
+          savedPosition={savedPositions[item.id]}
           index={index}
           selected={selectedId === item.id}
           cloudRef={cloudRef}

@@ -228,6 +228,35 @@ export const PORTFOLIO = {
   // Optional: iconImage: "/project-icons/my-project.png"
   projects: [
     {
+      title: "Budget Pro Landing Site",
+      category: "Website Development.",
+      link: "https://bytetrons.com/",
+      date: "Feb 2026",
+      shortDesc:
+        "A modern, responsive landing site for Budget Pro showcasing financial management and expense tracking tools.",
+      stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/budget-pro.png",
+    },
+    {
+      title: "Budget Pro Web App",
+      category: "Full Stack Development.",
+      link: "https://app.bytetrons.com/",
+      date: "Feb 2026",
+      shortDesc:
+        "A feature-rich personal finance web app for expense tracking, budget planning, and financial management.",
+      stack: "React.js, Node.js, Tailwind CSS, TypeScript",
+      iconImage: "/icons/budget-pro.png",
+    },
+    {
+      title: "Budget Pro Mobile App",
+      category: "Mobile App Development.",
+      date: "Feb 2026",
+      shortDesc:
+        "A mobile application for seamless budget management and expense tracking on iOS & Android (unreleased).",
+      stack: "React Native, Expo, TypeScript",
+      iconImage: "/icons/budget-pro.png",
+    },
+    {
       title: "Aroya Cruise Booking",
       category: "Frontend Development.",
       link: "https://aroya.com/en",
@@ -861,6 +890,126 @@ export const dockItems: CuriousItem[] = [
   })),
 ];
 
+const groupedProjectIds = new Set([
+  "budget-pro-landing-site",
+  "budget-pro-web-app",
+  "budget-pro-mobile-app",
+  "simplifi-portal",
+  "simplifipay-website",
+  "simplifigo-website",
+  "evolv-lms-admin",
+  "evolv-lms-student-web-app",
+  "evolv-accounts-app",
+  "evolv-lms-landing-site",
+  "evolv-invoices",
+  "vitalize-website",
+  "vitalize-webapp",
+  "range-webchat-admin-portal",
+  "range-clubchat-client-portal",
+  "range-webchat-floating-chatsdk",
+  "artt-website",
+  "eartt-accounting-system",
+  "artt-lms-web-app",
+]);
+
+export const desktopFolders: CuriousItem[] = [
+  {
+    id: "folder-budget-pro",
+    name: "Budget Pro",
+    label: "Budget Pro",
+    kind: "folder",
+    accent: "#ff9500",
+    icon: "folder",
+    iconImage: "/icons/budget-pro.png",
+    description: "Financial management suite — Landing site, Web app & Mobile app.",
+    children: [
+      projectToCuriousItem(getProject("budget-pro-landing-site")),
+      projectToCuriousItem(getProject("budget-pro-web-app")),
+      projectToCuriousItem(getProject("budget-pro-mobile-app")),
+    ],
+  },
+  {
+    id: "folder-simplifi",
+    name: "SimplifiPay Suite",
+    label: "SimplifiPay",
+    kind: "folder",
+    accent: "#0a84ff",
+    icon: "folder",
+    iconImage: "/icons/simplifipay.png",
+    description: "Fintech products — Simplifi Portal, SimplifiPay B2B & SimplifiGo.",
+    children: [
+      projectToCuriousItem(getProject("simplifi-portal")),
+      projectToCuriousItem(getProject("simplifipay-website")),
+      projectToCuriousItem(getProject("simplifigo-website")),
+    ],
+  },
+  {
+    id: "folder-evolv",
+    name: "Evolv Ecosystem",
+    label: "Evolv LMS",
+    kind: "folder",
+    accent: "#34c759",
+    icon: "folder",
+    iconImage: "/icons/evolv.png",
+    description: "LMS ecosystem — Admin, Student Web App, Accounts & Invoicing.",
+    children: [
+      projectToCuriousItem(getProject("evolv-lms-admin")),
+      projectToCuriousItem(getProject("evolv-lms-student-web-app")),
+      projectToCuriousItem(getProject("evolv-accounts-app")),
+      projectToCuriousItem(getProject("evolv-lms-landing-site")),
+      projectToCuriousItem(getProject("evolv-invoices")),
+    ],
+  },
+  {
+    id: "folder-vitalize",
+    name: "Vitalize Health",
+    label: "Vitalize",
+    kind: "folder",
+    accent: "#bf5af2",
+    icon: "folder",
+    iconImage: "/icons/vitalize.png",
+    description: "Health & wellness platform — Website and Patient WebApp.",
+    children: [
+      projectToCuriousItem(getProject("vitalize-website")),
+      projectToCuriousItem(getProject("vitalize-webapp")),
+    ],
+  },
+  {
+    id: "folder-range",
+    name: "Range Comms",
+    label: "Range Comms",
+    kind: "folder",
+    accent: "#ff2d55",
+    icon: "folder",
+    iconImage: "/icons/digital-range.png",
+    description: "Real-time chat & communication SDKs and admin dashboards.",
+    children: [
+      projectToCuriousItem(getProject("range-webchat-admin-portal")),
+      projectToCuriousItem(getProject("range-clubchat-client-portal")),
+      projectToCuriousItem(getProject("range-webchat-floating-chatsdk")),
+    ],
+  },
+  {
+    id: "folder-artt",
+    name: "ARTT Suite",
+    label: "ARTT Education",
+    kind: "folder",
+    accent: "#5856d6",
+    icon: "folder",
+    iconImage: "/icons/artt.png",
+    description: "Educational platforms — Website, Accounting system & LMS.",
+    children: [
+      projectToCuriousItem(getProject("artt-website")),
+      projectToCuriousItem(getProject("eartt-accounting-system")),
+      projectToCuriousItem(getProject("artt-lms-web-app")),
+    ],
+  },
+];
+
+const standaloneProjects = projects
+  .filter((p) => !groupedProjectIds.has(p.id))
+  .map(projectToCuriousItem);
+
 export const desktopFiles: CuriousItem[] = [
   {
     id: "resume",
@@ -871,7 +1020,8 @@ export const desktopFiles: CuriousItem[] = [
     accent: "#ff3b30",
     icon: "pdf",
   },
-  ...desktopProjectIds.map((id) => projectToCuriousItem(getProject(id))),
+  ...desktopFolders,
+  ...standaloneProjects,
   {
     id: "website",
     name: "shehzadahmed.me",

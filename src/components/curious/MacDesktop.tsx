@@ -9,13 +9,23 @@ import { MenuBar } from "@/components/curious/MenuBar";
 import { ProjectCloud } from "@/components/curious/ProjectCloud";
 import { MacDock } from "@/components/curious/MacDock";
 import { PreviewWindow } from "@/components/curious/PreviewWindow";
+import { FinderWindow } from "@/components/curious/FinderWindow";
 
 gsap.registerPlugin(useGSAP);
+
+export type ActiveFinderWindow = {
+  id: string;
+  item: CuriousItem;
+  zIndex: number;
+  position: { x: number; y: number };
+};
 
 export function MacDesktop() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<CuriousItem | null>(null);
+  const [finderWindows, setFinderWindows] = useState<ActiveFinderWindow[]>([]);
+  const maxZIndexRef = useRef(100);
 
   useGSAP(
     () => {
@@ -36,15 +46,59 @@ export function MacDesktop() {
     { scope: rootRef },
   );
 
-  const openItem = useCallback((item: CuriousItem) => {
-    if (item.url) {
-      window.open(item.url, "_blank", "noopener,noreferrer");
-      return;
-    }
+  const focusFinderWindow = useCallback((id: string) => {
+    maxZIndexRef.current += 1;
+    const newZ = maxZIndexRef.current;
+    setFinderWindows((prev) =>
+      prev.map((win) => (win.id === id ? { ...win, zIndex: newZ } : win)),
+    );
+  }, []);
 
-    if (item.kind === "product" || item.kind === "folder") {
-      setPreviewItem(item);
-    }
+  const openItem = useCallback(
+    (item: CuriousItem) => {
+      if (item.kind === "folder") {
+        maxZIndexRef.current += 1;
+        const newZ = maxZIndexRef.current;
+
+        setFinderWindows((prev) => {
+          const existing = prev.find((w) => w.id === item.id);
+          if (existing) {
+            return prev.map((w) => (w.id === item.id ? { ...w, zIndex: newZ } : w));
+          }
+
+          const count = prev.length;
+          const initialPos = {
+            x: Math.min(typeof window !== "undefined" ? window.innerWidth - 750 : 200, 160 + (count % 6) * 35),
+            y: Math.min(typeof window !== "undefined" ? window.innerHeight - 520 : 100, 75 + (count % 6) * 30),
+          };
+
+          return [
+            ...prev,
+            {
+              id: item.id,
+              item,
+              zIndex: newZ,
+              position: initialPos,
+            },
+          ];
+        });
+        return;
+      }
+
+      if (item.url) {
+        window.open(item.url, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      if (item.kind === "product" || item.kind === "pdf" || item.kind === "link") {
+        setPreviewItem(item);
+      }
+    },
+    [],
+  );
+
+  const closeFinderWindow = useCallback((id: string) => {
+    setFinderWindows((prev) => prev.filter((win) => win.id !== id));
   }, []);
 
   const clearSelection = () => setSelectedId(null);
@@ -54,7 +108,7 @@ export function MacDesktop() {
       <div className="curious-wallpaper" data-wallpaper aria-hidden>
         <div
           className="curious-wallpaper__image"
-          style={{ backgroundImage: `url(${curiousWallpaper})`,backgroundPositionY:30 }}
+          style={{ backgroundImage: `url(${curiousWallpaper})`, backgroundPositionY: 30 }}
         />
         <div className="curious-wallpaper__vignette" />
       </div>
@@ -69,6 +123,19 @@ export function MacDesktop() {
           onOpen={openItem}
         />
       </main>
+
+      {/* Render open macOS Finder Windows */}
+      {finderWindows.map((win) => (
+        <FinderWindow
+          key={win.id}
+          item={win.item}
+          zIndex={win.zIndex}
+          initialPos={win.position}
+          onClose={() => closeFinderWindow(win.id)}
+          onFocus={() => focusFinderWindow(win.id)}
+          onOpenItem={openItem}
+        />
+      ))}
 
       <MacDock items={dockItems} onOpen={openItem} />
 

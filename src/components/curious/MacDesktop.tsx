@@ -10,6 +10,7 @@ import { ProjectCloud } from "@/components/curious/ProjectCloud";
 import { MacDock } from "@/components/curious/MacDock";
 import { PreviewWindow } from "@/components/curious/PreviewWindow";
 import { FinderWindow } from "@/components/curious/FinderWindow";
+import { MacBootScreen } from "@/components/curious/MacBootScreen";
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,6 +23,7 @@ export type ActiveFinderWindow = {
 
 export function MacDesktop() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [isBooting, setIsBooting] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [previewItem, setPreviewItem] = useState<CuriousItem | null>(null);
   const [finderWindows, setFinderWindows] = useState<ActiveFinderWindow[]>([]);
@@ -29,6 +31,8 @@ export function MacDesktop() {
 
   useGSAP(
     () => {
+      if (isBooting) return;
+
       gsap.from("[data-menubar]", {
         y: -28,
         opacity: 0,
@@ -43,7 +47,7 @@ export function MacDesktop() {
         ease: "power2.out",
       });
     },
-    { scope: rootRef },
+    { scope: rootRef, dependencies: [isBooting] },
   );
 
   const focusFinderWindow = useCallback((id: string) => {
@@ -105,6 +109,9 @@ export function MacDesktop() {
 
   return (
     <div ref={rootRef} className="curious-desktop" onClick={clearSelection}>
+      {/* 1:1 macOS Boot / Loading Screen */}
+      {isBooting ? <MacBootScreen onComplete={() => setIsBooting(false)} /> : null}
+
       <div className="curious-wallpaper" data-wallpaper aria-hidden>
         <div
           className="curious-wallpaper__image"

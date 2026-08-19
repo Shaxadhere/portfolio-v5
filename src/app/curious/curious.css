@@ -1,124 +1,124 @@
 /* macOS Curious — dark mode + Liquid Glass */
 
 .curious-desktop {
-  --mac-text: rgba(255, 255, 255, 0.92);
-  --mac-text-muted: rgba(255, 255, 255, 0.55);
-  --mac-glass: rgba(36, 36, 40, 0.52);
-  --mac-glass-strong: rgba(28, 28, 32, 0.68);
-  --mac-glass-border: rgba(255, 255, 255, 0.14);
-  --mac-glass-highlight: rgba(255, 255, 255, 0.22);
-  --mac-glass-blur: blur(48px) saturate(190%) brightness(1.08);
-  --mac-label: rgba(255, 255, 255, 0.95);
-  --mac-label-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
-  --mac-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-  --mac-accent: #0a84ff;
+    --mac-text: rgba(255, 255, 255, 0.92);
+    --mac-text-muted: rgba(255, 255, 255, 0.55);
+    --mac-glass: rgba(36, 36, 40, 0.52);
+    --mac-glass-strong: rgba(28, 28, 32, 0.68);
+    --mac-glass-border: rgba(255, 255, 255, 0.14);
+    --mac-glass-highlight: rgba(255, 255, 255, 0.22);
+    --mac-glass-blur: blur(48px) saturate(190%) brightness(1.08);
+    --mac-label: rgba(255, 255, 255, 0.95);
+    --mac-label-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
+    --mac-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    --mac-accent: #0a84ff;
 
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  font-family: var(--mac-font);
-  color: var(--mac-text);
-  user-select: none;
-  background: #000;
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    font-family: var(--mac-font);
+    color: var(--mac-text);
+    user-select: none;
+    background: #000;
 }
 
 /* Wallpaper */
 .curious-wallpaper {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  background: #000;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background: #000;
 }
 
 .curious-wallpaper__image {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transform-origin: center center;
-  will-change: transform, opacity;
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform-origin: center center;
+    will-change: transform, opacity;
 }
 
 .curious-wallpaper__vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, transparent 12%, transparent 78%, rgba(0, 0, 0, 0.28) 100%);
-  pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, transparent 12%, transparent 78%, rgba(0, 0, 0, 0.28) 100%);
+    pointer-events: none;
 }
 
 /* Menu bar — liquid glass dark */
 .curious-menubar {
-  position: relative;
-  z-index: 50;
-  height: 30px;
+    position: relative;
+    z-index: 50;
+    height: 30px;
 }
 
 .curious-menubar__glass {
-  position: absolute;
-  inset: 0;
-  background: var(--mac-glass);
-  backdrop-filter: var(--mac-glass-blur);
-  -webkit-backdrop-filter: var(--mac-glass-blur);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow:
-    inset 0 1px 0 var(--mac-glass-highlight),
-    0 1px 0 rgba(0, 0, 0, 0.25);
+    position: absolute;
+    inset: 0;
+    background: var(--mac-glass);
+    backdrop-filter: var(--mac-glass-blur);
+    -webkit-backdrop-filter: var(--mac-glass-blur);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+        inset 0 1px 0 var(--mac-glass-highlight),
+        0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .curious-menubar__inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 30px;
-  padding: 0 14px;
-  font-size: 13px;
-  font-weight: 500;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .curious-menubar__left,
 .curious-menubar__right {
-  display: flex;
-  align-items: center;
-  gap: 2px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
 }
 
 .curious-menubar__menu {
-  position: relative;
+    position: relative;
 }
 
 .curious-menubar__apple-btn,
 .curious-menubar__app-btn,
 .curious-menubar__item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font: inherit;
-  color: var(--mac-text-muted);
-  cursor: default;
-  transition: background 0.12s, color 0.12s;
-  height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font: inherit;
+    color: var(--mac-text-muted);
+    cursor: default;
+    transition: background 0.12s, color 0.12s;
+    height: 24px;
 }
 
 .curious-menubar__apple-btn {
-  color: var(--mac-text);
-  opacity: 0.92;
-  padding: 2px 7px;
-  min-width: 28px;
+    color: var(--mac-text);
+    opacity: 0.92;
+    padding: 2px 7px;
+    min-width: 28px;
 }
 
 .curious-menubar__app-btn {
-  font-weight: 600;
-  color: var(--mac-text);
-  margin-right: 2px;
+    font-weight: 600;
+    color: var(--mac-text);
+    margin-right: 2px;
 }
 
 .curious-menubar__apple-btn:hover,
@@ -127,604 +127,617 @@
 .curious-menubar__app-btn.is-open,
 .curious-menubar__item:hover,
 .curious-menubar__item.is-open {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--mac-text);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--mac-text);
 }
 
 .curious-menubar__status-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  padding: 2px 6px;
-  border-radius: 6px;
-  color: var(--mac-text);
-  opacity: 0.75;
-  cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 2px 6px;
+    border-radius: 6px;
+    color: var(--mac-text);
+    opacity: 0.75;
+    cursor: default;
 }
 
 .curious-menubar__status-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 1;
 }
 
 .curious-menubar__calendly {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 2px 8px;
-  margin-right: 2px;
-  border-radius: 6px;
-  color: var(--mac-text-muted);
-  text-decoration: none;
-  font-size: 12.5px;
-  font-weight: 500;
-  transition: background 0.12s, color 0.12s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    margin-right: 2px;
+    border-radius: 6px;
+    color: var(--mac-text-muted);
+    text-decoration: none;
+    font-size: 12.5px;
+    font-weight: 500;
+    transition: background 0.12s, color 0.12s;
 }
 
 .curious-menubar__calendly:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--mac-text);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--mac-text);
 }
 
 .curious-menubar__clock {
-  font-variant-numeric: tabular-nums;
-  font-size: 12.5px;
-  color: var(--mac-text-muted);
-  background: none;
-  border: none;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font: inherit;
-  cursor: default;
+    font-variant-numeric: tabular-nums;
+    font-size: 12.5px;
+    color: var(--mac-text-muted);
+    background: none;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font: inherit;
+    cursor: default;
 }
 
 .curious-menubar__clock:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--mac-text);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--mac-text);
 }
 
 /* Dropdown menus */
 .curious-menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  min-width: 232px;
-  padding: 5px;
-  border-radius: 10px;
-  background: rgba(36, 36, 40, 0.86);
-  backdrop-filter: blur(36px) saturate(180%);
-  -webkit-backdrop-filter: blur(36px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 18px 48px rgba(0, 0, 0, 0.55);
-  z-index: 80;
-  animation: curious-menu-in 0.12s ease-out;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 232px;
+    padding: 5px;
+    border-radius: 10px;
+    background: rgba(36, 36, 40, 0.86);
+    backdrop-filter: blur(36px) saturate(180%);
+    -webkit-backdrop-filter: blur(36px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 18px 48px rgba(0, 0, 0, 0.55);
+    z-index: 80;
+    animation: curious-menu-in 0.12s ease-out;
 }
 
 @keyframes curious-menu-in {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .curious-menu__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 28px;
-  width: 100%;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.92);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 400;
-  text-align: left;
-  cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.92);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+    cursor: default;
 }
 
 .curious-menu__item:hover:not(.is-disabled),
 .curious-menu__item:focus-visible:not(.is-disabled) {
-  background: #0a84ff;
-  color: white;
-  outline: none;
+    background: #0a84ff;
+    color: white;
+    outline: none;
 }
 
 .curious-menu__item:hover:not(.is-disabled) .curious-menu__shortcut,
 .curious-menu__item:focus-visible:not(.is-disabled) .curious-menu__shortcut {
-  color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .curious-menu__item.is-disabled {
-  color: rgba(255, 255, 255, 0.28);
-  cursor: default;
+    color: rgba(255, 255, 255, 0.28);
+    cursor: default;
 }
 
 .curious-menu__item.is-danger {
-  color: #ff6b6b;
+    color: #ff6b6b;
 }
 
 .curious-menu__item.is-danger:hover:not(.is-disabled) {
-  background: #ff453a;
-  color: white;
+    background: #ff453a;
+    color: white;
 }
 
 .curious-menu__shortcut {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  font-variant-numeric: tabular-nums;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    font-variant-numeric: tabular-nums;
 }
 
 .curious-menu__sep {
-  height: 1px;
-  margin: 5px 8px;
-  background: rgba(255, 255, 255, 0.1);
+    height: 1px;
+    margin: 5px 8px;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Toast notifications */
 .curious-toasts {
-  position: fixed;
-  top: 42px;
-  right: 16px;
-  z-index: 120;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
-  width: min(300px, calc(100vw - 32px));
+    position: fixed;
+    top: 42px;
+    right: 16px;
+    z-index: 120;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    width: min(300px, calc(100vw - 32px));
 }
 
 .curious-toast {
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(36, 36, 40, 0.88);
-  backdrop-filter: blur(28px) saturate(170%);
-  -webkit-backdrop-filter: blur(28px) saturate(170%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
-  color: rgba(255, 255, 255, 0.92);
-  animation: curious-toast-in 0.22s ease-out;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(36, 36, 40, 0.88);
+    backdrop-filter: blur(28px) saturate(170%);
+    -webkit-backdrop-filter: blur(28px) saturate(170%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    color: rgba(255, 255, 255, 0.92);
+    animation: curious-toast-in 0.22s ease-out;
 }
 
 .curious-toast strong {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 600;
-  margin-bottom: 3px;
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 3px;
 }
 
 .curious-toast p {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.65);
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .curious-toast--success {
-  border-color: rgba(52, 199, 89, 0.35);
+    border-color: rgba(52, 199, 89, 0.35);
 }
 
 .curious-toast--warn {
-  border-color: rgba(255, 159, 10, 0.4);
+    border-color: rgba(255, 159, 10, 0.4);
 }
 
 @keyframes curious-toast-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 html.curious-sleeping .curious-desktop {
-  filter: brightness(0.18) saturate(0.6);
-  transition: filter 0.6s ease;
+    filter: brightness(0.18) saturate(0.6);
+    transition: filter 0.6s ease;
 }
 
 html:not(.curious-sleeping) .curious-desktop {
-  transition: filter 0.35s ease;
+    transition: filter 0.35s ease;
 }
 
 /* Desktop — floating project cloud */
 .curious-desktop__surface {
-  position: relative;
-  z-index: 10;
-  height: calc(100vh - 30px - 108px);
-  overflow: visible;
-  pointer-events: none;
+    position: absolute;
+    top: 30px;
+    bottom: 85px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    overflow: visible;
+    pointer-events: none;
 }
 
 .curious-cloud {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(980px, 98vw);
-  height: min(calc(100vh - 130px), 980px);
-  pointer-events: none;
-  overflow: visible;
-}
-
-.curious-cloud::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 51%;
-  transform: translate(-50%, -50%);
-  width: 38%;
-  height: 46%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at center,
-      rgba(120, 170, 255, 0.07) 0%,
-      rgba(80, 120, 220, 0.03) 42%,
-      transparent 72%);
-  pointer-events: none;
-  z-index: 0;
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    height: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    gap: 10px 0px;
+    pointer-events: none;
+    overflow: visible;
 }
 
 .curious-float {
-  position: absolute;
-  transform: translate(-50%, -50%) rotate(var(--float-rotate, 0deg)) scale(var(--float-scale, 1));
-  transform-origin: 50% 120%;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: grab;
-  touch-action: none;
-  pointer-events: auto;
-  transition:
-    transform 0.28s cubic-bezier(0.23, 1, 0.32, 1),
-    filter 0.28s ease;
-  will-change: transform;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 92px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: grab;
+    touch-action: none;
+    pointer-events: auto;
+    user-select: none;
+    border-radius: 8px;
+    transition:
+        transform 0.18s cubic-bezier(0.23, 1, 0.32, 1),
+        filter 0.18s ease;
+}
+
+.curious-float--custom-pos {
+    position: absolute;
+    transform: translate(-50%, -50%);
 }
 
 .curious-float--dragging {
-  cursor: grabbing;
-  transition: none;
-  transform: translate(-50%, -50%) rotate(0deg) scale(calc(var(--float-scale, 1) * 1.06));
-  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5));
-  z-index: 300 !important;
+    cursor: grabbing;
+    transition: none;
+    transform: translate(-50%, -50%) scale(1.06);
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.5));
+    z-index: 300 !important;
 }
 
 .curious-float--dragging .curious-float__icon-label {
-  opacity: 0.9;
+    opacity: 0.9;
 }
 
-.curious-float:hover {
-  transform: translate(-50%, -50%) rotate(0deg) scale(calc(var(--float-scale, 1) * 1.08));
-  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
-  z-index: 150 !important;
+.curious-float:hover:not(.curious-float--custom-pos) {
+    transform: scale(1.08);
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
+    z-index: 150 !important;
 }
 
-.curious-float--selected {
-  transform: translate(-50%, -50%) rotate(0deg) scale(calc(var(--float-scale, 1) * 1.08));
-  filter: drop-shadow(0 0 0 2px rgba(10, 132, 255, 0.75));
+.curious-float--custom-pos:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+    z-index: 150 !important;
+}
+
+.curious-float--selected:not(.curious-float--custom-pos) {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 0 2px rgba(10, 132, 255, 0.75));
+}
+
+.curious-float--selected.curious-float--custom-pos {
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: drop-shadow(0 0 0 2px rgba(10, 132, 255, 0.75));
 }
 
 .curious-float__window {
-  display: block;
-  width: 168px;
-  border-radius: 13px;
-  overflow: hidden;
-  background: rgba(32, 32, 36, 0.72);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 10px 32px rgba(0, 0, 0, 0.45);
+    display: block;
+    width: 168px;
+    border-radius: 13px;
+    overflow: hidden;
+    background: rgba(32, 32, 36, 0.72);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 10px 32px rgba(0, 0, 0, 0.45);
 }
 
 .curious-float__chrome {
-  display: flex;
-  gap: 6px;
-  padding: 9px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    gap: 6px;
+    padding: 9px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .curious-float__traffic {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
 }
 
 .curious-float__traffic--close {
-  background: #ff5f57;
+    background: #ff5f57;
 }
 
 .curious-float__traffic--min {
-  background: #febc2e;
+    background: #febc2e;
 }
 
 .curious-float__traffic--max {
-  background: #28c840;
+    background: #28c840;
 }
 
 .curious-float__window-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 12px 16px;
 }
 
 .curious-float__window-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.88);
-  text-align: center;
-  line-height: 1.25;
-  max-width: 144px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    text-align: center;
+    line-height: 1.25;
+    max-width: 144px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .curious-float__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform-origin: center top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: center top;
 }
 
 .curious-float__icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
 }
 
 .curious-float__icon .curious-app-icon,
 .curious-float__icon .curious-app-icon-image {
-  width: 60px !important;
-  height: 60px !important;
-  min-width: 60px;
-  min-height: 60px;
-  max-width: 60px;
-  max-height: 60px;
-  flex-shrink: 0;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    flex-shrink: 0;
 }
 
 .curious-float__icon .curious-app-icon-image img {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: inherit;
-  object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit;
+    object-fit: cover;
 }
 
 .curious-float__icon-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--mac-label);
-  text-shadow: var(--mac-label-shadow);
-  text-align: center;
-  max-width: 104px;
-  line-height: 1.2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  pointer-events: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mac-label);
+    text-shadow: var(--mac-label-shadow);
+    text-align: center;
+    max-width: 104px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    pointer-events: none;
 }
 
 .curious-float__tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 108px;
-  padding: 14px 12px;
-  border-radius: 15px;
-  background: rgba(32, 32, 36, 0.62);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  position: relative;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 108px;
+    padding: 14px 12px;
+    border-radius: 15px;
+    background: rgba(32, 32, 36, 0.62);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
 }
 
 .curious-float__tile-accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  opacity: 0.9;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    opacity: 0.9;
 }
 
 .curious-float__tile-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
-  text-align: center;
-  line-height: 1.25;
-  max-width: 96px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    line-height: 1.25;
+    max-width: 96px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .curious-app-icon-image {
-  display: block;
-  overflow: hidden;
-  flex-shrink: 0;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+    display: block;
+    overflow: hidden;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
 .curious-app-icon-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .curious-app-icon {
-  display: block;
-  flex-shrink: 0;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+    display: block;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
 }
 
 /* Dock — liquid glass pill */
 .curious-dock-wrap {
-  position: fixed;
-  bottom: 12px;
-  left: 0;
-  right: 0;
-  z-index: 40;
-  display: flex;
-  justify-content: center;
-  pointer-events: none;
-  padding: 0 16px;
+    position: fixed;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    padding: 0 16px;
 }
 
 .curious-dock {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  pointer-events: auto;
-  max-width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: auto;
+    max-width: 100%;
 }
 
 .curious-dock__glass {
-  position: absolute;
-  inset: 0;
-  border-radius: 22px;
-  background: var(--mac-glass-strong);
-  backdrop-filter: blur(52px) saturate(200%) brightness(1.12);
-  -webkit-backdrop-filter: blur(52px) saturate(200%) brightness(1.12);
-  border: 1px solid var(--mac-glass-border);
-  box-shadow:
-    inset 0 1px 0 var(--mac-glass-highlight),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-    0 12px 40px rgba(0, 0, 0, 0.55),
-    0 0 0 0.5px rgba(255, 255, 255, 0.05);
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: var(--mac-glass-strong);
+    backdrop-filter: blur(52px) saturate(200%) brightness(1.12);
+    -webkit-backdrop-filter: blur(52px) saturate(200%) brightness(1.12);
+    border: 1px solid var(--mac-glass-border);
+    box-shadow:
+        inset 0 1px 0 var(--mac-glass-highlight),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        0 12px 40px rgba(0, 0, 0, 0.55),
+        0 0 0 0.5px rgba(255, 255, 255, 0.05);
 }
 
 .curious-dock__shine {
-  position: absolute;
-  inset: 1px;
-  border-radius: 21px;
-  background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.03) 28%,
-      transparent 50%);
-  pointer-events: none;
+    position: absolute;
+    inset: 1px;
+    border-radius: 21px;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.14) 0%,
+            rgba(255, 255, 255, 0.03) 28%,
+            transparent 50%);
+    pointer-events: none;
 }
 
 .curious-dock__icons {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  padding: 7px 12px 9px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 7px 12px 9px;
 }
 
 .curious-dock__sep {
-  width: 1px;
-  height: 44px;
-  margin: 0 4px 6px;
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: 1px;
-  flex-shrink: 0;
-  align-self: flex-end;
+    width: 1px;
+    height: 44px;
+    margin: 0 4px 6px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 1px;
+    flex-shrink: 0;
+    align-self: flex-end;
 }
 
 .curious-dock__item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  flex-shrink: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
 /* Instant project tooltip — desktop + dock */
 .curious-tooltip {
-  position: absolute;
-  left: 50%;
-  z-index: 400;
-  width: max-content;
-  max-width: min(240px, calc(100vw - 20px));
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: rgba(28, 28, 32, 0.92);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 10px 28px rgba(0, 0, 0, 0.45);
-  color: rgba(255, 255, 255, 0.92);
-  text-align: left;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: none;
+    position: absolute;
+    left: 50%;
+    z-index: 400;
+    width: max-content;
+    max-width: min(240px, calc(100vw - 20px));
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(28, 28, 32, 0.92);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 10px 28px rgba(0, 0, 0, 0.45);
+    color: rgba(255, 255, 255, 0.92);
+    text-align: left;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: none;
 }
 
 .curious-tooltip--above {
-  bottom: calc(100% + 10px);
-  top: auto;
+    bottom: calc(100% + 10px);
+    top: auto;
 }
 
 .curious-tooltip--below {
-  top: calc(100% + 10px);
-  bottom: auto;
+    top: calc(100% + 10px);
+    bottom: auto;
 }
 
 .curious-tooltip--center {
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%) translateY(4px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(4px);
 }
 
 .curious-tooltip--left {
-  left: 0;
-  right: auto;
-  transform: translateX(0) translateY(4px);
+    left: 0;
+    right: auto;
+    transform: translateX(0) translateY(4px);
 }
 
 .curious-tooltip--right {
-  left: auto;
-  right: 0;
-  transform: translateX(0) translateY(4px);
+    left: auto;
+    right: 0;
+    transform: translateX(0) translateY(4px);
 }
 
 .curious-float:hover .curious-tooltip,
 .curious-float:focus-visible .curious-tooltip,
 .curious-dock__item:hover .curious-tooltip,
 .curious-dock__item:focus-visible .curious-tooltip {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .curious-float:hover .curious-tooltip--center,
 .curious-float:focus-visible .curious-tooltip--center,
 .curious-dock__item:hover .curious-tooltip--center,
 .curious-dock__item:focus-visible .curious-tooltip--center {
-  transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0);
 }
 
 .curious-float:hover .curious-tooltip--left,
@@ -735,483 +748,483 @@ html:not(.curious-sleeping) .curious-desktop {
 .curious-float:focus-visible .curious-tooltip--right,
 .curious-dock__item:hover .curious-tooltip--right,
 .curious-dock__item:focus-visible .curious-tooltip--right {
-  transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
 }
 
 .curious-tooltip--measuring {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  /* Keep it in layout for size measurement */
-  display: block !important;
-  pointer-events: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    /* Keep it in layout for size measurement */
+    display: block !important;
+    pointer-events: none !important;
 }
 
 .curious-tooltip__name {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: rgba(255, 255, 255, 0.96);
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: rgba(255, 255, 255, 0.96);
 }
 
 .curious-tooltip__desc {
-  display: block;
-  margin-top: 5px;
-  font-size: 11.5px;
-  font-weight: 400;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.68);
+    display: block;
+    margin-top: 5px;
+    font-size: 11.5px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.68);
 }
 
 .curious-tooltip__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin-top: 8px;
-  padding-top: 7px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 8px;
+    padding-top: 7px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .curious-tooltip__stack,
 .curious-tooltip__date {
-  display: block;
-  font-size: 10.5px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: rgba(255, 255, 255, 0.5);
+    display: block;
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .curious-tooltip__date {
-  color: rgba(10, 132, 255, 0.9);
+    color: rgba(10, 132, 255, 0.9);
 }
 
 .curious-dock__icon-wrap {
-  display: flex;
-  border-radius: 14px;
-  overflow: hidden;
-  transform-origin: bottom center;
-  will-change: transform;
+    display: flex;
+    border-radius: 14px;
+    overflow: hidden;
+    transform-origin: bottom center;
+    will-change: transform;
 }
 
 .curious-dock__item .curious-app-icon {
 
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
 }
 
 .curious-dock__dot {
-  width: 4px;
-  height: 4px;
-  margin-top: 5px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    width: 4px;
+    height: 4px;
+    margin-top: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 }
 
 /* Preview window — dark glass */
 .curious-preview-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  animation: curious-fade-in 0.22s ease;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    animation: curious-fade-in 0.22s ease;
 }
 
 .curious-preview {
-  position: relative;
-  width: min(420px, 92vw);
-  border-radius: 16px;
-  overflow: hidden;
-  animation: curious-scale-in 0.32s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    width: min(420px, 92vw);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: curious-scale-in 0.32s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .curious-preview__glass {
-  position: absolute;
-  inset: 0;
-  background: rgba(32, 32, 36, 0.72);
-  backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
-  -webkit-backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 28px 80px rgba(0, 0, 0, 0.65);
+    position: absolute;
+    inset: 0;
+    background: rgba(32, 32, 36, 0.72);
+    backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
+    -webkit-backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        0 28px 80px rgba(0, 0, 0, 0.65);
 }
 
 .curious-preview__chrome {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .curious-preview__traffic {
-  display: flex;
-  gap: 7px;
+    display: flex;
+    gap: 7px;
 }
 
 .curious-traffic {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: none;
-  padding: 0;
-  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
 }
 
 .curious-traffic--close {
-  background: #ff5f57;
-  cursor: pointer;
+    background: #ff5f57;
+    cursor: pointer;
 }
 
 .curious-traffic--min {
-  background: #febc2e;
+    background: #febc2e;
 }
 
 .curious-traffic--max {
-  background: #28c840;
+    background: #28c840;
 }
 
 .curious-preview__title {
-  flex: 1;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--mac-text-muted);
-  margin-right: 52px;
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mac-text-muted);
+    margin-right: 52px;
 }
 
 .curious-preview__body {
-  position: relative;
-  z-index: 1;
-  padding: 32px 32px 36px;
-  text-align: center;
-  color: var(--mac-text);
+    position: relative;
+    z-index: 1;
+    padding: 32px 32px 36px;
+    text-align: center;
+    color: var(--mac-text);
 }
 
 .curious-preview__icon {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.4));
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.4));
 }
 
 .curious-preview__body h2 {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0 0 10px;
-  letter-spacing: -0.02em;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    letter-spacing: -0.02em;
 }
 
 .curious-preview__body p {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--mac-text-muted);
-  margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mac-text-muted);
+    margin: 0;
 }
 
 .curious-preview__hint {
-  margin-top: 16px !important;
-  font-size: 12.5px !important;
-  color: rgba(255, 255, 255, 0.35) !important;
+    margin-top: 16px !important;
+    font-size: 12.5px !important;
+    color: rgba(255, 255, 255, 0.35) !important;
 }
 
 /* About Shehzad window — macOS About panel */
 .curious-about-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 130;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  animation: curious-fade-in 0.2s ease;
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px) saturate(130%);
+    -webkit-backdrop-filter: blur(12px) saturate(130%);
+    animation: curious-fade-in 0.2s ease;
 }
 
 .curious-about {
-  position: relative;
-  width: min(380px, 92vw);
-  border-radius: 14px;
-  overflow: hidden;
-  animation: curious-scale-in 0.28s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    width: min(380px, 92vw);
+    border-radius: 14px;
+    overflow: hidden;
+    animation: curious-scale-in 0.28s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .curious-about__glass {
-  position: absolute;
-  inset: 0;
-  background: rgba(40, 40, 44, 0.82);
-  backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-  -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 14px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    0 28px 70px rgba(0, 0, 0, 0.6);
+    position: absolute;
+    inset: 0;
+    background: rgba(40, 40, 44, 0.82);
+    backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 14px;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        0 28px 70px rgba(0, 0, 0, 0.6);
 }
 
 .curious-about__chrome {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding: 12px 14px 0;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 12px 14px 0;
 }
 
 .curious-about__traffic {
-  display: flex;
-  gap: 7px;
+    display: flex;
+    gap: 7px;
 }
 
 .curious-about__body {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 28px 24px;
-  text-align: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 28px 24px;
+    text-align: center;
 }
 
 .curious-about__avatar-wrap {
-  width: 96px;
-  height: 96px;
-  margin-bottom: 14px;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 12px 28px rgba(0, 0, 0, 0.45);
+    width: 96px;
+    height: 96px;
+    margin-bottom: 14px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.12),
+        0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 .curious-about__avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 18%;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
 }
 
 .curious-about__name {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.96);
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.96);
 }
 
 .curious-about__title {
-  margin: 6px 0 0;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.35;
-  color: rgba(255, 255, 255, 0.72);
+    margin: 6px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .curious-about__version {
-  margin: 8px 0 0;
-  font-size: 11.5px;
-  color: rgba(255, 255, 255, 0.4);
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .curious-about__divider {
-  width: 100%;
-  height: 1px;
-  margin: 16px 0;
-  background: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    height: 1px;
+    margin: 16px 0;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .curious-about__details {
-  width: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  text-align: left;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
 }
 
-.curious-about__details > div {
-  display: grid;
-  grid-template-columns: 78px 1fr;
-  gap: 10px;
-  align-items: baseline;
+.curious-about__details>div {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 10px;
+    align-items: baseline;
 }
 
 .curious-about__details dt {
-  margin: 0;
-  font-size: 11.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.42);
+    margin: 0;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.42);
 }
 
 .curious-about__details dd {
-  margin: 0;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.88);
-  overflow-wrap: anywhere;
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.88);
+    overflow-wrap: anywhere;
 }
 
 .curious-about__details a {
-  color: #64b5ff;
-  text-decoration: none;
+    color: #64b5ff;
+    text-decoration: none;
 }
 
 .curious-about__details a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .curious-about__summary {
-  margin: 14px 0 0;
-  font-size: 12px;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.58);
-  text-align: left;
+    margin: 14px 0 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.58);
+    text-align: left;
 }
 
 .curious-about__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 18px;
-  width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+    width: 100%;
 }
 
 .curious-about__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 128px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 12.5px;
-  font-weight: 560;
-  text-decoration: none;
-  transition: background 0.15s, border-color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 128px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 12.5px;
+    font-weight: 560;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
 }
 
 .curious-about__btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.22);
 }
 
 .curious-about__btn--primary {
-  background: #0a84ff;
-  border-color: transparent;
-  color: white;
+    background: #0a84ff;
+    border-color: transparent;
+    color: white;
 }
 
 .curious-about__btn--primary:hover {
-  background: #0077ed;
-  border-color: transparent;
+    background: #0077ed;
+    border-color: transparent;
 }
 
 .curious-about__links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .curious-about__links a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
 }
 
 .curious-about__links a:hover {
-  color: #64b5ff;
+    color: #64b5ff;
 }
 
 .curious-about__copyright {
-  margin: 14px 0 0;
-  font-size: 10.5px;
-  color: rgba(255, 255, 255, 0.32);
+    margin: 14px 0 0;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.32);
 }
 
 @keyframes curious-fade-in {
-  from {
-    opacity: 0;
-  }
+    from {
+        opacity: 0;
+    }
 
-  to {
-    opacity: 1;
-  }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes curious-scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(16px);
-  }
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(16px);
+    }
 
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 @media (max-width: 640px) {
-  .curious-menubar__menu:nth-child(n + 4) {
-    display: none;
-  }
+    .curious-menubar__menu:nth-child(n + 4) {
+        display: none;
+    }
 
-  .curious-cloud {
-    width: min(860px, 98vw);
-    height: min(calc(100vh - 130px), 880px);
-  }
+    .curious-cloud {
+        width: min(860px, 98vw);
+        height: min(calc(100vh - 130px), 880px);
+    }
 
-  .curious-float__window {
-    width: 148px;
-  }
+    .curious-float__window {
+        width: 148px;
+    }
 
-  .curious-float__window-title {
-    font-size: 11px;
-    max-width: 128px;
-  }
+    .curious-float__window-title {
+        font-size: 11px;
+        max-width: 128px;
+    }
 
-  .curious-float__tile {
-    width: 96px;
-    padding: 12px 10px;
-  }
+    .curious-float__tile {
+        width: 96px;
+        padding: 12px 10px;
+    }
 
-  .curious-float__icon-label {
-    font-size: 12px;
-    max-width: 88px;
-  }
+    .curious-float__icon-label {
+        font-size: 12px;
+        max-width: 88px;
+    }
 
-  .curious-dock__icons {
-    gap: 2px;
-    padding: 6px 8px 8px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    max-width: calc(100vw - 32px);
-  }
+    .curious-dock__icons {
+        gap: 2px;
+        padding: 6px 8px 8px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        max-width: calc(100vw - 32px);
+    }
 
-  .curious-dock__icons::-webkit-scrollbar {
-    display: none;
-  }
+    .curious-dock__icons::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-  .curious-preview-backdrop,
-  .curious-preview {
-    animation: none;
-  }
+    .curious-preview-backdrop,
+    .curious-preview {
+        animation: none;
+    }
 }
 
 /* =============================================================================
@@ -1219,519 +1232,597 @@ html:not(.curious-sleeping) .curious-desktop {
    ============================================================================= */
 
 .curious-finder {
-  display: flex;
-  flex-direction: column;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow:
-    0 32px 90px rgba(0, 0, 0, 0.75),
-    0 0 0 0.5px rgba(255, 255, 255, 0.22),
-    inset 0 1px 0.5px rgba(255, 255, 255, 0.25);
-  user-select: none;
-  animation: curious-finder-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  background: rgba(28, 28, 34, 0.88);
-  backdrop-filter: blur(52px) saturate(200%);
-  -webkit-backdrop-filter: blur(52px) saturate(200%);
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        0 32px 90px rgba(0, 0, 0, 0.75),
+        0 0 0 0.5px rgba(255, 255, 255, 0.22),
+        inset 0 1px 0.5px rgba(255, 255, 255, 0.25);
+    user-select: none;
+    animation: curious-finder-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    background: rgba(28, 28, 34, 0.88);
+    backdrop-filter: blur(52px) saturate(200%);
+    -webkit-backdrop-filter: blur(52px) saturate(200%);
 }
 
 .curious-finder__glass {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 22%);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 22%);
 }
 
 @keyframes curious-finder-in {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 /* 1:1 macOS Toolbar Header */
 .curious-finder__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 52px;
-  padding: 0 14px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
-  cursor: grab;
-  position: relative;
-  z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    padding: 0 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+    cursor: grab;
+    position: relative;
+    z-index: 10;
 }
 
 .curious-finder__header:active {
-  cursor: grabbing;
+    cursor: grabbing;
 }
 
 /* Traffic Lights */
 .curious-finder__traffic {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 60px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 60px;
 }
 
 .curious-finder__traffic .curious-traffic {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 0.5px solid rgba(0, 0, 0, 0.35);
-  padding: 0;
-  cursor: pointer;
-  transition: transform 0.12s, filter 0.12s;
-  outline: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(0, 0, 0, 0.35);
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.12s, filter 0.12s;
+    outline: none;
 }
 
 .curious-finder__traffic .curious-traffic--close {
-  background: #ff5f57;
+    background: #ff5f57;
 }
 
 .curious-finder__traffic .curious-traffic--min {
-  background: #febc2e;
+    background: #febc2e;
 }
 
 .curious-finder__traffic .curious-traffic--max {
-  background: #28c840;
+    background: #28c840;
 }
 
 .curious-finder__traffic .curious-traffic:hover {
-  filter: brightness(1.2);
-  transform: scale(1.15);
+    filter: brightness(1.2);
+    transform: scale(1.15);
 }
 
 /* Nav Chevrons */
 .curious-finder__nav {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 10px;
 }
 
 .curious-finder__nav-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 22px;
-  border-radius: 5px;
-  border: none;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.35);
-  cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 22px;
+    border-radius: 5px;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.35);
+    cursor: default;
 }
 
 /* Centered Title */
 .curious-finder__title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
-  letter-spacing: -0.1px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: -0.1px;
 }
 
 /* Toolbar Actions */
 .curious-finder__actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 /* macOS Segmented Control */
 .curious-finder__segmented {
-  display: flex;
-  background: rgba(0, 0, 0, 0.38);
-  border: 0.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
-  padding: 2px;
+    display: flex;
+    background: rgba(0, 0, 0, 0.38);
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 2px;
 }
 
 .curious-finder__seg-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 22px;
-  border-radius: 4px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.45);
-  cursor: pointer;
-  transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 22px;
+    border-radius: 4px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.45);
+    cursor: pointer;
+    transition: all 0.12s;
 }
 
 .curious-finder__seg-btn.is-active {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .curious-finder__seg-btn:hover:not(.is-active) {
-  color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .curious-finder__tool-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 26px;
-  border-radius: 6px;
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.25);
-  color: rgba(255, 255, 255, 0.6);
-  cursor: pointer;
-  transition: all 0.12s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 26px;
+    border-radius: 6px;
+    border: 0.5px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.12s;
 }
 
 .curious-finder__tool-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
 }
 
 /* macOS Search Pill */
 .curious-finder__search {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(0, 0, 0, 0.38);
-  border: 0.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 7px;
-  padding: 4px 8px;
-  color: rgba(255, 255, 255, 0.45);
-  width: 140px;
-  transition: width 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.38);
+    border: 0.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 7px;
+    padding: 4px 8px;
+    color: rgba(255, 255, 255, 0.45);
+    width: 140px;
+    transition: width 0.2s, border-color 0.2s;
 }
 
 .curious-finder__search:focus-within {
-  width: 180px;
-  border-color: #007aff;
-  color: rgba(255, 255, 255, 0.95);
+    width: 180px;
+    border-color: #007aff;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .curious-finder__search input {
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.92);
-  width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.92);
+    width: 100%;
 }
 
 .curious-finder__search-clear {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
 }
 
 /* macOS Finder Main Body */
 .curious-finder__body {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-  z-index: 5;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    z-index: 5;
 }
 
 /* 1:1 macOS Finder Sidebar */
 .curious-finder__sidebar {
-  width: 210px;
-  background: rgba(20, 20, 24, 0.55);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex-shrink: 0;
+    width: 210px;
+    background: rgba(20, 20, 24, 0.55);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-shrink: 0;
 }
 
 .curious-finder__sidebar-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .curious-finder__sidebar-title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: rgba(255, 255, 255, 0.35);
-  padding: 0 8px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: rgba(255, 255, 255, 0.35);
+    padding: 0 8px 6px;
 }
 
 .curious-finder__sidebar-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 12.5px;
-  font-weight: 400;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 12.5px;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+    width: 100%;
 }
 
 .curious-finder__sidebar-item:hover:not(.is-active) {
-  background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .curious-finder__sidebar-item.is-active {
-  background: #007aff;
-  color: #ffffff;
-  font-weight: 500;
+    background: #007aff;
+    color: #ffffff;
+    font-weight: 500;
 }
 
 .curious-finder__sidebar-icon {
-  flex-shrink: 0;
-  opacity: 0.9;
+    flex-shrink: 0;
+    opacity: 0.9;
 }
 
 .curious-finder__sidebar-badge-count {
-  margin-left: auto;
-  font-size: 11px;
-  opacity: 0.6;
-  font-weight: 500;
+    margin-left: auto;
+    font-size: 11px;
+    opacity: 0.6;
+    font-weight: 500;
 }
 
 .curious-finder__tag-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .curious-finder__tag-dot--red {
-  background: #ff3b30;
+    background: #ff3b30;
 }
 
 .curious-finder__tag-dot--blue {
-  background: #007aff;
+    background: #007aff;
 }
 
 .curious-finder__tag-dot--green {
-  background: #34c759;
+    background: #34c759;
 }
 
 /* macOS Content Workspace */
 .curious-finder__content {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background: rgba(0, 0, 0, 0.15);
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.15);
 }
 
 .curious-finder__empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.4);
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.4);
+    gap: 8px;
 }
 
 .curious-finder__empty-icon {
-  font-size: 36px;
+    font-size: 36px;
 }
 
 /* DITTO macOS Finder Grid View */
 .curious-finder__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-  gap: 24px 16px;
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 24px 16px;
+    justify-items: center;
 }
 
 .curious-finder__icon-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100px;
-  cursor: pointer;
-  position: relative;
-  border-radius: 8px;
-  padding: 6px 4px 8px;
-  transition: background 0.12s;
-  outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    padding: 6px 4px 8px;
+    transition: background 0.12s;
+    outline: none;
 }
 
 .curious-finder__icon-item:hover {
-  background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .curious-finder__icon-item.is-selected {
-  background: rgba(0, 122, 255, 0.35);
+    background: rgba(0, 122, 255, 0.35);
 }
 
 .curious-finder__icon-wrapper {
-  margin-bottom: 8px;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
-  transition: transform 0.15s;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    transition: transform 0.15s;
 }
 
 .curious-finder__icon-item:hover .curious-finder__icon-wrapper {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .curious-finder__icon-label {
-  font-size: 12px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.92);
-  text-align: center;
-  max-width: 94px;
-  line-height: 1.25;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  padding: 2px 6px;
-  border-radius: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.92);
+    text-align: center;
+    max-width: 94px;
+    line-height: 1.25;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding: 2px 6px;
+    border-radius: 4px;
 }
 
 .curious-finder__icon-item.is-selected .curious-finder__icon-label {
-  background: #007aff;
-  color: #ffffff;
+    background: #007aff;
+    color: #ffffff;
 }
 
 .curious-finder__open-pill {
-  position: absolute;
-  bottom: -22px;
-  font-size: 10.5px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: #007aff;
-  color: #fff;
-  text-decoration: none;
-  opacity: 0;
-  transition: opacity 0.15s, transform 0.15s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  white-space: nowrap;
+    position: absolute;
+    bottom: -22px;
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: #007aff;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s, transform 0.15s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
 }
 
 .curious-finder__icon-item:hover .curious-finder__open-pill {
-  opacity: 1;
-  transform: translateY(-2px);
+    opacity: 1;
+    transform: translateY(-2px);
 }
 
 /* DITTO macOS Finder List Table View */
 .curious-finder__list {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .curious-finder__list-header {
-  display: grid;
-  grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
-  padding: 6px 14px;
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  user-select: none;
+    display: grid;
+    grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    user-select: none;
 }
 
 .curious-finder__list-row {
-  display: grid;
-  grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
-  align-items: center;
-  padding: 6px 14px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  transition: background 0.1s;
+    display: grid;
+    grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
+    cursor: pointer;
+    transition: background 0.1s;
 }
 
 .curious-finder__list-row:nth-child(even) {
-  background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .curious-finder__list-row:hover {
-  background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .curious-finder__list-row.is-selected {
-  background: #007aff;
-  color: #ffffff;
+    background: #007aff;
+    color: #ffffff;
 }
 
 .curious-finder__list-name {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
 }
 
 .curious-finder__list-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: #007aff;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #007aff;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .curious-finder__list-tag {
-  font-size: 10.5px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.5);
+    font-size: 10.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* 1:1 macOS Finder Footer Pathbar */
 .curious-finder__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 28px;
-  padding: 0 14px;
-  background: rgba(18, 18, 22, 0.85);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 28px;
+    padding: 0 14px;
+    background: rgba(18, 18, 22, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .curious-finder__path {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .curious-finder__path-sep {
-  opacity: 0.35;
+    opacity: 0.35;
 }
 
 .curious-finder__path-active {
-  color: rgba(255, 255, 255, 0.88);
-  font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 600;
 }
 
 .curious-finder__status {
-  font-size: 11px;
-  opacity: 0.55;
+    font-size: 11px;
+    opacity: 0.55;
+}
+
+/* =============================================================================
+   macOS Boot Loading Screen — 1:1 Apple Boot Replica
+   ============================================================================= */
+
+.mac-boot-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+  opacity: 1;
+  visibility: visible;
+}
+
+.mac-boot-screen--fading {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.mac-boot-screen__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.mac-boot-screen__logo-wrap {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.22),
+    0 16px 48px rgba(0, 0, 0, 0.9);
+  animation: mac-boot-pulse 2s ease-in-out infinite alternate;
+}
+
+.mac-boot-screen__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.mac-boot-screen__track {
+  width: 210px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.mac-boot-screen__bar {
+  height: 100%;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: width 0.04s linear;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+@keyframes mac-boot-pulse {
+  from {
+    filter: brightness(0.92);
+  }
+  to {
+    filter: brightness(1.12);
+  }
 }

@@ -134,32 +134,6 @@ function RangeIcon({ accent, size }: IconProps) {
   );
 }
 
-function GitHubIcon({ accent, size }: IconProps) {
-  return (
-    <IconShell accent={accent} size={size}>
-      <path
-        fill="white"
-        d="M32 18c-7.7 0-14 6.3-14 14 0 6.2 4 11.5 9.6 13.4.7.1 1-.3 1-.7v-2.5c-3.9.9-4.7-1.9-4.7-1.9-.6-1.6-1.6-2-1.6-2-1.3-.9.1-.9.1-.9 1.4.1 2.2 1.5 2.2 1.5 1.3 2.1 3.3 1.5 4.1 1.2.1-.9.5-1.5 1-1.9-3.5-.4-7.2-1.8-7.2-7.9 0-1.7.6-3.2 1.6-4.3-.2-.4-.7-2 .2-4.1 0 0 1.3-.4 4.3 1.6 1.2-.3 2.6-.5 3.9-.5s2.7.2 3.9.5c3-2 4.3-1.6 4.3-1.6.9 2.1.4 3.7.2 4.1 1 1.1 1.6 2.6 1.6 4.3 0 6.2-3.7 7.5-7.2 7.9.6.5 1.1 1.4 1.1 2.9v4.3c0 .4.3.8 1 .7 5.6-1.9 9.6-7.2 9.6-13.4 0-7.7-6.3-14-14-14z"
-      />
-    </IconShell>
-  );
-}
-
-function LinkedInIcon({ accent, size }: IconProps) {
-  return (
-    <IconShell accent={accent} size={size}>
-      <rect x="20" y="28" width="6" height="16" rx="1" fill="white" />
-      <circle cx="23" cy="22" r="3.5" fill="white" />
-      <path
-        d="M32 28v16M32 34c0-4 2-6 6-6s6 2 6 6v10"
-        stroke="white"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-    </IconShell>
-  );
-}
-
 function MailIcon({ accent, size }: IconProps) {
   return (
     <IconShell accent={accent} size={size}>
@@ -192,19 +166,97 @@ function PdfIcon({ size = 48 }: { size?: number }) {
   );
 }
 
-function FolderIcon({ accent, size }: IconProps) {
+function FolderIcon({ accent = "#007aff", size = 48, iconImage }: IconProps & { iconImage?: string }) {
+  const badgeSize = Math.round(size * 0.42);
+  const badgeRadius = Math.round(badgeSize * 0.22);
+  const accentKey = accent.replace("#", "");
+
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden className="curious-app-icon">
-      <path
-        d="M8 20c0-2.2 1.8-4 4-4h12l4 4h24c2.2 0 4 1.8 4 4v28c0 2.2-1.8 4-4 4H12c-2.2 0-4-1.8-4-4V20z"
-        fill={accent}
-        fillOpacity="0.85"
-      />
-      <path
-        d="M8 24h48v28c0 2.2-1.8 4-4 4H12c-2.2 0-4-1.8-4-4V24z"
-        fill={accent}
-      />
-    </svg>
+    <span
+      className="curious-app-folder-icon"
+      style={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: size,
+        height: size,
+        flexShrink: 0,
+      }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 64 64"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden
+      >
+        <defs>
+          <linearGradient id={`folder-back-${accentKey}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#2c94ff" />
+            <stop offset="100%" stopColor="#0066d6" />
+          </linearGradient>
+          <linearGradient id={`folder-front-${accentKey}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#4cb0ff" />
+            <stop offset="100%" stopColor="#0077f2" />
+          </linearGradient>
+        </defs>
+
+        {/* Folder Back Tab */}
+        <path
+          d="M6 16C6 13.7909 7.79086 12 10 12H24C26.5 12 28.5 14 30.5 16.5L32.5 19H54C56.2091 19 58 20.7909 58 23V50C58 52.2091 56.2091 54 54 54H10C7.79086 54 6 52.2091 6 50V16Z"
+          fill={`url(#folder-back-${accentKey})`}
+        />
+
+        {/* Paper Sheet Preview Inside Folder */}
+        <rect x="13" y="18" width="38" height="22" rx="3" fill="#ffffff" fillOpacity="0.9" />
+        <line x1="19" y1="23" x2="35" y2="23" stroke="#0066d6" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.4" />
+        <line x1="19" y1="28" x2="43" y2="28" stroke="#0066d6" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.3" />
+
+        {/* Folder Front Cover Flap */}
+        <path
+          d="M5 24C5 21.7909 6.79086 20 9 20H55C57.2091 20 59 21.7909 59 24V50C59 52.7614 56.7614 55 54 55H10C7.23858 55 5 52.7614 5 50V24Z"
+          fill={`url(#folder-front-${accentKey})`}
+        />
+
+        {/* Top Edge Highlight on Front Flap */}
+        <path
+          d="M9 20.5H55C56.933 20.5 58.5 22.067 58.5 24V25H5.5V24C5.5 22.067 7.067 20.5 9 20.5Z"
+          fill="white"
+          fillOpacity="0.32"
+        />
+      </svg>
+
+      {/* Embedded Mini Project Logo Badge */}
+      {iconImage ? (
+        <span
+          style={{
+            position: "absolute",
+            top: "56%",
+            left: "50%",
+            transform: "translate(-50%, -40%)",
+            width: badgeSize,
+            height: badgeSize,
+            borderRadius: badgeRadius,
+            overflow: "hidden",
+            boxShadow: "0 3px 8px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.5)",
+            background: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={iconImage}
+            alt=""
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            draggable={false}
+          />
+        </span>
+      ) : null}
+    </span>
   );
 }
 
@@ -235,6 +287,10 @@ export function CuriousAppIcon({
   size = 48,
   iconImage,
 }: Pick<CuriousItem, "icon" | "accent"> & { size?: number; iconImage?: string }) {
+  if (icon === "folder") {
+    return <FolderIcon accent={accent} size={size} iconImage={iconImage} />;
+  }
+
   if (iconImage) {
     return <ImageIcon iconImage={iconImage} size={size} />;
   }
@@ -266,8 +322,6 @@ export function CuriousAppIcon({
       return <GlobeIcon {...props} />;
     case "pdf":
       return <PdfIcon size={size} />;
-    case "folder":
-      return <FolderIcon {...props} />;
     default:
       return <GlobeIcon {...props} />;
   }

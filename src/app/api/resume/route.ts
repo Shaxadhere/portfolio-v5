@@ -13,11 +13,34 @@ export async function GET(request: NextRequest) {
                'unknown';
 
     // Extract Vercel Geolocation headers
-    const country = headersList.get('x-vercel-ip-country') || 'unknown';
-    const region = headersList.get('x-vercel-ip-country-region') || 'unknown';
-    const city = headersList.get('x-vercel-ip-city') || 'unknown';
-    const latitude = headersList.get('x-vercel-ip-latitude') || 'unknown';
-    const longitude = headersList.get('x-vercel-ip-longitude') || 'unknown';
+    let country = headersList.get('x-vercel-ip-country') || 'unknown';
+    let region = headersList.get('x-vercel-ip-country-region') || 'unknown';
+    let city = headersList.get('x-vercel-ip-city') || 'unknown';
+    let latitude = headersList.get('x-vercel-ip-latitude') || 'unknown';
+    let longitude = headersList.get('x-vercel-ip-longitude') || 'unknown';
+
+    // Fallback IP lookup if geolocation headers are absent and IP is public
+    if (country === 'unknown' && ip !== 'unknown' && !ip.startsWith('127.') && ip !== '::1' && !ip.startsWith('192.168.') && !ip.startsWith('10.')) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 1200);
+        const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, {
+          signal: controller.signal,
+          headers: { 'User-Agent': 'portfolio-analytics/1.0' },
+        });
+        clearTimeout(timeoutId);
+        if (geoRes.ok) {
+          const geoData = await geoRes.json();
+          if (geoData.country_code) country = geoData.country_code;
+          if (geoData.region_code) region = geoData.region_code;
+          if (geoData.city) city = geoData.city;
+          if (geoData.latitude) latitude = String(geoData.latitude);
+          if (geoData.longitude) longitude = String(geoData.longitude);
+        }
+      } catch {
+        // Continue silently if geo lookup fails or times out
+      }
+    }
 
     // Parse User-Agent using Next.js helper
     const ua = userAgent(request);

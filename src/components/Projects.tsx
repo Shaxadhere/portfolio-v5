@@ -55,7 +55,8 @@ export function Projects() {
           {featuredProjects.map((project, index) => (
             <article
               key={project.name}
-              className="project-card group relative overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)]"
+              data-track-project={project.name}
+              className="project-card group relative overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)] cursor-pointer"
             >
               <ProjectShape3D
                 variant={index as 0 | 1 | 2 | 3}

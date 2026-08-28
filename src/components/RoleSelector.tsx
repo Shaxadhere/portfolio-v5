@@ -90,6 +90,7 @@ export function RoleSelector() {
               href={role.href}
               className={`gate-card gate-card--${role.id}`}
               data-gate-card
+              data-track-role={role.id}
             >
               <div className="gate-card__top">
                 <span className="gate-card__index">{role.index}</span>

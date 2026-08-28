@@ -158,12 +158,17 @@ export function FounderView() {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-project={project.name}
                 className="founder__marquee-card founder__marquee-card--link"
               >
                 {content}
               </a>
             ) : (
-              <article key={`${project.id}-${i}`} className="founder__marquee-card">
+              <article
+                key={`${project.id}-${i}`}
+                data-track-project={project.name}
+                className="founder__marquee-card"
+              >
                 {content}
               </article>
             );
@@ -180,6 +185,7 @@ export function FounderView() {
           {projects.map((project, i) => (
             <article
               key={project.id}
+              data-track-project={project.name}
               className="founder__built-card"
               data-founder-section
               style={{ "--delay": i } as CSSProperties}

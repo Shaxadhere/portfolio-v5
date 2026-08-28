@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Newsreader, Space_Mono } from "next/font/google";
+import { TelemetryProvider } from "@/components/telemetry/TelemetryProvider";
 import "./globals.css";
 
 const bricolage = Bricolage_Grotesque({
@@ -45,7 +46,9 @@ export default function RootLayout({
       lang="en"
       className={`${bricolage.variable} ${newsreader.variable} ${spaceMono.variable} h-full`}
     >
-      <body className="min-h-full antialiased">{children}</body>
+      <body className="min-h-full antialiased">
+        <TelemetryProvider>{children}</TelemetryProvider>
+      </body>
     </html>
   );
 }

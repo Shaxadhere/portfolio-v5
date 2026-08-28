@@ -112,7 +112,7 @@ export function RecruiterView() {
             <p className="bento-products__count">{projects.length} projects shipped</p>
             <div className="bento-products">
               {projects.map((project) => (
-                <article key={project.id} className="bento-product">
+                <article key={project.id} className="bento-product" data-track-project={project.name}>
                   <CuriousAppIcon
                     icon={project.icon}
                     accent={project.accent}

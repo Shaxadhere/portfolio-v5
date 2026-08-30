@@ -9,6 +9,7 @@ export type TelemetryEventType =
   | "project_click"
   | "section_view"
   | "role_select"
+  | "resume_download"
   | "outbound_click"
   | "contact_interaction";
 
@@ -16,10 +17,29 @@ export interface TelemetryPayload {
   eventType: TelemetryEventType;
   path: string;
   referrer?: string;
+  queryString?: string;
+  queryParams?: Record<string, string>;
   metadata?: Record<string, unknown>;
   visitorId?: string;
   sessionId?: string;
   timestamp?: number;
+}
+
+export function getQueryParams(): { queryString: string; queryParams: Record<string, string> } {
+  if (typeof window === "undefined") return { queryString: "", queryParams: {} };
+  const search = window.location.search || "";
+  const params: Record<string, string> = {};
+  if (search) {
+    try {
+      const urlParams = new URLSearchParams(search);
+      urlParams.forEach((val, key) => {
+        params[key] = val;
+      });
+    } catch {
+      // ignore
+    }
+  }
+  return { queryString: search, queryParams: params };
 }
 
 const VISITOR_KEY = "sa_visitor_id";
@@ -73,12 +93,16 @@ export function sendTelemetryEvent(payload: TelemetryPayload) {
     return;
   }
 
+  const { queryString, queryParams } = getQueryParams();
+
   const enrichedPayload: TelemetryPayload = {
     ...payload,
     visitorId: payload.visitorId || getOrCreateVisitorId(),
     sessionId: payload.sessionId || getOrCreateSessionId(),
     timestamp: payload.timestamp || Date.now(),
     referrer: payload.referrer || (typeof document !== "undefined" ? document.referrer : ""),
+    queryString: payload.queryString !== undefined ? payload.queryString : queryString,
+    queryParams: payload.queryParams !== undefined ? payload.queryParams : queryParams,
   };
 
   const body = JSON.stringify(enrichedPayload);

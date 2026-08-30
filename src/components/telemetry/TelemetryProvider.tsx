@@ -200,9 +200,23 @@ export function TelemetryProvider({ children }: { children: React.ReactNode }) {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      // Project clicks
-      const projectEl = target.closest<HTMLElement>("[data-track-project], .bento-product, .project-card, a[href*='github.com'], a[href*='http']");
-      if (projectEl) {
+      // Resume download clicks
+      const resumeEl = target.closest<HTMLElement>(
+        "a[href*='/api/resume'], a[href*='resume.pdf'], [data-track-resume], .recruiter__resume-btn, .bento-resume-link"
+      );
+      if (resumeEl) {
+        const href = resumeEl.getAttribute("href") || "/api/resume";
+        trackEvent("resume_download", {
+          source: pathname,
+          url: href,
+        });
+      }
+
+      // Project clicks (excluding resume clicks)
+      const projectEl = target.closest<HTMLElement>(
+        "[data-track-project], .bento-product:not(.bento--resume), .project-card, a[href*='github.com'], a[href*='http']"
+      );
+      if (projectEl && !resumeEl) {
         const projectName =
           projectEl.getAttribute("data-track-project") ||
           projectEl.querySelector("h3")?.textContent?.trim() ||
@@ -239,7 +253,7 @@ export function TelemetryProvider({ children }: { children: React.ReactNode }) {
 
     document.addEventListener("click", handleClick, { capture: true });
     return () => document.removeEventListener("click", handleClick, { capture: true });
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 }

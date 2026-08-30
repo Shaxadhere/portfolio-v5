@@ -45,10 +45,25 @@ export async function GET(request: NextRequest) {
     // Parse User-Agent using Next.js helper
     const ua = userAgent(request);
 
+    // Extract query string & parameters
+    const { searchParams } = new URL(request.url);
+    const queryString = request.url.includes("?") ? `?${request.url.split("?")[1]}` : "";
+    const queryParams: Record<string, string> = {};
+    searchParams.forEach((val, key) => {
+      queryParams[key] = val;
+    });
+
+    const sessionId = searchParams.get("sessionId") || searchParams.get("sid") || undefined;
+    const visitorId = searchParams.get("visitorId") || searchParams.get("vid") || undefined;
+
     // Build log document
     const downloadEvent = {
       timestamp: new Date(),
       ip,
+      sessionId,
+      visitorId,
+      queryString,
+      queryParams,
       location: {
         country,
         region,
@@ -84,6 +99,32 @@ export async function GET(request: NextRequest) {
     const client = await getClientPromise();
     const db = client.db('portfolio');
     await db.collection('resume_downloads').insertOne(downloadEvent);
+
+    // Update visitor_sessions if matching sessionId or recent IP session exists
+    if (sessionId) {
+      await db.collection('visitor_sessions').updateOne(
+        { sessionId },
+        {
+          $set: {
+            downloadedResume: true,
+            resumeDownloadedAt: new Date(),
+          },
+        }
+      );
+    } else if (ip && ip !== "unknown") {
+      // Find most recent session for this IP within last 2 hours
+      const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+      await db.collection('visitor_sessions').updateOne(
+        { ip, startedAt: { $gte: twoHoursAgo } },
+        {
+          $set: {
+            downloadedResume: true,
+            resumeDownloadedAt: new Date(),
+          },
+        },
+        { sort: { startedAt: -1 } }
+      );
+    }
 
   } catch (error) {
     // Silence errors to keep the resume accessible even if analytics logging fails

@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
       eventType,
       path = "/",
       referrer = "",
+      queryString = "",
+      queryParams = {},
       metadata = {},
       visitorId = "anon",
       sessionId = "anon_session",
@@ -89,6 +91,8 @@ export async function POST(request: NextRequest) {
       visitorId,
       eventType,
       path,
+      queryString: queryString || "",
+      queryParams: queryParams || {},
       metadata,
       timestamp: eventDate,
       ip,
@@ -162,6 +166,19 @@ export async function POST(request: NextRequest) {
       updateFields.roleSelected = String(metadata.role);
     }
 
+    if (eventType === "resume_download") {
+      updateFields.downloadedResume = true;
+      updateFields.resumeDownloadedAt = eventDate;
+    }
+
+    if (queryParams && typeof queryParams === "object" && Object.keys(queryParams).length > 0) {
+      const mergedParams = { ...(existingSession?.queryParams || {}), ...queryParams };
+      updateFields.queryParams = mergedParams;
+      if (!existingSession?.entryQueryString && queryString) {
+        updateFields.entryQueryString = queryString;
+      }
+    }
+
     const pushUpdates: Record<string, any> = {};
 
     if (path) {
@@ -188,9 +205,13 @@ export async function POST(request: NextRequest) {
         startedAt: eventDate,
         lastActiveAt: eventDate,
         entryPage: path,
+        entryQueryString: queryString || "",
+        queryParams: queryParams || {},
         referrer: referrer || headersList.get("referer") || "direct",
         totalDurationSeconds: durationSeconds || 0,
         maxScrollDepth: scrollDepth || 0,
+        downloadedResume: eventType === "resume_download",
+        resumeDownloadedAt: eventType === "resume_download" ? eventDate : null,
         pagesVisited: [path],
         projectsClicked:
           eventType === "project_click" && metadata?.projectName

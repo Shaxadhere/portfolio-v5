@@ -20,6 +20,9 @@ import {
   Eye,
   ArrowDown,
   Layers,
+  Download,
+  Tag,
+  FileText,
 } from "lucide-react";
 
 export interface VisitorSessionRecord {
@@ -29,9 +32,13 @@ export interface VisitorSessionRecord {
   startedAt: string | Date;
   lastActiveAt: string | Date;
   entryPage: string;
+  entryQueryString?: string;
+  queryParams?: Record<string, string>;
   referrer: string;
   totalDurationSeconds: number;
   maxScrollDepth: number;
+  downloadedResume?: boolean;
+  resumeDownloadedAt?: string | Date;
   pagesVisited: string[];
   projectsClicked: Array<{ name: string; url?: string; timestamp?: string | Date }>;
   sectionsViewed: string[];
@@ -172,6 +179,8 @@ export default function VisitorSessionDetailModal({
     switch (type) {
       case "page_view":
         return <Navigation className="w-3.5 h-3.5 text-[#3de8ff]" />;
+      case "resume_download":
+        return <Download className="w-3.5 h-3.5 text-[#e8ff47]" />;
       case "project_click":
         return <MousePointerClick className="w-3.5 h-3.5 text-[#e8ff47]" />;
       case "scroll_depth":
@@ -191,6 +200,8 @@ export default function VisitorSessionDetailModal({
     switch (ev.eventType) {
       case "page_view":
         return `Visited page "${ev.path}"`;
+      case "resume_download":
+        return `Downloaded Resume PDF (${ev.path})`;
       case "project_click":
         return `Clicked project "${ev.metadata?.projectName || 'Project'}"`;
       case "scroll_depth":
@@ -209,6 +220,10 @@ export default function VisitorSessionDetailModal({
         return `${ev.eventType} on ${ev.path}`;
     }
   };
+
+  const hasQueryParams =
+    Boolean(session.entryQueryString) ||
+    Boolean(session.queryParams && Object.keys(session.queryParams).length > 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in font-sans">
@@ -229,7 +244,7 @@ export default function VisitorSessionDetailModal({
               )}
             </div>
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-base font-semibold text-[#f0ebe3]">
                   Visitor Session Journey
                 </h3>
@@ -242,6 +257,12 @@ export default function VisitorSessionDetailModal({
                 >
                   {isBot ? "Bot / Crawler" : "Active Visitor"}
                 </span>
+                {session.downloadedResume && (
+                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#e8ff47]/20 text-[#e8ff47] border border-[#e8ff47]/40 flex items-center gap-1 font-semibold">
+                    <Download className="w-3 h-3" />
+                    Resume Downloaded
+                  </span>
+                )}
                 {session.roleSelected && (
                   <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[#e8ff47]/15 text-[#e8ff47] border border-[#e8ff47]/30">
                     Role: {session.roleSelected}
@@ -285,10 +306,10 @@ export default function VisitorSessionDetailModal({
 
             <div className="p-3 rounded-xl bg-[#1a1a20]/70 border border-[rgba(240,235,227,0.06)]">
               <span className="text-[10px] font-mono text-[#a8a29e] uppercase block">
-                Pages Visited
+                Resume Downloaded
               </span>
-              <p className="font-mono text-base font-bold text-[#f0ebe3] mt-0.5">
-                {session.pagesVisited?.length || 1}
+              <p className={`font-mono text-base font-bold mt-0.5 ${session.downloadedResume ? "text-[#e8ff47]" : "text-[#a8a29e]"}`}>
+                {session.downloadedResume ? "Yes ✓" : "No"}
               </p>
             </div>
 
@@ -357,6 +378,56 @@ export default function VisitorSessionDetailModal({
               </div>
             </div>
           </div>
+
+          {/* Query String & Campaign Parameters (if present) */}
+          {hasQueryParams && (
+            <div className="p-4 rounded-xl bg-[#1a1a20]/70 border border-[rgba(240,235,227,0.06)] space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-xs font-mono text-[#a8a29e] uppercase">
+                  <Tag className="w-3.5 h-3.5 text-[#e8ff47]" />
+                  URL Query String & Campaign Attribution
+                </span>
+                {session.entryQueryString && (
+                  <button
+                    onClick={() => copyToClipboard(session.entryQueryString || "", "qs")}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-[#a8a29e] hover:text-[#e8ff47] transition-colors cursor-pointer"
+                  >
+                    {copiedField === "qs" ? (
+                      <>
+                        <Check className="w-3 h-3 text-[#e8ff47]" />
+                        <span className="text-[#e8ff47]">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3" />
+                        <span>Copy Query</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+
+              {session.entryQueryString && (
+                <div className="font-mono text-xs text-[#3de8ff] bg-[#121216] p-2.5 rounded-lg border border-[rgba(240,235,227,0.05)] break-all select-all">
+                  {session.entryQueryString}
+                </div>
+              )}
+
+              {session.queryParams && Object.keys(session.queryParams).length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {Object.entries(session.queryParams).map(([key, val]) => (
+                    <div
+                      key={key}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#121216] border border-[#3de8ff]/20 text-xs font-mono"
+                    >
+                      <span className="text-[#a8a29e]">{key}:</span>
+                      <span className="text-[#e8ff47] font-semibold">{val}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Chronological Event Stream */}
           <div className="p-4 rounded-xl bg-[#1a1a20]/70 border border-[rgba(240,235,227,0.06)] space-y-3">

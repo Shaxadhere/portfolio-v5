@@ -27,6 +27,8 @@ import {
   MousePointerClick,
   Sparkles,
   ArrowDown,
+  Tag,
+  Link,
 } from "lucide-react";
 import {
   ActivityTimelineChart,
@@ -74,10 +76,13 @@ interface VisitorsResponse {
     botCount: number;
     humanRatio: number;
     totalProjectClicks: number;
+    downloadedResumeCount?: number;
+    resumeConversionRate?: number;
   };
   topProjects: Array<{ name: string; count: number }>;
   pageBreakdown: Array<{ path: string; count: number; percentage: number }>;
   sectionBreakdown: Array<{ section: string; count: number; percentage: number }>;
+  campaignBreakdown?: Array<{ source: string; count: number; percentage: number }>;
   roleDistribution: Record<string, number>;
   timeline: TimelinePoint[];
   pagination: {
@@ -124,7 +129,9 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
     totalPages: 1,
   });
   const [visitorSearch, setVisitorSearch] = useState("");
-  const [visitorFilter, setVisitorFilter] = useState<"all" | "human" | "bot" | "mobile" | "desktop" | "projects_clicked">("all");
+  const [visitorFilter, setVisitorFilter] = useState<
+    "all" | "human" | "bot" | "resume_downloaded" | "has_query_params" | "mobile" | "desktop" | "projects_clicked"
+  >("all");
   const [inspectVisitor, setInspectVisitor] = useState<VisitorSessionRecord | null>(null);
   const [loadingVisitors, setLoadingVisitors] = useState(true);
 
@@ -406,7 +413,7 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
         {activeTab === "visitors" && (
           <div className="space-y-8 animate-fade-in">
             {/* KPI Metric Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
               <div className="p-4 rounded-2xl bg-[#121216]/90 border border-[rgba(240,235,227,0.08)]">
                 <span className="flex items-center gap-1.5 text-xs font-mono text-[#a8a29e] uppercase mb-1">
                   <Navigation className="w-3.5 h-3.5 text-[#3de8ff]" />
@@ -450,7 +457,7 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                 <p className="text-2xl font-bold font-mono text-[#ff8c73]">
                   {visitorsData?.metrics?.avgScrollDepth || 0}%
                 </p>
-                <span className="text-[10px] text-[#a8a29e] font-mono">vertical read reach</span>
+                <span className="text-[10px] text-[#a8a29e] font-mono">vertical reach</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-[#121216]/90 border border-[rgba(240,235,227,0.08)]">
@@ -461,7 +468,20 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                 <p className="text-2xl font-bold font-mono text-[#e8ff47]">
                   {visitorsData?.metrics?.totalProjectClicks || 0}
                 </p>
-                <span className="text-[10px] text-[#a8a29e] font-mono">portfolio interactions</span>
+                <span className="text-[10px] text-[#a8a29e] font-mono">interactions</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-[#121216]/90 border border-[rgba(240,235,227,0.08)]">
+                <span className="flex items-center gap-1.5 text-xs font-mono text-[#a8a29e] uppercase mb-1">
+                  <Download className="w-3.5 h-3.5 text-[#e8ff47]" />
+                  Resume Downloads
+                </span>
+                <p className="text-2xl font-bold font-mono text-[#e8ff47]">
+                  {visitorsData?.metrics?.downloadedResumeCount || 0}
+                </p>
+                <span className="text-[10px] text-[#a8a29e] font-mono">
+                  {visitorsData?.metrics?.resumeConversionRate || 0}% session rate
+                </span>
               </div>
 
               <div className="p-4 rounded-2xl bg-[#121216]/90 border border-[rgba(240,235,227,0.08)]">
@@ -473,7 +493,7 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                   {visitorsData?.metrics?.humanRatio || 0}%
                 </p>
                 <span className="text-[10px] text-[#a8a29e] font-mono">
-                  {visitorsData?.metrics?.humanCount || 0} real / {visitorsData?.metrics?.botCount || 0} bot
+                  {visitorsData?.metrics?.humanCount || 0} human / {visitorsData?.metrics?.botCount || 0} bots
                 </span>
               </div>
             </div>
@@ -638,6 +658,32 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                     )}
                   </div>
                 </div>
+
+                {/* Campaign & UTM Source Breakdown */}
+                {visitorsData?.campaignBreakdown && visitorsData.campaignBreakdown.length > 0 && (
+                  <div className="p-5 sm:p-6 rounded-2xl bg-[#121216]/90 border border-[rgba(240,235,227,0.08)] space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Tag className="w-4 h-4 text-[#3de8ff]" />
+                      <h2 className="text-sm font-semibold uppercase tracking-wider font-mono text-[#f0ebe3]">
+                        Campaign & UTM Sources
+                      </h2>
+                    </div>
+
+                    <div className="space-y-2">
+                      {visitorsData.campaignBreakdown.map((item) => (
+                        <div
+                          key={item.source}
+                          className="p-2.5 rounded-xl bg-[#1a1a20]/60 border border-[rgba(240,235,227,0.06)] flex items-center justify-between text-xs font-mono"
+                        >
+                          <span className="text-[#3de8ff] font-semibold">{item.source}</span>
+                          <span className="text-[#e8ff47]">
+                            {item.count} sessions ({item.percentage}%)
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -649,7 +695,7 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                     Visitor Session Records
                   </h2>
                   <p className="text-xs text-[#a8a29e] font-mono">
-                    Click any session to view their full chronological action stream and project interactions.
+                    Click any session to view their full chronological action stream, campaigns, and project interactions.
                   </p>
                 </div>
 
@@ -659,7 +705,7 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                     <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#a8a29e]" />
                     <input
                       type="text"
-                      placeholder="Search IP, city, project, page..."
+                      placeholder="Search IP, city, query, page..."
                       value={visitorSearch}
                       onChange={(e) => setVisitorSearch(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && fetchVisitors(1)}
@@ -674,6 +720,8 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                   >
                     <option value="all">All Visitors</option>
                     <option value="human">Humans Only</option>
+                    <option value="resume_downloaded">Downloaded Resume ✓</option>
+                    <option value="has_query_params">Campaign / Query Strings</option>
                     <option value="projects_clicked">Clicked Projects</option>
                     <option value="mobile">Mobile Devices</option>
                     <option value="desktop">Desktop</option>
@@ -723,6 +771,12 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                             })
                           : "—";
 
+                        const campaignTag =
+                          s.queryParams?.utm_source ||
+                          s.queryParams?.ref ||
+                          s.queryParams?.source ||
+                          (s.entryQueryString ? "query" : null);
+
                         return (
                           <tr
                             key={s.id || s.sessionId}
@@ -734,11 +788,21 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
                             </td>
 
                             <td className="px-4 py-3 whitespace-nowrap">
-                              <div className="flex items-center gap-1.5">
+                              <div className="flex flex-wrap items-center gap-1.5">
                                 <span className="text-[#3de8ff] font-semibold">{s.ip}</span>
                                 {isBot && (
                                   <span className="text-[10px] px-1 py-0.2 rounded bg-[#ff5c3d]/20 text-[#ff8c73]">
                                     bot
+                                  </span>
+                                )}
+                                {s.downloadedResume && (
+                                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#e8ff47]/20 text-[#e8ff47] border border-[#e8ff47]/40 font-semibold inline-flex items-center gap-0.5">
+                                    <Download className="w-2.5 h-2.5" /> PDF
+                                  </span>
+                                )}
+                                {campaignTag && (
+                                  <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#3de8ff]/15 text-[#3de8ff] border border-[#3de8ff]/30 font-mono">
+                                    ?{campaignTag}
                                   </span>
                                 )}
                               </div>

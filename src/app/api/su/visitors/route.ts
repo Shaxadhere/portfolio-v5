@@ -58,6 +58,10 @@ export async function GET(request: NextRequest) {
       queryFilter["userAgent.isBot"] = { $ne: true };
     } else if (filter === "bot") {
       queryFilter["userAgent.isBot"] = true;
+    } else if (filter === "resume_downloaded") {
+      queryFilter.downloadedResume = true;
+    } else if (filter === "has_query_params") {
+      queryFilter.entryQueryString = { $exists: true, $ne: "" };
     } else if (filter === "mobile") {
       queryFilter["userAgent.device"] = { $regex: /mobile|phone|tablet/i };
     } else if (filter === "desktop") {
@@ -74,6 +78,7 @@ export async function GET(request: NextRequest) {
         { "location.city": regex },
         { "location.country": regex },
         { entryPage: regex },
+        { entryQueryString: regex },
         { pagesVisited: regex },
         { "projectsClicked.name": regex },
         { roleSelected: regex },
@@ -105,11 +110,13 @@ export async function GET(request: NextRequest) {
     let singlePageSessionCount = 0;
     let humanCount = 0;
     let botCount = 0;
+    let downloadedResumeCount = 0;
 
     const projectCounts: Record<string, { name: string; count: number }> = {};
     const pageCounts: Record<string, number> = {};
     const sectionCounts: Record<string, number> = {};
     const roleCounts: Record<string, number> = { recruiter: 0, founder: 0, curious: 0, none: 0 };
+    const utmSourceCounts: Record<string, number> = {};
     const dailyMap: Record<string, { count: number; dateStr: string; timestamp: number }> = {};
 
     allRangeSessions.forEach((s) => {
@@ -124,6 +131,17 @@ export async function GET(request: NextRequest) {
       const isBot = !!s.userAgent?.isBot;
       if (isBot) botCount++;
       else humanCount++;
+
+      if (s.downloadedResume) {
+        downloadedResumeCount++;
+      }
+
+      // Track UTM / campaign source
+      const utm = s.queryParams?.utm_source || s.queryParams?.ref || s.queryParams?.source;
+      if (utm) {
+        const utmKey = String(utm).toLowerCase();
+        utmSourceCounts[utmKey] = (utmSourceCounts[utmKey] || 0) + 1;
+      }
 
       const pages = Array.isArray(s.pagesVisited) ? s.pagesVisited : [s.entryPage || "/"];
       if (pages.length <= 1 && duration < 10) {
@@ -210,6 +228,15 @@ export async function GET(request: NextRequest) {
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
+    // Format campaigns / sources
+    const campaignBreakdown = Object.entries(utmSourceCounts)
+      .map(([source, count]) => ({
+        source,
+        count,
+        percentage: totalSessions > 0 ? Math.round((count / totalSessions) * 100) : 0,
+      }))
+      .sort((a, b) => b.count - a.count);
+
     const timeline = Object.values(dailyMap).sort((a, b) => a.timestamp - b.timestamp);
 
     return NextResponse.json({
@@ -224,10 +251,13 @@ export async function GET(request: NextRequest) {
         botCount,
         humanRatio: totalSessions > 0 ? Math.round((humanCount / totalSessions) * 100) : 0,
         totalProjectClicks: Object.values(projectCounts).reduce((acc, p) => acc + p.count, 0),
+        downloadedResumeCount,
+        resumeConversionRate: totalSessions > 0 ? Math.round((downloadedResumeCount / totalSessions) * 100) : 0,
       },
       topProjects,
       pageBreakdown,
       sectionBreakdown,
+      campaignBreakdown,
       roleDistribution: roleCounts,
       timeline,
       pagination: {
@@ -243,9 +273,13 @@ export async function GET(request: NextRequest) {
         startedAt: s.startedAt,
         lastActiveAt: s.lastActiveAt,
         entryPage: s.entryPage || "/",
+        entryQueryString: s.entryQueryString || "",
+        queryParams: s.queryParams || {},
         referrer: s.referrer || "direct",
         totalDurationSeconds: s.totalDurationSeconds || 0,
         maxScrollDepth: s.maxScrollDepth || 0,
+        downloadedResume: Boolean(s.downloadedResume),
+        resumeDownloadedAt: s.resumeDownloadedAt || null,
         pagesVisited: s.pagesVisited || [],
         projectsClicked: s.projectsClicked || [],
         sectionsViewed: s.sectionsViewed || [],

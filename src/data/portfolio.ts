@@ -613,10 +613,10 @@ export const PORTFOLIO = {
       title: "Bytetrons Point of Sale",
       category: "Full Stack Development.",
       date: "Oct 2023",
-      link: "https://app.bytetrons.com/",
+      link: "https://pos-app.bytetrons.com/",
       shortDesc:
         "A complete POS system with inventory, billing, and real-time sales management.",
-      stack: "React.js, Chakra UI, React Query, Redux",
+      stack: "React.js, Tailwind CSS, React Query, Zustand, Axios",
       iconImage: "/icons/bytetrons-pos.png"
     },
     {

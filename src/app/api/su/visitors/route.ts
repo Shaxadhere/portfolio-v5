@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get("search")?.trim() || "";
     const filter = searchParams.get("filter") || "all";
     const inspectSessionId = searchParams.get("sessionId");
+    const sessionsOnly = searchParams.get("sessionsOnly") === "true";
 
     const client = await getClientPromise();
     const db = client.db("portfolio");
@@ -88,6 +89,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch matching sessions for pagination
     const totalMatching = await sessionCollection.countDocuments(queryFilter);
+    const totalPages = Math.ceil(totalMatching / limit) || 1;
     const skip = (page - 1) * limit;
 
     const sessions = await sessionCollection
@@ -96,6 +98,43 @@ export async function GET(request: NextRequest) {
       .skip(skip)
       .limit(limit)
       .toArray();
+
+    const sessionsMapped = sessions.map((s) => ({
+      id: s._id.toString(),
+      sessionId: s.sessionId,
+      visitorId: s.visitorId,
+      startedAt: s.startedAt,
+      lastActiveAt: s.lastActiveAt,
+      entryPage: s.entryPage || "/",
+      entryQueryString: s.entryQueryString || "",
+      queryParams: s.queryParams || {},
+      referrer: s.referrer || "direct",
+      totalDurationSeconds: s.totalDurationSeconds || 0,
+      maxScrollDepth: s.maxScrollDepth || 0,
+      downloadedResume: Boolean(s.downloadedResume),
+      resumeDownloadedAt: s.resumeDownloadedAt || null,
+      pagesVisited: s.pagesVisited || [],
+      projectsClicked: s.projectsClicked || [],
+      sectionsViewed: s.sectionsViewed || [],
+      roleSelected: s.roleSelected || null,
+      eventCount: s.eventCount || 1,
+      ip: s.ip || "unknown",
+      location: s.location || { country: "UNKNOWN", region: "", city: "" },
+      userAgent: s.userAgent || { raw: "", device: "desktop", isBot: false },
+    }));
+
+    // If only requesting session page records, return immediately without recomputing heavy aggregations
+    if (sessionsOnly) {
+      return NextResponse.json({
+        pagination: {
+          total: totalMatching,
+          page,
+          limit,
+          totalPages,
+        },
+        sessions: sessionsMapped,
+      });
+    }
 
     // Aggregations across all sessions in time range
     const baseRangeFilter: Record<string, any> = startDate ? { startedAt: { $gte: startDate } } : {};

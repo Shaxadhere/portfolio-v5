@@ -8,26 +8,16 @@ import type { CuriousItem } from "@/data/portfolio";
 import { MenuBar } from "@/components/curious/MenuBar";
 import { ProjectCloud } from "@/components/curious/ProjectCloud";
 import { MacDock } from "@/components/curious/MacDock";
-import { PreviewWindow } from "@/components/curious/PreviewWindow";
-import { FinderWindow } from "@/components/curious/FinderWindow";
+import { ProductWindow } from "@/components/curious/ProductWindow";
 import { MacBootScreen } from "@/components/curious/MacBootScreen";
 
 gsap.registerPlugin(useGSAP);
-
-export type ActiveFinderWindow = {
-  id: string;
-  item: CuriousItem;
-  zIndex: number;
-  position: { x: number; y: number };
-};
 
 export function MacDesktop() {
   const rootRef = useRef<HTMLDivElement>(null);
   const [isBooting, setIsBooting] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [previewItem, setPreviewItem] = useState<CuriousItem | null>(null);
-  const [finderWindows, setFinderWindows] = useState<ActiveFinderWindow[]>([]);
-  const maxZIndexRef = useRef(100);
+  const [activeProduct, setActiveProduct] = useState<CuriousItem | null>(null);
 
   useGSAP(
     () => {
@@ -50,60 +40,19 @@ export function MacDesktop() {
     { scope: rootRef, dependencies: [isBooting] },
   );
 
-  const focusFinderWindow = useCallback((id: string) => {
-    maxZIndexRef.current += 1;
-    const newZ = maxZIndexRef.current;
-    setFinderWindows((prev) =>
-      prev.map((win) => (win.id === id ? { ...win, zIndex: newZ } : win)),
-    );
+  /** Products open their info window first; links & the resume open directly */
+  const openItem = useCallback((item: CuriousItem) => {
+    if (item.kind === "product") {
+      setActiveProduct(item);
+      return;
+    }
+
+    if (item.url) {
+      window.open(item.url, "_blank", "noopener,noreferrer");
+    }
   }, []);
 
-  const openItem = useCallback(
-    (item: CuriousItem) => {
-      if (item.kind === "folder") {
-        maxZIndexRef.current += 1;
-        const newZ = maxZIndexRef.current;
-
-        setFinderWindows((prev) => {
-          const existing = prev.find((w) => w.id === item.id);
-          if (existing) {
-            return prev.map((w) => (w.id === item.id ? { ...w, zIndex: newZ } : w));
-          }
-
-          const count = prev.length;
-          const initialPos = {
-            x: Math.min(typeof window !== "undefined" ? window.innerWidth - 750 : 200, 160 + (count % 6) * 35),
-            y: Math.min(typeof window !== "undefined" ? window.innerHeight - 520 : 100, 75 + (count % 6) * 30),
-          };
-
-          return [
-            ...prev,
-            {
-              id: item.id,
-              item,
-              zIndex: newZ,
-              position: initialPos,
-            },
-          ];
-        });
-        return;
-      }
-
-      if (item.url) {
-        window.open(item.url, "_blank", "noopener,noreferrer");
-        return;
-      }
-
-      if (item.kind === "product" || item.kind === "pdf" || item.kind === "link") {
-        setPreviewItem(item);
-      }
-    },
-    [],
-  );
-
-  const closeFinderWindow = useCallback((id: string) => {
-    setFinderWindows((prev) => prev.filter((win) => win.id !== id));
-  }, []);
+  const closeProduct = useCallback(() => setActiveProduct(null), []);
 
   const clearSelection = () => setSelectedId(null);
 
@@ -131,24 +80,9 @@ export function MacDesktop() {
         />
       </main>
 
-      {/* Render open macOS Finder Windows */}
-      {finderWindows.map((win) => (
-        <FinderWindow
-          key={win.id}
-          item={win.item}
-          zIndex={win.zIndex}
-          initialPos={win.position}
-          onClose={() => closeFinderWindow(win.id)}
-          onFocus={() => focusFinderWindow(win.id)}
-          onOpenItem={openItem}
-        />
-      ))}
-
       <MacDock items={dockItems} onOpen={openItem} />
 
-      {previewItem ? (
-        <PreviewWindow item={previewItem} onClose={() => setPreviewItem(null)} />
-      ) : null}
+      {activeProduct ? <ProductWindow item={activeProduct} onClose={closeProduct} /> : null}
     </div>
   );
 }

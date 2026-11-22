@@ -10,6 +10,7 @@ import {
   tools,
   skillGroups,
   projects,
+  featuredProducts,
   experience,
   education,
   links,
@@ -75,6 +76,76 @@ export function RecruiterView() {
         </header>
 
         <div className="recruiter__grid" data-bento-grid>
+          {featuredProducts.length > 0 ? (
+            <section id="featured" className="bento bento--featured" data-bento-card>
+              <span className="bento__label">★ Featured</span>
+              <h2>Featured products I&apos;ve built</h2>
+              <div className="bento-featured">
+                {featuredProducts.map((product) => {
+                  const [only] = product.projects;
+                  const isGroup = product.projects.length > 1;
+
+                  return (
+                    <article
+                      key={product.id}
+                      className="bento-featured__card"
+                      data-track-project={product.name}
+                    >
+                      <div className="bento-featured__top">
+                        <CuriousAppIcon
+                          icon={product.icon}
+                          accent={product.accent}
+                          iconImage={product.iconImage}
+                          size={52}
+                        />
+                        <div className="bento-featured__meta">
+                          <span className="bento-product__tag">{product.tag}</span>
+                          <time className="bento-product__date">{product.date}</time>
+                        </div>
+                      </div>
+                      <h3>{product.name}</h3>
+                      <p>{product.description}</p>
+                      <div className="bento-product__stack">
+                        {product.stack.map((s) => (
+                          <span key={s}>{s}</span>
+                        ))}
+                      </div>
+                      {isGroup ? (
+                        <ul className="bento-featured__links">
+                          {product.projects.map((p) => (
+                            <li key={p.id}>
+                              {p.url ? (
+                                <a
+                                  href={p.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  data-track-project={p.name}
+                                >
+                                  {p.name} ↗
+                                </a>
+                              ) : (
+                                <span>{p.name} · private</span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : only.url ? (
+                        <a
+                          href={only.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bento-featured__link"
+                        >
+                          Visit product ↗
+                        </a>
+                      ) : null}
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
+
           <section id="tools" className="bento bento--tools" data-bento-card>
             <span className="bento__label">Toolbox</span>
             <h2>Tools I use</h2>

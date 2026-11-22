@@ -1,9 +1,26 @@
 // =============================================================================
 // PORTFOLIO DATA — single source of truth. Edit everything here.
 
-import { CuriousItem, Experience, Project, ProjectEntry, ProjectIcon } from "./types";
+import {
+  CuriousItem,
+  Experience,
+  FeaturedProduct,
+  ProductGroupEntry,
+  Project,
+  ProjectEntry,
+  ProjectIcon,
+} from "./types";
 
-export type { CuriousItem, Experience, ExperienceProject, Project, ProjectEntry, ProjectIcon } from "./types";
+export type {
+  CuriousItem,
+  Experience,
+  ExperienceProject,
+  FeaturedProduct,
+  ProductGroupEntry,
+  Project,
+  ProjectEntry,
+  ProjectIcon,
+} from "./types";
 
 // =============================================================================
 export const PORTFOLIO = {
@@ -60,6 +77,7 @@ export const PORTFOLIO = {
   ],
 
   recruiterNav: [
+    { id: "featured", label: "Featured" },
     { id: "tools", label: "Tools" },
     { id: "skills", label: "Skills" },
     { id: "products", label: "Products" },
@@ -226,6 +244,10 @@ export const PORTFOLIO = {
 
   // ── PROJECTS — add / edit entries here ──────────────────────────────────────
   // Optional: iconImage: "/project-icons/my-project.png"
+  // Optional: featured: true — shows the project in the "Featured products"
+  //           section of the Recruiter, Founder and Just Curious modes.
+  //           For a project inside a product group, flag the group instead
+  //           (see productGroups below) to feature the whole product as one card.
   projects: [
     {
       title: "Budget Pro Landing Site",
@@ -265,6 +287,7 @@ export const PORTFOLIO = {
         "A modern cruise-booking frontend built to deliver a smooth, visually rich, and user-friendly reservation experience.",
       stack: "React.js, Tailwind CSS, React Query.",
       iconImage: "/icons/aroya-cruises.png",
+      featured: true,
     },
     {
       title: "Simplifi Portal",
@@ -314,6 +337,26 @@ export const PORTFOLIO = {
       shortDesc:
         "A sleek, mobile-optimized website highlighting WithMe App's services and customer features.",
       stack: "Next.js, Tailwind CSS, Framer Motion",
+      iconImage: "/icons/withmeapp.ico",
+    },
+    {
+      title: "WithMe iOS App",
+      category: "Mobile App Development.",
+      link: "https://apps.apple.com/pk/app/withme-make-friends-nearby/id6824476698",
+      date: "April 2026",
+      shortDesc:
+        "A native iOS app for making friends nearby, built in SwiftUI on a NestJS + PostgreSQL backend running on AWS.",
+      stack: "Swift, SwiftUI, NestJS, PostgreSQL, AWS, AWS CDK",
+      iconImage: "/icons/withmeapp.ico",
+    },
+    {
+      title: "WithMe Android App",
+      category: "Mobile App Development.",
+      link: "https://play.google.com/store/apps/details?id=com.bytetronlabs.withme",
+      date: "April 2026",
+      shortDesc:
+        "A native Android app for making friends nearby, built in Kotlin on a NestJS + PostgreSQL backend running on AWS.",
+      stack: "Kotlin, NestJS, PostgreSQL, AWS, AWS CDK",
       iconImage: "/icons/withmeapp.ico",
     },
     {
@@ -449,7 +492,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A dynamic invoicing system with real-time invoice creation, tracking, and financial reporting.",
       stack: "React.js, Shadcn UI, Tailwind CSS, Node.js, MongoDB, React Query",
-      iconImage: "/icons/evolv.png"
+      iconImage: "/icons/evolv.png",
     },
     {
       title: "Forgot Me Knot Website",
@@ -498,7 +541,8 @@ export const PORTFOLIO = {
       shortDesc:
         "Admin dashboard for a fishing-focused social app where users can create in-app stores; admins manage users, stores, and revenue shares.",
       stack: "Vue.js, Vuestrap UI",
-      iconImage: "/icons/fishfinapp.webp"
+      iconImage: "/icons/fishfinapp.webp",
+      featured: true,
     },
     {
       title: "Range Webchat Admin Portal",
@@ -589,7 +633,8 @@ export const PORTFOLIO = {
       shortDesc:
         "A fleet-management frontend portal supporting vehicle tracking, reporting, and administrative tasks.",
       stack: "React.js, MUI, React Query, Zustand",
-      iconImage: "/icons/splifleet.webp"
+      iconImage: "/icons/splifleet.webp",
+      featured: true,
     },
     {
       title: "Shehzad Ahmed Portfolio",
@@ -617,7 +662,7 @@ export const PORTFOLIO = {
       shortDesc:
         "A complete POS system with inventory, billing, and real-time sales management.",
       stack: "React.js, Tailwind CSS, React Query, Zustand, Axios",
-      iconImage: "/icons/bytetrons-pos.png"
+      iconImage: "/icons/bytetrons-pos.png",
     },
     {
       title: "PTax, Your Complete Tax Assistant",
@@ -636,7 +681,8 @@ export const PORTFOLIO = {
       shortDesc:
         "A full-featured auditing platform enabling companies to create, manage, and review digital audits.",
       stack: "React.js, Node.js, MySQL, Express.js, MUI",
-      iconImage: "/icons/uraudits.webp"
+      iconImage: "/icons/uraudits.webp",
+      featured: true,
     },
     {
       title: "Fixnxl Web App",
@@ -715,6 +761,103 @@ export const PORTFOLIO = {
       description:
         "Custom chatbots, MCP servers, and agentic workflows in production apps.",
     },
+  ],
+
+  // ── PRODUCT GROUPS — bundle related projects into one product ───────────────
+  // In Just Curious mode each group is a single desktop / dock icon. Opening it
+  // shows an info window listing every project inside, each with its own link.
+  // projectIds are project titles in kebab-case, e.g. "Simplifi Portal" → "simplifi-portal".
+  // Optional: featured: true — features the whole product as one card in every mode.
+  productGroups: [
+    {
+      id: "budget-pro",
+      featured: true,
+      name: "Budget Pro",
+      label: "Budget Pro",
+      accent: "#ff9500",
+      iconImage: "/icons/budget-pro.png",
+      description: "Financial management suite — Landing site, Web app & Mobile app.",
+      projectIds: ["budget-pro-landing-site", "budget-pro-web-app", "budget-pro-mobile-app"],
+    },
+    {
+      id: "simplifipay",
+      featured: true,
+      name: "SimplifiPay Suite",
+      label: "SimplifiPay",
+      accent: "#0a84ff",
+      iconImage: "/icons/simplifipay.png",
+      description: "Fintech products — Simplifi Portal, SimplifiPay B2B & SimplifiGo.",
+      projectIds: ["simplifi-portal", "simplifipay-website", "simplifigo-website"],
+    },
+    {
+      id: "withme",
+      featured: true,
+      name: "WithMe",
+      label: "WithMe",
+      accent: "#5e5ce6",
+      iconImage: "/icons/withmeapp.ico",
+      description: "Make friends nearby — Website, iOS app & Android app.",
+      projectIds: ["withme-app-website", "withme-ios-app", "withme-android-app"],
+    },
+    {
+      id: "evolv",
+      name: "Evolv Ecosystem",
+      label: "Evolv LMS",
+      accent: "#34c759",
+      iconImage: "/icons/evolv.png",
+      description: "LMS ecosystem — Admin, Student Web App, Accounts & Invoicing.",
+      projectIds: [
+        "evolv-lms-admin",
+        "evolv-lms-student-web-app",
+        "evolv-accounts-app",
+        "evolv-lms-landing-site",
+        "evolv-invoices",
+      ],
+    },
+    {
+      id: "vitalize",
+      name: "Vitalize Health",
+      label: "Vitalize",
+      accent: "#bf5af2",
+      iconImage: "/icons/vitalize.png",
+      description: "Health & wellness platform — Website and Patient WebApp.",
+      projectIds: ["vitalize-website", "vitalize-webapp"],
+    },
+    {
+      id: "range",
+      name: "Range Comms",
+      label: "Range Comms",
+      accent: "#ff2d55",
+      iconImage: "/icons/digital-range.png",
+      description: "Real-time chat & communication SDKs and admin dashboards.",
+      projectIds: [
+        "range-webchat-admin-portal",
+        "range-clubchat-client-portal",
+        "range-webchat-floating-chatsdk",
+      ],
+    },
+    {
+      id: "artt",
+      name: "ARTT Suite",
+      label: "ARTT Education",
+      accent: "#5856d6",
+      iconImage: "/icons/artt.png",
+      description: "Educational platforms — Website, Accounting system & LMS.",
+      projectIds: ["artt-website", "eartt-accounting-system", "artt-lms-web-app"],
+    },
+  ] satisfies ProductGroupEntry[],
+
+  // ── FEATURED ORDER — display order of featured products in every mode ───────
+  // Product group ids or project ids. Anything flagged `featured: true` but not
+  // listed here appears after these, in projects-list order.
+  featuredOrder: [
+    "simplifipay",
+    "withme",
+    "aroya-cruise-booking",
+    "uraudits-web-app",
+    "siplifleet-admin",
+    "fishfin-admin-portal",
+    "budget-pro",
   ],
 
   curious: {
@@ -808,6 +951,7 @@ function enrichProject(entry: ProjectEntry, index: number): Project {
     date: entry.date,
     curiousFileName: toCuriousFileName(entry.title),
     curiousLabel: entry.title,
+    featured: entry.featured ?? false,
   };
 }
 
@@ -828,6 +972,8 @@ function projectToCuriousItem(project: Project): CuriousItem {
     accent: project.accent,
     icon: project.icon,
     iconImage: project.iconImage,
+    featured: project.featured,
+    projects: [project],
   };
 }
 
@@ -837,20 +983,8 @@ function getProject(id: string): Project {
   return project;
 }
 
-export const featuredProjects = projects.map(
-  ({ id, name, tag, description, stack, accent, url, date, icon, iconImage }) => ({
-    id,
-    name,
-    tag,
-    description,
-    stack,
-    accent,
-    url,
-    date,
-    icon,
-    iconImage,
-  }),
-);
+/** Projects individually flagged with `featured: true` (see featuredProducts for the sections) */
+export const featuredProjects: Project[] = projects.filter((p) => p.featured);
 
 export const builtProjects = projects.map(
   ({ id, name, tag, description, stack, url, date, icon, iconImage, accent }) => ({
@@ -872,8 +1006,139 @@ const desktopProjectIds =
     ? curious.desktopProjectIds
     : projects.filter((p) => p.url).map((p) => p.id);
 
+// ── Product groups & featured products ──────────────────────────────────────
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+/** "Sept 2023" / "April 2026" → sortable month index */
+function dateValue(date: string): number {
+  const [month = "", year = "0"] = date.trim().split(/\s+/);
+  return Number(year) * 12 + Math.max(0, MONTHS.indexOf(month.slice(0, 3).toLowerCase()));
+}
+
+function timelineOf(list: Project[]): string {
+  const sorted = [...list].sort((a, b) => dateValue(a.date) - dateValue(b.date));
+  const first = sorted[0].date;
+  const last = sorted[sorted.length - 1].date;
+  return first === last ? first : `${first} — ${last}`;
+}
+
+function combinedStack(list: Project[]): string[] {
+  return [...new Set(list.flatMap((p) => p.stack))];
+}
+
+const groupByProjectId = new Map<string, ProductGroupEntry>(
+  PORTFOLIO.productGroups.flatMap((group) => group.projectIds.map((id) => [id, group] as const)),
+);
+
+function projectToFeatured(project: Project): FeaturedProduct {
+  return {
+    id: project.id,
+    name: project.name,
+    tag: project.tag,
+    description: project.description,
+    stack: project.stack,
+    accent: project.accent,
+    icon: project.icon,
+    iconImage: project.iconImage,
+    date: project.date,
+    projects: [project],
+  };
+}
+
+function groupToFeatured(group: ProductGroupEntry): FeaturedProduct {
+  const groupProjects = group.projectIds.map(getProject);
+  return {
+    id: `product-${group.id}`,
+    name: group.label,
+    tag: `${groupProjects.length} products`,
+    description: group.description,
+    stack: combinedStack(groupProjects),
+    accent: group.accent,
+    icon: groupProjects[0].icon,
+    iconImage: group.iconImage ?? groupProjects[0].iconImage,
+    date: timelineOf(groupProjects),
+    projects: groupProjects,
+  };
+}
+
+/**
+ * Cards for every mode's "Featured products" section: a featured product group
+ * becomes one card; a featured project becomes its own card. Sorted by
+ * `featuredOrder`, then projects-list order for anything not listed there.
+ */
+function buildFeaturedProducts(): FeaturedProduct[] {
+  const entries: { key: string; product: FeaturedProduct }[] = [];
+  const addedGroups = new Set<string>();
+
+  for (const project of projects) {
+    const group = groupByProjectId.get(project.id);
+    if (group?.featured) {
+      if (!addedGroups.has(group.id)) {
+        addedGroups.add(group.id);
+        entries.push({ key: group.id, product: groupToFeatured(group) });
+      }
+    } else if (project.featured) {
+      entries.push({ key: project.id, product: projectToFeatured(project) });
+    }
+  }
+
+  const rank = (key: string) => {
+    const index = PORTFOLIO.featuredOrder.indexOf(key);
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  };
+
+  // Array sort is stable, so unlisted items keep their projects-list order
+  return entries.sort((a, b) => rank(a.key) - rank(b.key)).map((entry) => entry.product);
+}
+
+export const featuredProducts: FeaturedProduct[] = buildFeaturedProducts();
+
+function groupToCuriousItem(group: ProductGroupEntry): CuriousItem {
+  const groupProjects = group.projectIds.map(getProject);
+  return {
+    id: `product-${group.id}`,
+    name: group.name,
+    label: group.label,
+    kind: "product",
+    description: group.description,
+    stack: combinedStack(groupProjects).join(", "),
+    date: timelineOf(groupProjects),
+    accent: group.accent,
+    icon: groupProjects[0].icon,
+    iconImage: group.iconImage ?? groupProjects[0].iconImage,
+    featured: Boolean(group.featured) || groupProjects.some((p) => p.featured),
+    projects: groupProjects,
+  };
+}
+
+const productGroupItems = PORTFOLIO.productGroups.map(groupToCuriousItem);
+
+const productByProjectId = new Map<string, CuriousItem>(
+  productGroupItems.flatMap((item) => (item.projects ?? []).map((p) => [p.id, item] as const)),
+);
+
+/** The desktop / dock item a project lives in — its product group, or itself */
+function curiousProductFor(project: Project): CuriousItem {
+  return productByProjectId.get(project.id) ?? projectToCuriousItem(project);
+}
+
+function uniqueById(items: CuriousItem[]): CuriousItem[] {
+  return items.filter((item, i) => items.findIndex((other) => other.id === item.id) === i);
+}
+
+const featuredDockItems = uniqueById(
+  featuredProducts.map((product) => curiousProductFor(product.projects[0])),
+);
+
+const pinnedDockItems = uniqueById(
+  curious.dockProjectIds.map(getProject).map(curiousProductFor),
+).filter((item) => !featuredDockItems.some((f) => f.id === item.id));
+
+/** Dock order: featured products · pinned products · links (each group separated) */
 export const dockItems: CuriousItem[] = [
-  ...curious.dockProjectIds.map((id) => projectToCuriousItem(getProject(id))),
+  ...featuredDockItems,
+  ...pinnedDockItems,
   ...curious.dockLinks.map((link) => ({
     id: link.id,
     name: link.label,
@@ -890,124 +1155,8 @@ export const dockItems: CuriousItem[] = [
   })),
 ];
 
-const groupedProjectIds = new Set([
-  "budget-pro-landing-site",
-  "budget-pro-web-app",
-  "budget-pro-mobile-app",
-  "simplifi-portal",
-  "simplifipay-website",
-  "simplifigo-website",
-  "evolv-lms-admin",
-  "evolv-lms-student-web-app",
-  "evolv-accounts-app",
-  "evolv-lms-landing-site",
-  "evolv-invoices",
-  "vitalize-website",
-  "vitalize-webapp",
-  "range-webchat-admin-portal",
-  "range-clubchat-client-portal",
-  "range-webchat-floating-chatsdk",
-  "artt-website",
-  "eartt-accounting-system",
-  "artt-lms-web-app",
-]);
-
-export const desktopFolders: CuriousItem[] = [
-  {
-    id: "folder-budget-pro",
-    name: "Budget Pro",
-    label: "Budget Pro",
-    kind: "folder",
-    accent: "#ff9500",
-    icon: "folder",
-    iconImage: "/icons/budget-pro.png",
-    description: "Financial management suite — Landing site, Web app & Mobile app.",
-    children: [
-      projectToCuriousItem(getProject("budget-pro-landing-site")),
-      projectToCuriousItem(getProject("budget-pro-web-app")),
-      projectToCuriousItem(getProject("budget-pro-mobile-app")),
-    ],
-  },
-  {
-    id: "folder-simplifi",
-    name: "SimplifiPay Suite",
-    label: "SimplifiPay",
-    kind: "folder",
-    accent: "#0a84ff",
-    icon: "folder",
-    iconImage: "/icons/simplifipay.png",
-    description: "Fintech products — Simplifi Portal, SimplifiPay B2B & SimplifiGo.",
-    children: [
-      projectToCuriousItem(getProject("simplifi-portal")),
-      projectToCuriousItem(getProject("simplifipay-website")),
-      projectToCuriousItem(getProject("simplifigo-website")),
-    ],
-  },
-  {
-    id: "folder-evolv",
-    name: "Evolv Ecosystem",
-    label: "Evolv LMS",
-    kind: "folder",
-    accent: "#34c759",
-    icon: "folder",
-    iconImage: "/icons/evolv.png",
-    description: "LMS ecosystem — Admin, Student Web App, Accounts & Invoicing.",
-    children: [
-      projectToCuriousItem(getProject("evolv-lms-admin")),
-      projectToCuriousItem(getProject("evolv-lms-student-web-app")),
-      projectToCuriousItem(getProject("evolv-accounts-app")),
-      projectToCuriousItem(getProject("evolv-lms-landing-site")),
-      projectToCuriousItem(getProject("evolv-invoices")),
-    ],
-  },
-  {
-    id: "folder-vitalize",
-    name: "Vitalize Health",
-    label: "Vitalize",
-    kind: "folder",
-    accent: "#bf5af2",
-    icon: "folder",
-    iconImage: "/icons/vitalize.png",
-    description: "Health & wellness platform — Website and Patient WebApp.",
-    children: [
-      projectToCuriousItem(getProject("vitalize-website")),
-      projectToCuriousItem(getProject("vitalize-webapp")),
-    ],
-  },
-  {
-    id: "folder-range",
-    name: "Range Comms",
-    label: "Range Comms",
-    kind: "folder",
-    accent: "#ff2d55",
-    icon: "folder",
-    iconImage: "/icons/digital-range.png",
-    description: "Real-time chat & communication SDKs and admin dashboards.",
-    children: [
-      projectToCuriousItem(getProject("range-webchat-admin-portal")),
-      projectToCuriousItem(getProject("range-clubchat-client-portal")),
-      projectToCuriousItem(getProject("range-webchat-floating-chatsdk")),
-    ],
-  },
-  {
-    id: "folder-artt",
-    name: "ARTT Suite",
-    label: "ARTT Education",
-    kind: "folder",
-    accent: "#5856d6",
-    icon: "folder",
-    iconImage: "/icons/artt.png",
-    description: "Educational platforms — Website, Accounting system & LMS.",
-    children: [
-      projectToCuriousItem(getProject("artt-website")),
-      projectToCuriousItem(getProject("eartt-accounting-system")),
-      projectToCuriousItem(getProject("artt-lms-web-app")),
-    ],
-  },
-];
-
 const standaloneProjects = projects
-  .filter((p) => !groupedProjectIds.has(p.id))
+  .filter((p) => !productByProjectId.has(p.id))
   .map(projectToCuriousItem);
 
 export const desktopFiles: CuriousItem[] = [
@@ -1020,7 +1169,7 @@ export const desktopFiles: CuriousItem[] = [
     accent: "#ff3b30",
     icon: "pdf",
   },
-  ...desktopFolders,
+  ...productGroupItems,
   ...standaloneProjects,
   {
     id: "website",
@@ -1033,9 +1182,13 @@ export const desktopFiles: CuriousItem[] = [
   },
 ];
 
+/** Hide the "Featured" nav link when no project is flagged as featured */
+export const recruiterNav = PORTFOLIO.recruiterNav.filter(
+  (item) => item.id !== "featured" || featuredProducts.length > 0,
+);
+
 export const {
   roles,
-  recruiterNav,
   founderTitleRoles,
   tools,
   skillGroups,

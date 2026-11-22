@@ -2,17 +2,17 @@
 export const DESKTOP_DEFAULT_LAYOUT: Record<string, { x: number; y: number }> = {
   // Column 1 (x: 5.5% - Left margin spacing)
   "resume": { x: 5.5, y: 7 },
-  "folder-budget-pro": { x: 5.5, y: 18 },
-  "folder-simplifi": { x: 5.5, y: 29 },
-  "folder-evolv": { x: 5.5, y: 40 },
-  "folder-vitalize": { x: 5.5, y: 51 },
-  "folder-range": { x: 5.5, y: 62 },
-  "folder-artt": { x: 5.5, y: 73 },
+  "product-budget-pro": { x: 5.5, y: 18 },
+  "product-simplifipay": { x: 5.5, y: 29 },
+  "product-evolv": { x: 5.5, y: 40 },
+  "product-vitalize": { x: 5.5, y: 51 },
+  "product-range": { x: 5.5, y: 62 },
+  "product-artt": { x: 5.5, y: 73 },
 
   // Column 2 (x: 12%)
   "aroya-cruise-booking": { x: 12, y: 7 },
   "income-bridge-solutions-website": { x: 12, y: 18 },
-  "withme-app-website": { x: 12, y: 29 },
+  "product-withme": { x: 12, y: 29 },
   "pets-care-n-cure-website": { x: 12, y: 40 },
   "ai-reel-maker": { x: 12, y: 51 },
   "portfolio-v4": { x: 12, y: 62 },

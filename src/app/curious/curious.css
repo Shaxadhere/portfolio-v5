@@ -820,6 +820,22 @@ html:not(.curious-sleeping) .curious-desktop {
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
 }
 
+/* Featured products — gold indicator dot */
+.curious-dock__item--featured .curious-dock__dot {
+    background: #ffcc00;
+    box-shadow: 0 0 6px rgba(255, 204, 0, 0.6);
+}
+
+.curious-tooltip__badge {
+    display: inline-block;
+    margin-bottom: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #ffcc00;
+}
+
 /* Preview window — dark glass */
 .curious-preview-backdrop {
     position: fixed;
@@ -901,39 +917,286 @@ html:not(.curious-sleeping) .curious-desktop {
     margin-right: 52px;
 }
 
-.curious-preview__body {
-    position: relative;
-    z-index: 1;
-    padding: 32px 32px 36px;
-    text-align: center;
-    color: var(--mac-text);
+/* Product info window — details, stack, timeline & links for a product */
+.curious-preview--product {
+    width: min(660px, 94vw);
+    max-height: min(86vh, 780px);
+    display: flex;
+    flex-direction: column;
 }
 
-.curious-preview__icon {
+.curious-preview--product .curious-preview__chrome {
+    flex-shrink: 0;
+}
+
+/* Near-opaque so the details stay readable over the wallpaper, blur or not */
+.curious-preview--product .curious-preview__glass {
+    background: rgba(24, 24, 28, 0.94);
+}
+
+.curious-product {
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 28px 28px 30px;
+    color: var(--mac-text);
+    user-select: text;
+}
+
+.curious-product__hero {
     display: flex;
-    justify-content: center;
-    margin-bottom: 18px;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.curious-product__icon {
+    display: flex;
+    flex-shrink: 0;
     filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.4));
 }
 
-.curious-preview__body h2 {
-    font-size: 22px;
-    font-weight: 600;
-    margin: 0 0 10px;
-    letter-spacing: -0.02em;
+.curious-product__intro {
+    min-width: 0;
 }
 
-.curious-preview__body p {
+.curious-product__badge {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #ffcc00;
+}
+
+.curious-product__intro h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0 0 6px;
+}
+
+.curious-product__intro p {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.55;
     color: var(--mac-text-muted);
     margin: 0;
 }
 
-.curious-preview__hint {
-    margin-top: 16px !important;
-    font-size: 12.5px !important;
-    color: rgba(255, 255, 255, 0.35) !important;
+.curious-product__facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin: 22px 0 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.curious-product__fact {
+    padding: 12px 14px;
+    background: rgba(28, 28, 32, 0.92);
+}
+
+.curious-product__fact dt {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 4px;
+}
+
+.curious-product__fact dd {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mac-text);
+}
+
+.curious-product__section {
+    margin-top: 24px;
+}
+
+.curious-product__section h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 10px;
+}
+
+.curious-product__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.curious-product__chips span {
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.curious-product__chips--small {
+    gap: 4px;
+}
+
+.curious-product__chips--small span {
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--mac-text-muted);
+}
+
+.curious-product__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.curious-product__item {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.curious-product__item:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.curious-product__item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.curious-product__item-head h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.curious-product__item-head time {
+    flex-shrink: 0;
+    font-size: 11.5px;
+    color: rgba(10, 132, 255, 0.95);
+}
+
+.curious-product__star {
+    margin-left: 6px;
+    font-size: 12px;
+    color: #ffcc00;
+}
+
+.curious-product__item-tag {
+    display: block;
+    margin: 2px 0 6px;
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.curious-product__item-body p {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--mac-text-muted);
+    margin: 0 0 8px;
+}
+
+.curious-product__open {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    align-self: center;
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: rgba(10, 132, 255, 0.18);
+    border: 1px solid rgba(10, 132, 255, 0.35);
+    color: #6cb6ff;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+}
+
+.curious-product__open:hover {
+    background: rgba(10, 132, 255, 0.3);
+    color: #fff;
+}
+
+.curious-product__open--primary {
+    padding: 10px 18px;
+    background: var(--mac-accent);
+    border-color: transparent;
+    color: #fff;
+    font-size: 13px;
+}
+
+.curious-product__open--primary:hover {
+    background: #3395ff;
+}
+
+.curious-product__private {
+    align-self: center;
+    padding: 5px 10px;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+}
+
+.curious-product__cta {
+    margin-top: 26px;
+}
+
+.curious-product__private-note {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+}
+
+@media (max-width: 560px) {
+    .curious-product {
+        padding: 22px 18px 24px;
+    }
+
+    .curious-product__hero {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .curious-product__facts {
+        grid-template-columns: 1fr;
+    }
+
+    .curious-product__item {
+        grid-template-columns: 40px minmax(0, 1fr);
+    }
+
+    .curious-product__item > .curious-product__open,
+    .curious-product__item > .curious-product__private {
+        grid-column: 2;
+        justify-self: start;
+    }
 }
 
 /* About Shehzad window — macOS About panel */
@@ -1205,7 +1468,10 @@ html:not(.curious-sleeping) .curious-desktop {
         font-size: 12px;
         max-width: 88px;
     }
+}
 
+/* Dock scrolls sideways once its icons (featured + pinned + links) no longer fit */
+@media (max-width: 920px) {
     .curious-dock__icons {
         gap: 2px;
         padding: 6px 8px 8px;
@@ -1225,529 +1491,6 @@ html:not(.curious-sleeping) .curious-desktop {
     .curious-preview {
         animation: none;
     }
-}
-
-/* =============================================================================
-   macOS Finder Window Styles — 1:1 DITTO macOS Sequoia Dark Liquid Glass
-   ============================================================================= */
-
-.curious-finder {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow:
-        0 32px 90px rgba(0, 0, 0, 0.75),
-        0 0 0 0.5px rgba(255, 255, 255, 0.22),
-        inset 0 1px 0.5px rgba(255, 255, 255, 0.25);
-    user-select: none;
-    animation: curious-finder-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    position: relative;
-    background: rgba(28, 28, 34, 0.88);
-    backdrop-filter: blur(52px) saturate(200%);
-    -webkit-backdrop-filter: blur(52px) saturate(200%);
-}
-
-.curious-finder__glass {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: 12px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 22%);
-}
-
-@keyframes curious-finder-in {
-    from {
-        opacity: 0;
-        transform: scale(0.96) translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-/* 1:1 macOS Toolbar Header */
-.curious-finder__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
-    padding: 0 14px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.35);
-    cursor: grab;
-    position: relative;
-    z-index: 10;
-}
-
-.curious-finder__header:active {
-    cursor: grabbing;
-}
-
-/* Traffic Lights */
-.curious-finder__traffic {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 60px;
-}
-
-.curious-finder__traffic .curious-traffic {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 0.5px solid rgba(0, 0, 0, 0.35);
-    padding: 0;
-    cursor: pointer;
-    transition: transform 0.12s, filter 0.12s;
-    outline: none;
-}
-
-.curious-finder__traffic .curious-traffic--close {
-    background: #ff5f57;
-}
-
-.curious-finder__traffic .curious-traffic--min {
-    background: #febc2e;
-}
-
-.curious-finder__traffic .curious-traffic--max {
-    background: #28c840;
-}
-
-.curious-finder__traffic .curious-traffic:hover {
-    filter: brightness(1.2);
-    transform: scale(1.15);
-}
-
-/* Nav Chevrons */
-.curious-finder__nav {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    margin-left: 10px;
-}
-
-.curious-finder__nav-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 22px;
-    border-radius: 5px;
-    border: none;
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.35);
-    cursor: default;
-}
-
-/* Centered Title */
-.curious-finder__title {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
-    letter-spacing: -0.1px;
-}
-
-/* Toolbar Actions */
-.curious-finder__actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* macOS Segmented Control */
-.curious-finder__segmented {
-    display: flex;
-    background: rgba(0, 0, 0, 0.38);
-    border: 0.5px solid rgba(255, 255, 255, 0.12);
-    border-radius: 6px;
-    padding: 2px;
-}
-
-.curious-finder__seg-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 22px;
-    border-radius: 4px;
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.45);
-    cursor: pointer;
-    transition: all 0.12s;
-}
-
-.curious-finder__seg-btn.is-active {
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.curious-finder__seg-btn:hover:not(.is-active) {
-    color: rgba(255, 255, 255, 0.75);
-}
-
-.curious-finder__tool-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 26px;
-    border-radius: 6px;
-    border: 0.5px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.25);
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    transition: all 0.12s;
-}
-
-.curious-finder__tool-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-}
-
-/* macOS Search Pill */
-.curious-finder__search {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.38);
-    border: 0.5px solid rgba(255, 255, 255, 0.12);
-    border-radius: 7px;
-    padding: 4px 8px;
-    color: rgba(255, 255, 255, 0.45);
-    width: 140px;
-    transition: width 0.2s, border-color 0.2s;
-}
-
-.curious-finder__search:focus-within {
-    width: 180px;
-    border-color: #007aff;
-    color: rgba(255, 255, 255, 0.95);
-}
-
-.curious-finder__search input {
-    background: none;
-    border: none;
-    outline: none;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.92);
-    width: 100%;
-}
-
-.curious-finder__search-clear {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.4);
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-}
-
-/* macOS Finder Main Body */
-.curious-finder__body {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    position: relative;
-    z-index: 5;
-}
-
-/* 1:1 macOS Finder Sidebar */
-.curious-finder__sidebar {
-    width: 210px;
-    background: rgba(20, 20, 24, 0.55);
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 14px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex-shrink: 0;
-}
-
-.curious-finder__sidebar-group {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.curious-finder__sidebar-title {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: rgba(255, 255, 255, 0.35);
-    padding: 0 8px 6px;
-}
-
-.curious-finder__sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 10px;
-    border-radius: 6px;
-    border: none;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 12.5px;
-    font-weight: 400;
-    text-align: left;
-    cursor: pointer;
-    transition: background 0.12s, color 0.12s;
-    width: 100%;
-}
-
-.curious-finder__sidebar-item:hover:not(.is-active) {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.curious-finder__sidebar-item.is-active {
-    background: #007aff;
-    color: #ffffff;
-    font-weight: 500;
-}
-
-.curious-finder__sidebar-icon {
-    flex-shrink: 0;
-    opacity: 0.9;
-}
-
-.curious-finder__sidebar-badge-count {
-    margin-left: auto;
-    font-size: 11px;
-    opacity: 0.6;
-    font-weight: 500;
-}
-
-.curious-finder__tag-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.curious-finder__tag-dot--red {
-    background: #ff3b30;
-}
-
-.curious-finder__tag-dot--blue {
-    background: #007aff;
-}
-
-.curious-finder__tag-dot--green {
-    background: #34c759;
-}
-
-/* macOS Content Workspace */
-.curious-finder__content {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background: rgba(0, 0, 0, 0.15);
-}
-
-.curious-finder__empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: rgba(255, 255, 255, 0.4);
-    gap: 8px;
-}
-
-.curious-finder__empty-icon {
-    font-size: 36px;
-}
-
-/* DITTO macOS Finder Grid View */
-.curious-finder__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
-    gap: 24px 16px;
-    justify-items: center;
-}
-
-.curious-finder__icon-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px;
-    cursor: pointer;
-    position: relative;
-    border-radius: 8px;
-    padding: 6px 4px 8px;
-    transition: background 0.12s;
-    outline: none;
-}
-
-.curious-finder__icon-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.curious-finder__icon-item.is-selected {
-    background: rgba(0, 122, 255, 0.35);
-}
-
-.curious-finder__icon-wrapper {
-    margin-bottom: 8px;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
-    transition: transform 0.15s;
-}
-
-.curious-finder__icon-item:hover .curious-finder__icon-wrapper {
-    transform: scale(1.05);
-}
-
-.curious-finder__icon-label {
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.92);
-    text-align: center;
-    max-width: 94px;
-    line-height: 1.25;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.curious-finder__icon-item.is-selected .curious-finder__icon-label {
-    background: #007aff;
-    color: #ffffff;
-}
-
-.curious-finder__open-pill {
-    position: absolute;
-    bottom: -22px;
-    font-size: 10.5px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background: #007aff;
-    color: #fff;
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity 0.15s, transform 0.15s;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    white-space: nowrap;
-}
-
-.curious-finder__icon-item:hover .curious-finder__open-pill {
-    opacity: 1;
-    transform: translateY(-2px);
-}
-
-/* DITTO macOS Finder List Table View */
-.curious-finder__list {
-    display: flex;
-    flex-direction: column;
-}
-
-.curious-finder__list-header {
-    display: grid;
-    grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    user-select: none;
-}
-
-.curious-finder__list-row {
-    display: grid;
-    grid-template-columns: 2.5fr 1.3fr 1fr 2fr 1fr;
-    align-items: center;
-    padding: 6px 14px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.85);
-    cursor: pointer;
-    transition: background 0.1s;
-}
-
-.curious-finder__list-row:nth-child(even) {
-    background: rgba(255, 255, 255, 0.02);
-}
-
-.curious-finder__list-row:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.curious-finder__list-row.is-selected {
-    background: #007aff;
-    color: #ffffff;
-}
-
-.curious-finder__list-name {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-}
-
-.curious-finder__list-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 8px;
-    border-radius: 4px;
-    background: #007aff;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.curious-finder__list-tag {
-    font-size: 10.5px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
-}
-
-/* 1:1 macOS Finder Footer Pathbar */
-.curious-finder__footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 28px;
-    padding: 0 14px;
-    background: rgba(18, 18, 22, 0.85);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.curious-finder__path {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.curious-finder__path-sep {
-    opacity: 0.35;
-}
-
-.curious-finder__path-active {
-    color: rgba(255, 255, 255, 0.88);
-    font-weight: 600;
-}
-
-.curious-finder__status {
-    font-size: 11px;
-    opacity: 0.55;
 }
 
 /* =============================================================================

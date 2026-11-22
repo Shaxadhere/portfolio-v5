@@ -101,6 +101,7 @@ export function IconTooltip({
       role="tooltip"
       aria-hidden
     >
+      {item.featured ? <span className="curious-tooltip__badge">★ Featured</span> : null}
       <span className="curious-tooltip__name">{item.name}</span>
       {item.description ? (
         <span className="curious-tooltip__desc">{item.description}</span>

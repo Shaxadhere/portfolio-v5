@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSuSession } from "@/lib/su-auth";
 import { getClientPromise } from "@/lib/mongodb";
-import { ObjectId } from "mongodb";
+import { ObjectId, Filter, Document } from "mongodb";
+import { VisitorSessionRecord } from "@/components/su/VisitorSessionDetailModal";
 
 export async function GET(request: NextRequest) {
   const session = await getSuSession();
@@ -18,6 +19,7 @@ export async function GET(request: NextRequest) {
     const filter = searchParams.get("filter") || "all";
     const inspectSessionId = searchParams.get("sessionId");
     const sessionsOnly = searchParams.get("sessionsOnly") === "true";
+    const overviewOnly = searchParams.get("overviewOnly") === "true";
 
     const client = await getClientPromise();
     const db = client.db("portfolio");
@@ -49,7 +51,7 @@ export async function GET(request: NextRequest) {
       startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     }
 
-    const queryFilter: Record<string, any> = {};
+    const queryFilter: Filter<Document> = {};
     if (startDate) {
       queryFilter.startedAt = { $gte: startDate };
     }
@@ -87,57 +89,63 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    // Fetch matching sessions for pagination
-    const totalMatching = await sessionCollection.countDocuments(queryFilter);
-    const totalPages = Math.ceil(totalMatching / limit) || 1;
-    const skip = (page - 1) * limit;
+    let totalMatching = 0;
+    let totalPages = 1;
+    let sessionsMapped: VisitorSessionRecord[] = [];
 
-    const sessions = await sessionCollection
-      .find(queryFilter)
-      .sort({ startedAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    // Only query paginated sessions slice if NOT in overviewOnly mode
+    if (!overviewOnly) {
+      totalMatching = await sessionCollection.countDocuments(queryFilter);
+      totalPages = Math.ceil(totalMatching / limit) || 1;
+      const skip = (page - 1) * limit;
 
-    const sessionsMapped = sessions.map((s) => ({
-      id: s._id.toString(),
-      sessionId: s.sessionId,
-      visitorId: s.visitorId,
-      startedAt: s.startedAt,
-      lastActiveAt: s.lastActiveAt,
-      entryPage: s.entryPage || "/",
-      entryQueryString: s.entryQueryString || "",
-      queryParams: s.queryParams || {},
-      referrer: s.referrer || "direct",
-      totalDurationSeconds: s.totalDurationSeconds || 0,
-      maxScrollDepth: s.maxScrollDepth || 0,
-      downloadedResume: Boolean(s.downloadedResume),
-      resumeDownloadedAt: s.resumeDownloadedAt || null,
-      pagesVisited: s.pagesVisited || [],
-      projectsClicked: s.projectsClicked || [],
-      sectionsViewed: s.sectionsViewed || [],
-      roleSelected: s.roleSelected || null,
-      eventCount: s.eventCount || 1,
-      ip: s.ip || "unknown",
-      location: s.location || { country: "UNKNOWN", region: "", city: "" },
-      userAgent: s.userAgent || { raw: "", device: "desktop", isBot: false },
-    }));
+      const sessions = await sessionCollection
+        .find(queryFilter)
+        .sort({ startedAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .toArray();
 
-    // If only requesting session page records, return immediately without recomputing heavy aggregations
-    if (sessionsOnly) {
-      return NextResponse.json({
-        pagination: {
-          total: totalMatching,
-          page,
-          limit,
-          totalPages,
-        },
-        sessions: sessionsMapped,
-      });
+      sessionsMapped = sessions.map((s) => ({
+        id: s._id.toString(),
+        sessionId: s.sessionId,
+        visitorId: s.visitorId,
+        startedAt: s.startedAt,
+        lastActiveAt: s.lastActiveAt,
+        entryPage: s.entryPage || "/",
+        entryQueryString: s.entryQueryString || "",
+        queryParams: s.queryParams || {},
+        referrer: s.referrer || "direct",
+        totalDurationSeconds: s.totalDurationSeconds || 0,
+        maxScrollDepth: s.maxScrollDepth || 0,
+        downloadedResume: Boolean(s.downloadedResume),
+        resumeDownloadedAt: s.resumeDownloadedAt || null,
+        pagesVisited: s.pagesVisited || [],
+        projectsClicked: s.projectsClicked || [],
+        sectionsViewed: s.sectionsViewed || [],
+        roleSelected: s.roleSelected || null,
+        eventCount: s.eventCount || 1,
+        ip: s.ip || "unknown",
+        location: s.location || { country: "UNKNOWN", region: "", city: "" },
+        userAgent: s.userAgent || { raw: "", device: "desktop", isBot: false },
+      }));
+
+      // If only requesting session page records, return immediately without recomputing heavy aggregations
+      if (sessionsOnly) {
+        return NextResponse.json({
+          pagination: {
+            total: totalMatching,
+            page,
+            limit,
+            totalPages,
+          },
+          sessions: sessionsMapped,
+        });
+      }
     }
 
     // Aggregations across all sessions in time range
-    const baseRangeFilter: Record<string, any> = startDate ? { startedAt: { $gte: startDate } } : {};
+    const baseRangeFilter: Filter<Document> = startDate ? { startedAt: { $gte: startDate } } : {};
     const allRangeSessions = await sessionCollection
       .find(baseRangeFilter)
       .sort({ startedAt: -1 })
@@ -239,7 +247,7 @@ export async function GET(request: NextRequest) {
     const bounceRate = totalSessions > 0 ? Math.round((singlePageSessionCount / totalSessions) * 100) : 0;
 
     // Total raw page views in range
-    const eventRangeFilter: Record<string, any> = { eventType: "page_view" };
+    const eventRangeFilter: Filter<Document> = { eventType: "page_view" };
     if (startDate) eventRangeFilter.timestamp = { $gte: startDate };
     const totalPageViews = await eventCollection.countDocuments(eventRangeFilter);
 
@@ -278,21 +286,35 @@ export async function GET(request: NextRequest) {
 
     const timeline = Object.values(dailyMap).sort((a, b) => a.timestamp - b.timestamp);
 
+    const metrics = {
+      totalSessions,
+      totalPageViews: totalPageViews || totalSessions,
+      uniqueVisitors: uniqueVisitorIds.size,
+      avgDurationSeconds,
+      avgScrollDepth,
+      bounceRate,
+      humanCount,
+      botCount,
+      humanRatio: totalSessions > 0 ? Math.round((humanCount / totalSessions) * 100) : 0,
+      totalProjectClicks: Object.values(projectCounts).reduce((acc, p) => acc + p.count, 0),
+      downloadedResumeCount,
+      resumeConversionRate: totalSessions > 0 ? Math.round((downloadedResumeCount / totalSessions) * 100) : 0,
+    };
+
+    if (overviewOnly) {
+      return NextResponse.json({
+        metrics,
+        topProjects,
+        pageBreakdown,
+        sectionBreakdown,
+        campaignBreakdown,
+        roleDistribution: roleCounts,
+        timeline,
+      });
+    }
+
     return NextResponse.json({
-      metrics: {
-        totalSessions,
-        totalPageViews: totalPageViews || totalSessions,
-        uniqueVisitors: uniqueVisitorIds.size,
-        avgDurationSeconds,
-        avgScrollDepth,
-        bounceRate,
-        humanCount,
-        botCount,
-        humanRatio: totalSessions > 0 ? Math.round((humanCount / totalSessions) * 100) : 0,
-        totalProjectClicks: Object.values(projectCounts).reduce((acc, p) => acc + p.count, 0),
-        downloadedResumeCount,
-        resumeConversionRate: totalSessions > 0 ? Math.round((downloadedResumeCount / totalSessions) * 100) : 0,
-      },
+      metrics,
       topProjects,
       pageBreakdown,
       sectionBreakdown,

@@ -9,12 +9,14 @@ import { useGSAP } from "@gsap/react";
 import {
   personal,
   projects,
+  featuredProducts,
   canBuild,
   calendlyUrl,
   founderTitleRoles,
   curiousWallpaper,
   sourceRepoUrl,
 } from "@/data/portfolio";
+import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -59,6 +61,20 @@ export function FounderView() {
         resume = () => marqueeTween.resume();
         marquee?.addEventListener("mouseenter", pause);
         marquee?.addEventListener("mouseleave", resume);
+      }
+
+      if (featuredProducts.length > 0) {
+        gsap.from("[data-founder-featured-item]", {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: "[data-founder-featured]",
+            start: "top 85%",
+          },
+        });
       }
 
       gsap.from("[data-founder-section]", {
@@ -175,6 +191,95 @@ export function FounderView() {
           })}
         </div>
       </section>
+
+      {featuredProducts.length > 0 ? (
+        <section className="founder__featured" data-founder-featured>
+          <div className="founder__section-head" data-founder-featured-item>
+            <span className="founder__label">★ Featured</span>
+            <h2>Featured products I&apos;ve built</h2>
+          </div>
+          <div className="founder__featured-grid">
+            {featuredProducts.map((product, i) => {
+              const [only] = product.projects;
+              const isGroup = product.projects.length > 1;
+
+              return (
+                <article
+                  key={product.id}
+                  data-track-project={product.name}
+                  className="founder__featured-card"
+                  data-founder-featured-item
+                >
+                  <div className="founder__featured-top">
+                    <CuriousAppIcon
+                      icon={product.icon}
+                      accent={product.accent}
+                      iconImage={product.iconImage}
+                      size={56}
+                    />
+                    <span className="founder__built-num">{String(i + 1).padStart(2, "0")}</span>
+                  </div>
+                  <div className="founder__built-head">
+                    <span className="founder__built-type">{product.tag}</span>
+                    <time className="founder__built-date">{product.date}</time>
+                  </div>
+                  <h3>{product.name}</h3>
+                  <p>{product.description}</p>
+                  <div className="founder__built-stack">
+                    {product.stack.map((s) => (
+                      <span key={s}>{s}</span>
+                    ))}
+                  </div>
+                  {isGroup ? (
+                    <div className="founder__featured-links">
+                      {product.projects.map((p) =>
+                        p.url ? (
+                          <a
+                            key={p.id}
+                            href={p.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="founder__featured-sublink"
+                            data-track-project={p.name}
+                          >
+                            {p.name}
+                            <span aria-hidden>↗</span>
+                          </a>
+                        ) : (
+                          <span
+                            key={p.id}
+                            className="founder__featured-sublink founder__featured-sublink--private"
+                          >
+                            {p.name} · private
+                          </span>
+                        ),
+                      )}
+                    </div>
+                  ) : only.url ? (
+                    <a
+                      href={only.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="founder__featured-link"
+                    >
+                      Visit product
+                      <svg width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden>
+                        <path
+                          d="M4 14h10M10 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  ) : null}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       <section className="founder__built" data-founder-built>
         <div className="founder__section-head" data-founder-section>

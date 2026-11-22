@@ -1,6 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+  useQueryClient,
+  keepPreviousData,
+} from "@tanstack/react-query";
 import SuHeader from "./SuHeader";
 import SuControls from "./SuControls";
 import VisitorMetrics from "./VisitorMetrics";
@@ -19,212 +26,135 @@ import {
   SuDashboardProps,
 } from "./types";
 
-export default function SuDashboard({ username = "shehzad", onLogout }: SuDashboardProps) {
-  // Main view tab: 'visitors' or 'downloads'
+const defaultVisitorPagination: PaginationState = {
+  total: 0,
+  page: 1,
+  limit: 15,
+  totalPages: 1,
+};
+
+const defaultDownloadPagination: PaginationState = {
+  total: 0,
+  page: 1,
+  limit: 15,
+  totalPages: 1,
+};
+
+function SuDashboardContent({ username = "shehzad", onLogout }: SuDashboardProps) {
+  const queryClient = useQueryClient();
+
+  // Tab & Time range state
   const [activeTab, setActiveTab] = useState<"visitors" | "downloads">("visitors");
   const [timeRange, setTimeRange] = useState<TimeRangeType>("all");
 
-  // Downloads telemetry state
-  const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
-  const [downloads, setDownloads] = useState<DownloadRecord[]>([]);
-  const [downloadPagination, setDownloadPagination] = useState<PaginationState>({
-    total: 0,
-    page: 1,
-    limit: 15,
-    totalPages: 1,
-  });
+  // Visitors table controls
+  const [visitorPage, setVisitorPage] = useState(1);
+  const [visitorSearch, setVisitorSearch] = useState("");
+  const [visitorSearchQuery, setVisitorSearchQuery] = useState("");
+  const [visitorFilter, setVisitorFilter] = useState<VisitorFilterType>("all");
+  const [inspectVisitor, setInspectVisitor] = useState<VisitorSessionRecord | null>(null);
+
+  // Downloads table controls
+  const [downloadPage, setDownloadPage] = useState(1);
   const [downloadSearch, setDownloadSearch] = useState("");
+  const [downloadSearchQuery, setDownloadSearchQuery] = useState("");
   const [downloadFilter, setDownloadFilter] = useState<DownloadFilterType>("all");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [inspectDownload, setInspectDownload] = useState<DownloadRecord | null>(null);
-  const [, setLoadingAnalytics] = useState(true);
-  const [loadingDownloads, setLoadingDownloads] = useState(true);
 
-  // Visitors telemetry state
-  const [visitorsData, setVisitorsData] = useState<VisitorsResponse | null>(null);
-  const [visitorPagination, setVisitorPagination] = useState<PaginationState>({
-    total: 0,
-    page: 1,
-    limit: 15,
-    totalPages: 1,
-  });
-  const [visitorSearch, setVisitorSearch] = useState("");
-  const [visitorFilter, setVisitorFilter] = useState<VisitorFilterType>("all");
-  const [inspectVisitor, setInspectVisitor] = useState<VisitorSessionRecord | null>(null);
-  const [loadingVisitors, setLoadingVisitors] = useState(true);
-
-  // Global states
+  // Refresh & Export state
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Stable references to prevent unnecessary re-fetching and effect loops
-  const timeRangeRef = useRef(timeRange);
-  const visitorFilterRef = useRef(visitorFilter);
-  const visitorSearchRef = useRef(visitorSearch);
-  const visitorPaginationRef = useRef(visitorPagination);
-  const downloadFilterRef = useRef(downloadFilter);
-  const downloadSearchRef = useRef(downloadSearch);
-  const selectedCountryRef = useRef(selectedCountry);
-  const downloadPaginationRef = useRef(downloadPagination);
-
-  // Update refs after render to comply with React 19 rules
-  useEffect(() => {
-    timeRangeRef.current = timeRange;
-    visitorFilterRef.current = visitorFilter;
-    visitorSearchRef.current = visitorSearch;
-    visitorPaginationRef.current = visitorPagination;
-    downloadFilterRef.current = downloadFilter;
-    downloadSearchRef.current = downloadSearch;
-    selectedCountryRef.current = selectedCountry;
-    downloadPaginationRef.current = downloadPagination;
+  // ---------------- React Query: Visitors Overview ----------------
+  const { data: visitorsOverview } = useQuery<VisitorsResponse>({
+    queryKey: ["su", "visitors-overview", timeRange],
+    queryFn: async () => {
+      const res = await fetch(`/api/su/visitors?range=${timeRange}&overviewOnly=true`);
+      if (!res.ok) throw new Error("Failed to fetch visitors overview");
+      return res.json();
+    },
+    enabled: activeTab === "visitors",
+    staleTime: 60 * 1000,
   });
 
-  // 1. Fetch Downloads Analytics
-  const fetchAnalytics = useCallback(async (rangeOverride?: TimeRangeType) => {
-    try {
-      await Promise.resolve();
-      setLoadingAnalytics(true);
-      const targetRange = rangeOverride || timeRangeRef.current;
-      const res = await fetch(`/api/su/analytics?range=${targetRange}`);
-      if (res.ok) {
-        const data = await res.json();
-        setAnalytics(data);
-      }
-    } catch (err) {
-      console.error("Failed to load downloads analytics:", err);
-    } finally {
-      setLoadingAnalytics(false);
-    }
-  }, []);
-
-  // 2. Fetch Downloads List
-  const fetchDownloads = useCallback(
-    async (
-      pageToLoad = 1,
-      opts?: {
-        filter?: DownloadFilterType;
-        search?: string;
-        country?: string;
-      }
-    ) => {
-      try {
-        await Promise.resolve();
-        setLoadingDownloads(true);
-        const filter = opts?.filter ?? downloadFilterRef.current;
-        const search = opts?.search ?? downloadSearchRef.current;
-        const country = opts?.country ?? selectedCountryRef.current;
-        const limit = downloadPaginationRef.current.limit || 15;
-
-        const params = new URLSearchParams({
-          page: String(pageToLoad),
-          limit: String(limit),
-          filter,
-          search: search.trim(),
-          country,
-        });
-
-        const res = await fetch(`/api/su/downloads?${params.toString()}`);
-        if (res.ok) {
-          const data = await res.json();
-          setDownloads(data.downloads || []);
-          setDownloadPagination(data.pagination || { total: 0, page: pageToLoad, limit, totalPages: 1 });
-        }
-      } catch (err) {
-        console.error("Failed to load downloads:", err);
-      } finally {
-        setLoadingDownloads(false);
-      }
+  // ---------------- React Query: Visitors Sessions Table ----------------
+  const { data: visitorsSessionsData, isFetching: loadingVisitors } = useQuery<{
+    pagination: PaginationState;
+    sessions: VisitorSessionRecord[];
+  }>({
+    queryKey: [
+      "su",
+      "visitors-sessions",
+      { range: timeRange, page: visitorPage, filter: visitorFilter, search: visitorSearchQuery },
+    ],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        range: timeRange,
+        page: String(visitorPage),
+        limit: "15",
+        filter: visitorFilter,
+        search: visitorSearchQuery.trim(),
+        sessionsOnly: "true",
+      });
+      const res = await fetch(`/api/su/visitors?${params.toString()}`);
+      if (!res.ok) throw new Error("Failed to fetch visitor sessions");
+      return res.json();
     },
-    []
-  );
+    enabled: activeTab === "visitors",
+    placeholderData: keepPreviousData,
+    staleTime: 60 * 1000,
+  });
 
-  // 3. Fetch Visitors Analytics & Sessions List
-  const fetchVisitors = useCallback(
-    async (
-      pageToLoad = 1,
-      opts?: {
-        filter?: VisitorFilterType;
-        search?: string;
-        range?: TimeRangeType;
-        sessionsOnly?: boolean;
-      }
-    ) => {
-      try {
-        await Promise.resolve();
-        setLoadingVisitors(true);
-        const filter = opts?.filter ?? visitorFilterRef.current;
-        const search = opts?.search ?? visitorSearchRef.current;
-        const range = opts?.range ?? timeRangeRef.current;
-        const limit = visitorPaginationRef.current.limit || 15;
-        const sessionsOnly = opts?.sessionsOnly ?? (pageToLoad > 1);
-
-        const params = new URLSearchParams({
-          range,
-          page: String(pageToLoad),
-          limit: String(limit),
-          filter,
-          search: search.trim(),
-        });
-        if (sessionsOnly) {
-          params.set("sessionsOnly", "true");
-        }
-
-        const res = await fetch(`/api/su/visitors?${params.toString()}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.metrics) {
-            setVisitorsData(data);
-          } else {
-            setVisitorsData((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    pagination: data.pagination,
-                    sessions: data.sessions || [],
-                  }
-                : data
-            );
-          }
-          setVisitorPagination(data.pagination || { total: 0, page: pageToLoad, limit, totalPages: 1 });
-        }
-      } catch (err) {
-        console.error("Failed to load visitors data:", err);
-      } finally {
-        setLoadingVisitors(false);
-      }
+  // ---------------- React Query: Downloads Analytics ----------------
+  const { data: downloadsAnalytics } = useQuery<AnalyticsResponse>({
+    queryKey: ["su", "downloads-analytics", timeRange],
+    queryFn: async () => {
+      const res = await fetch(`/api/su/analytics?range=${timeRange}`);
+      if (!res.ok) throw new Error("Failed to fetch downloads analytics");
+      return res.json();
     },
-    []
-  );
+    enabled: activeTab === "downloads",
+    staleTime: 60 * 1000,
+  });
 
-  // Trigger loads based on activeTab & timeRange
-  useEffect(() => {
-    let isMounted = true;
-    const run = async () => {
-      await Promise.resolve();
-      if (!isMounted) return;
-      if (activeTab === "visitors") {
-        await fetchVisitors(1, { range: timeRange, sessionsOnly: false });
-      } else {
-        await Promise.all([fetchAnalytics(timeRange), fetchDownloads(1)]);
-      }
-    };
-    run();
-    return () => {
-      isMounted = false;
-    };
-  }, [activeTab, timeRange, fetchVisitors, fetchAnalytics, fetchDownloads]);
+  // ---------------- React Query: Downloads List Table ----------------
+  const { data: downloadsListData, isFetching: loadingDownloads } = useQuery<{
+    downloads: DownloadRecord[];
+    pagination: PaginationState;
+  }>({
+    queryKey: [
+      "su",
+      "downloads-list",
+      { page: downloadPage, filter: downloadFilter, search: downloadSearchQuery, country: selectedCountry },
+    ],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        page: String(downloadPage),
+        limit: "15",
+        filter: downloadFilter,
+        search: downloadSearchQuery.trim(),
+        country: selectedCountry,
+      });
+      const res = await fetch(`/api/su/downloads?${params.toString()}`);
+      if (!res.ok) throw new Error("Failed to fetch downloads list");
+      return res.json();
+    },
+    enabled: activeTab === "downloads",
+    placeholderData: keepPreviousData,
+    staleTime: 60 * 1000,
+  });
 
-  // Handle Refresh All
+  // Handle Manual Refresh
   const handleRefresh = async () => {
-    setIsRefreshing(true);
-    if (activeTab === "visitors") {
-      await fetchVisitors(visitorPaginationRef.current.page, { sessionsOnly: false });
-    } else {
-      await Promise.all([fetchAnalytics(timeRange), fetchDownloads(downloadPaginationRef.current.page)]);
+    try {
+      setIsRefreshing(true);
+      await queryClient.refetchQueries({ queryKey: ["su"] });
+      setLastUpdated(new Date());
+    } finally {
+      setIsRefreshing(false);
     }
-    setLastUpdated(new Date());
-    setIsRefreshing(false);
   };
 
   // Handle CSV Export
@@ -255,8 +185,10 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
     try {
       const res = await fetch(`/api/su/downloads?id=${id}`, { method: "DELETE" });
       if (res.ok) {
-        setDownloads((prev) => prev.filter((d) => d.id !== id));
-        fetchAnalytics(timeRange);
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["su", "downloads-list"] }),
+          queryClient.invalidateQueries({ queryKey: ["su", "downloads-analytics"] }),
+        ]);
       }
     } catch (err) {
       console.error("Failed to delete record:", err);
@@ -268,14 +200,10 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
     try {
       const res = await fetch(`/api/su/visitors?id=${id}&sessionId=${sessionId}`, { method: "DELETE" });
       if (res.ok) {
-        setVisitorsData((prev) =>
-          prev
-            ? {
-                ...prev,
-                sessions: prev.sessions.filter((s) => s.id !== id),
-              }
-            : null
-        );
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["su", "visitors-sessions"] }),
+          queryClient.invalidateQueries({ queryKey: ["su", "visitors-overview"] }),
+        ]);
       }
     } catch (err) {
       console.error("Failed to delete visitor session:", err);
@@ -292,32 +220,44 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
         onLogout={onLogout}
       />
 
-      {/* ---------------- Main View Area ---------------- */}
+      {/* Main View Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         <SuControls
           activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          setActiveTab={(tab) => {
+            setActiveTab(tab);
+          }}
           timeRange={timeRange}
-          setTimeRange={setTimeRange}
-          totalSessions={visitorsData?.metrics?.totalSessions}
-          totalDownloads={analytics?.metrics?.totalDownloads}
+          setTimeRange={(range) => {
+            setTimeRange(range);
+            setVisitorPage(1);
+            setDownloadPage(1);
+          }}
+          totalSessions={visitorsOverview?.metrics?.totalSessions}
+          totalDownloads={downloadsAnalytics?.metrics?.totalDownloads}
         />
 
         {/* TAB 1: VISITOR INSIGHTS & BEHAVIOR */}
         {activeTab === "visitors" && (
           <div className="space-y-8 animate-fade-in">
-            <VisitorMetrics visitorsData={visitorsData} timeRange={timeRange} />
+            <VisitorMetrics visitorsData={visitorsOverview || null} timeRange={timeRange} />
             <VisitorSessionsTable
-              sessions={visitorsData?.sessions || []}
-              pagination={visitorPagination}
-              loading={loadingVisitors}
+              sessions={visitorsSessionsData?.sessions || []}
+              pagination={visitorsSessionsData?.pagination || defaultVisitorPagination}
+              loading={loadingVisitors && !visitorsSessionsData}
               search={visitorSearch}
               setSearch={setVisitorSearch}
               filter={visitorFilter}
               setFilter={setVisitorFilter}
-              onSearchSubmit={(q) => fetchVisitors(1, { search: q, sessionsOnly: false })}
-              onFilterChange={(f) => fetchVisitors(1, { filter: f, sessionsOnly: false })}
-              onPageChange={(p) => fetchVisitors(p, { sessionsOnly: true })}
+              onSearchSubmit={(q) => {
+                setVisitorSearchQuery(q);
+                setVisitorPage(1);
+              }}
+              onFilterChange={(f) => {
+                setVisitorFilter(f);
+                setVisitorPage(1);
+              }}
+              onPageChange={(p) => setVisitorPage(p)}
               onInspectSession={(s) => setInspectVisitor(s)}
             />
           </div>
@@ -327,34 +267,40 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
         {activeTab === "downloads" && (
           <div className="space-y-8 animate-fade-in">
             <DownloadMetrics
-              analytics={analytics}
+              analytics={downloadsAnalytics || null}
               timeRange={timeRange}
               selectedCountry={selectedCountry}
               onSelectCountry={(code) => {
                 setSelectedCountry(code);
-                fetchDownloads(1, { country: code });
+                setDownloadPage(1);
               }}
             />
             <DownloadLogsTable
-              downloads={downloads}
-              pagination={downloadPagination}
-              loading={loadingDownloads}
+              downloads={downloadsListData?.downloads || []}
+              pagination={downloadsListData?.pagination || defaultDownloadPagination}
+              loading={loadingDownloads && !downloadsListData}
               search={downloadSearch}
               setSearch={setDownloadSearch}
               filter={downloadFilter}
               setFilter={setDownloadFilter}
               isExporting={isExporting}
               onExportCSV={handleExportCSV}
-              onSearchSubmit={(q) => fetchDownloads(1, { search: q })}
-              onFilterChange={(f) => fetchDownloads(1, { filter: f })}
-              onPageChange={(p) => fetchDownloads(p)}
+              onSearchSubmit={(q) => {
+                setDownloadSearchQuery(q);
+                setDownloadPage(1);
+              }}
+              onFilterChange={(f) => {
+                setDownloadFilter(f);
+                setDownloadPage(1);
+              }}
+              onPageChange={(p) => setDownloadPage(p)}
               onInspectDownload={(d) => setInspectDownload(d)}
             />
           </div>
         )}
       </main>
 
-      {/* ---------------- Modals ---------------- */}
+      {/* Modals */}
       <DownloadDetailModal
         record={inspectDownload}
         onClose={() => setInspectDownload(null)}
@@ -367,5 +313,27 @@ export default function SuDashboard({ username = "shehzad", onLogout }: SuDashbo
         onDelete={handleDeleteVisitorSession}
       />
     </div>
+  );
+}
+
+export default function SuDashboard(props: SuDashboardProps) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000,
+            gcTime: 5 * 60 * 1000,
+            refetchOnWindowFocus: false,
+            retry: 1,
+          },
+        },
+      })
+  );
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SuDashboardContent {...props} />
+    </QueryClientProvider>
   );
 }

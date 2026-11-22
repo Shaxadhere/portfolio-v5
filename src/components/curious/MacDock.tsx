@@ -14,6 +14,12 @@ type MacDockProps = {
   onOpen: (item: CuriousItem) => void;
 };
 
+/** Dock sections: featured products · pinned projects · links */
+function dockGroup(item: CuriousItem) {
+  if (item.kind === "link") return "link";
+  return item.featured ? "featured" : "pinned";
+}
+
 export function MacDock({ items, onOpen }: MacDockProps) {
   const dockRef = useRef<HTMLDivElement>(null);
 
@@ -94,15 +100,15 @@ export function MacDock({ items, onOpen }: MacDockProps) {
         <div className="curious-dock__icons">
           {items.map((item, index) => {
             const showSeparator =
-              index > 0 && item.kind === "link" && items[index - 1].kind !== "link";
+              index > 0 && dockGroup(item) !== dockGroup(items[index - 1]);
 
             return (
               <Fragment key={item.id}>
                 {showSeparator ? <span className="curious-dock__sep" aria-hidden /> : null}
                 <button
                   type="button"
-                  className="curious-dock__item"
-                  aria-label={item.label}
+                  className={`curious-dock__item ${item.featured ? "curious-dock__item--featured" : ""}`}
+                  aria-label={item.featured ? `${item.label} (featured)` : item.label}
                   onClick={(event) => {
                     const icon = event.currentTarget.querySelector<HTMLElement>("[data-dock-item]");
                     if (icon) bounce(icon);

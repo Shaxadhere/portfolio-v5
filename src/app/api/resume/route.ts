@@ -3,6 +3,9 @@ import { getClientPromise } from '@/lib/mongodb';
 import fs from 'fs';
 import path from 'path';
 
+/** Default name when someone saves or downloads the resume */
+const RESUME_FILENAME = 'Shehzad Ahmed - Full Stack Software Engineer.pdf';
+
 export async function GET(request: NextRequest) {
   try {
     const headersList = request.headers;
@@ -137,7 +140,7 @@ export async function GET(request: NextRequest) {
     return new Response(fileBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': 'inline; filename="resume.pdf"',
+        'Content-Disposition': `inline; filename="${RESUME_FILENAME}"; filename*=UTF-8''${encodeURIComponent(RESUME_FILENAME)}`,
       },
     });
   } catch (error) {

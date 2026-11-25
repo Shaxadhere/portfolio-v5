@@ -44,3 +44,54 @@ export function saveIconPositions(positions: SavedIconPositions) {
     // Ignore quota / privacy errors
   }
 }
+
+// ── Shared store (for useSyncExternalStore) ─────────────────────────────────
+// Positions live in localStorage; the store keeps one cached snapshot so every
+// reader sees the same object and the server render always starts empty.
+
+const EMPTY_POSITIONS: SavedIconPositions = {};
+const listeners = new Set<() => void>();
+let snapshot: SavedIconPositions | null = null;
+
+export function subscribeIconPositions(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+export function getIconPositionsSnapshot(): SavedIconPositions {
+  if (snapshot === null) snapshot = loadIconPositions();
+  return snapshot;
+}
+
+export function getServerIconPositionsSnapshot(): SavedIconPositions {
+  return EMPTY_POSITIONS;
+}
+
+export function setIconPositions(next: SavedIconPositions) {
+  snapshot = next;
+  saveIconPositions(next);
+  listeners.forEach((listener) => listener());
+}
+
+export function setIconPosition(id: string, position: SavedIconPosition) {
+  setIconPositions({ ...getIconPositionsSnapshot(), [id]: position });
+}
+
+/** View → Clean Up: back to the default grid */
+export function resetIconPositions() {
+  setIconPositions({});
+}
+
+/** View → Scramble Icons */
+export function scrambleIconPositions(ids: string[]) {
+  const next: SavedIconPositions = {};
+  ids.forEach((id) => {
+    next[id] = {
+      x: Math.min(95, Math.max(5, 5 + Math.random() * 85)),
+      y: Math.min(90, Math.max(5, 5 + Math.random() * 80)),
+    };
+  });
+  setIconPositions(next);
+}

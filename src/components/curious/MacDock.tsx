@@ -5,13 +5,16 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { CuriousItem } from "@/data/portfolio";
 import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
-import { IconTooltip } from "@/components/curious/IconTooltip";
+import type { Point } from "@/components/curious/FloatingProject";
 
 gsap.registerPlugin(useGSAP);
 
 type MacDockProps = {
   items: CuriousItem[];
-  onOpen: (item: CuriousItem) => void;
+  /** Ids of items that have a window open (minimized or not) */
+  openIds: string[];
+  onOpen: (item: CuriousItem, origin: Point) => void;
+  onContextMenu: (item: CuriousItem, point: Point) => void;
 };
 
 /** Dock sections: featured products · pinned projects · links */
@@ -20,7 +23,7 @@ function dockGroup(item: CuriousItem) {
   return item.featured ? "featured" : "pinned";
 }
 
-export function MacDock({ items, onOpen }: MacDockProps) {
+export function MacDock({ items, openIds, onOpen, onContextMenu }: MacDockProps) {
   const dockRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -107,15 +110,30 @@ export function MacDock({ items, onOpen }: MacDockProps) {
                 {showSeparator ? <span className="curious-dock__sep" aria-hidden /> : null}
                 <button
                   type="button"
-                  className={`curious-dock__item ${item.featured ? "curious-dock__item--featured" : ""}`}
+                  data-dock-id={item.id}
+                  className={[
+                    "curious-dock__item",
+                    item.featured ? "curious-dock__item--featured" : "",
+                    openIds.includes(item.id) ? "is-open" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                   aria-label={item.featured ? `${item.label} (featured)` : item.label}
                   onClick={(event) => {
                     const icon = event.currentTarget.querySelector<HTMLElement>("[data-dock-item]");
-                    if (icon) bounce(icon);
-                    onOpen(item);
+                    // Only bounce while launching — an already-open window just comes forward
+                    if (icon && !openIds.includes(item.id)) bounce(icon);
+                    const rect = (icon ?? event.currentTarget).getBoundingClientRect();
+                    onOpen(item, { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+                  }}
+                  onContextMenu={(event) => {
+                    event.preventDefault();
+                    onContextMenu(item, { x: event.clientX, y: event.clientY });
                   }}
                 >
-                  <IconTooltip item={item} preferredPlacement="above" />
+                  <span className="curious-dock__label" aria-hidden>
+                    {item.label}
+                  </span>
                   <span data-dock-item className="curious-dock__icon-wrap">
                     <CuriousAppIcon
                       icon={item.icon}

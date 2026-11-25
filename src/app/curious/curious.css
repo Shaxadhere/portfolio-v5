@@ -219,8 +219,8 @@
 .curious-menu__item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 28px;
+    justify-content: flex-start;
+    gap: 6px;
     width: 100%;
     padding: 5px 10px;
     border: none;
@@ -261,6 +261,8 @@
 }
 
 .curious-menu__shortcut {
+    margin-left: auto;
+    padding-left: 24px;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.4);
     font-variant-numeric: tabular-nums;
@@ -286,8 +288,11 @@
 }
 
 .curious-toast {
-    padding: 12px 14px;
-    border-radius: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 16px;
     background: rgba(36, 36, 40, 0.88);
     backdrop-filter: blur(28px) saturate(170%);
     -webkit-backdrop-filter: blur(28px) saturate(170%);
@@ -378,7 +383,7 @@ html:not(.curious-sleeping) .curious-desktop {
     background: none;
     border: none;
     padding: 4px;
-    cursor: grab;
+    cursor: default;
     touch-action: none;
     pointer-events: auto;
     user-select: none;
@@ -405,88 +410,6 @@ html:not(.curious-sleeping) .curious-desktop {
     opacity: 0.9;
 }
 
-.curious-float:hover:not(.curious-float--custom-pos) {
-    transform: scale(1.08);
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.45));
-    z-index: 150 !important;
-}
-
-.curious-float--custom-pos:hover {
-    transform: translate(-50%, -50%) scale(1.08);
-    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
-    z-index: 150 !important;
-}
-
-.curious-float--selected:not(.curious-float--custom-pos) {
-    transform: scale(1.08);
-    filter: drop-shadow(0 0 0 2px rgba(10, 132, 255, 0.75));
-}
-
-.curious-float--selected.curious-float--custom-pos {
-    transform: translate(-50%, -50%) scale(1.08);
-    filter: drop-shadow(0 0 0 2px rgba(10, 132, 255, 0.75));
-}
-
-.curious-float__window {
-    display: block;
-    width: 168px;
-    border-radius: 13px;
-    overflow: hidden;
-    background: rgba(32, 32, 36, 0.72);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 10px 32px rgba(0, 0, 0, 0.45);
-}
-
-.curious-float__chrome {
-    display: flex;
-    gap: 6px;
-    padding: 9px 10px;
-    background: rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.curious-float__traffic {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.curious-float__traffic--close {
-    background: #ff5f57;
-}
-
-.curious-float__traffic--min {
-    background: #febc2e;
-}
-
-.curious-float__traffic--max {
-    background: #28c840;
-}
-
-.curious-float__window-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 12px 16px;
-}
-
-.curious-float__window-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.88);
-    text-align: center;
-    line-height: 1.25;
-    max-width: 144px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
 .curious-float__inner {
     display: flex;
     flex-direction: column;
@@ -498,7 +421,7 @@ html:not(.curious-sleeping) .curious-desktop {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 7px;
+    gap: 3px;
 }
 
 .curious-float__icon .curious-app-icon,
@@ -533,46 +456,6 @@ html:not(.curious-sleeping) .curious-desktop {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     pointer-events: none;
-}
-
-.curious-float__tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    width: 108px;
-    padding: 14px 12px;
-    border-radius: 15px;
-    background: rgba(32, 32, 36, 0.62);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-}
-
-.curious-float__tile-accent {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    opacity: 0.9;
-}
-
-.curious-float__tile-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    text-align: center;
-    line-height: 1.25;
-    max-width: 96px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 }
 
 .curious-app-icon-image {
@@ -673,131 +556,6 @@ html:not(.curious-sleeping) .curious-desktop {
     flex-shrink: 0;
 }
 
-/* Instant project tooltip — desktop + dock */
-.curious-tooltip {
-    position: absolute;
-    left: 50%;
-    z-index: 400;
-    width: max-content;
-    max-width: min(240px, calc(100vw - 20px));
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: rgba(28, 28, 32, 0.92);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 10px 28px rgba(0, 0, 0, 0.45);
-    color: rgba(255, 255, 255, 0.92);
-    text-align: left;
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    transition: none;
-}
-
-.curious-tooltip--above {
-    bottom: calc(100% + 10px);
-    top: auto;
-}
-
-.curious-tooltip--below {
-    top: calc(100% + 10px);
-    bottom: auto;
-}
-
-.curious-tooltip--center {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%) translateY(4px);
-}
-
-.curious-tooltip--left {
-    left: 0;
-    right: auto;
-    transform: translateX(0) translateY(4px);
-}
-
-.curious-tooltip--right {
-    left: auto;
-    right: 0;
-    transform: translateX(0) translateY(4px);
-}
-
-.curious-float:hover .curious-tooltip,
-.curious-float:focus-visible .curious-tooltip,
-.curious-dock__item:hover .curious-tooltip,
-.curious-dock__item:focus-visible .curious-tooltip {
-    opacity: 1;
-    visibility: visible;
-}
-
-.curious-float:hover .curious-tooltip--center,
-.curious-float:focus-visible .curious-tooltip--center,
-.curious-dock__item:hover .curious-tooltip--center,
-.curious-dock__item:focus-visible .curious-tooltip--center {
-    transform: translateX(-50%) translateY(0);
-}
-
-.curious-float:hover .curious-tooltip--left,
-.curious-float:focus-visible .curious-tooltip--left,
-.curious-dock__item:hover .curious-tooltip--left,
-.curious-dock__item:focus-visible .curious-tooltip--left,
-.curious-float:hover .curious-tooltip--right,
-.curious-float:focus-visible .curious-tooltip--right,
-.curious-dock__item:hover .curious-tooltip--right,
-.curious-dock__item:focus-visible .curious-tooltip--right {
-    transform: translateX(0) translateY(0);
-}
-
-.curious-tooltip--measuring {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    /* Keep it in layout for size measurement */
-    display: block !important;
-    pointer-events: none !important;
-}
-
-.curious-tooltip__name {
-    display: block;
-    font-size: 12.5px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: rgba(255, 255, 255, 0.96);
-}
-
-.curious-tooltip__desc {
-    display: block;
-    margin-top: 5px;
-    font-size: 11.5px;
-    font-weight: 400;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, 0.68);
-}
-
-.curious-tooltip__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 8px;
-    padding-top: 7px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.curious-tooltip__stack,
-.curious-tooltip__date {
-    display: block;
-    font-size: 10.5px;
-    font-weight: 500;
-    line-height: 1.3;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.curious-tooltip__date {
-    color: rgba(10, 132, 255, 0.9);
-}
-
 .curious-dock__icon-wrap {
     display: flex;
     border-radius: 14px;
@@ -826,119 +584,9 @@ html:not(.curious-sleeping) .curious-desktop {
     box-shadow: 0 0 6px rgba(255, 204, 0, 0.6);
 }
 
-.curious-tooltip__badge {
-    display: inline-block;
-    margin-bottom: 4px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #ffcc00;
-}
-
-/* Preview window — dark glass */
-.curious-preview-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    animation: curious-fade-in 0.22s ease;
-}
-
-.curious-preview {
-    position: relative;
-    width: min(420px, 92vw);
-    border-radius: 16px;
-    overflow: hidden;
-    animation: curious-scale-in 0.32s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.curious-preview__glass {
-    position: absolute;
-    inset: 0;
-    background: rgba(32, 32, 36, 0.72);
-    backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
-    -webkit-backdrop-filter: blur(56px) saturate(180%) brightness(1.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 16px;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.16),
-        0 28px 80px rgba(0, 0, 0, 0.65);
-}
-
-.curious-preview__chrome {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.curious-preview__traffic {
-    display: flex;
-    gap: 7px;
-}
-
-.curious-traffic {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.2);
-}
-
-.curious-traffic--close {
-    background: #ff5f57;
-    cursor: pointer;
-}
-
-.curious-traffic--min {
-    background: #febc2e;
-}
-
-.curious-traffic--max {
-    background: #28c840;
-}
-
-.curious-preview__title {
-    flex: 1;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--mac-text-muted);
-    margin-right: 52px;
-}
-
 /* Product info window — details, stack, timeline & links for a product */
-.curious-preview--product {
-    width: min(660px, 94vw);
-    max-height: min(86vh, 780px);
-    display: flex;
-    flex-direction: column;
-}
-
-.curious-preview--product .curious-preview__chrome {
-    flex-shrink: 0;
-}
-
-/* Near-opaque so the details stay readable over the wallpaper, blur or not */
-.curious-preview--product .curious-preview__glass {
-    background: rgba(24, 24, 28, 0.94);
-}
 
 .curious-product {
-    position: relative;
-    z-index: 1;
-    overflow-y: auto;
-    overscroll-behavior: contain;
     padding: 28px 28px 30px;
     color: var(--mac-text);
     user-select: text;
@@ -1200,52 +848,6 @@ html:not(.curious-sleeping) .curious-desktop {
 }
 
 /* About Shehzad window — macOS About panel */
-.curious-about-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 130;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(12px) saturate(130%);
-    -webkit-backdrop-filter: blur(12px) saturate(130%);
-    animation: curious-fade-in 0.2s ease;
-}
-
-.curious-about {
-    position: relative;
-    width: min(380px, 92vw);
-    border-radius: 14px;
-    overflow: hidden;
-    animation: curious-scale-in 0.28s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.curious-about__glass {
-    position: absolute;
-    inset: 0;
-    background: rgba(40, 40, 44, 0.82);
-    backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-    -webkit-backdrop-filter: blur(48px) saturate(180%) brightness(1.05);
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    border-radius: 14px;
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.14),
-        0 28px 70px rgba(0, 0, 0, 0.6);
-}
-
-.curious-about__chrome {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    padding: 12px 14px 0;
-}
-
-.curious-about__traffic {
-    display: flex;
-    gap: 7px;
-}
 
 .curious-about__body {
     position: relative;
@@ -1418,28 +1020,6 @@ html:not(.curious-sleeping) .curious-desktop {
     color: rgba(255, 255, 255, 0.32);
 }
 
-@keyframes curious-fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes curious-scale-in {
-    from {
-        opacity: 0;
-        transform: scale(0.9) translateY(16px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
 @media (max-width: 640px) {
     .curious-menubar__menu:nth-child(n + 4) {
         display: none;
@@ -1448,20 +1028,6 @@ html:not(.curious-sleeping) .curious-desktop {
     .curious-cloud {
         width: min(860px, 98vw);
         height: min(calc(100vh - 130px), 880px);
-    }
-
-    .curious-float__window {
-        width: 148px;
-    }
-
-    .curious-float__window-title {
-        font-size: 11px;
-        max-width: 128px;
-    }
-
-    .curious-float__tile {
-        width: 96px;
-        padding: 12px 10px;
     }
 
     .curious-float__icon-label {
@@ -1485,11 +1051,519 @@ html:not(.curious-sleeping) .curious-desktop {
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* =============================================================================
+   macOS behaviour — windows, desktop selection, Spotlight, context menus
+   ============================================================================= */
 
-    .curious-preview-backdrop,
-    .curious-preview {
+/* Desktop icon selection — Finder style (gray backdrop + blue name pill) */
+.curious-float__glyph {
+    display: grid;
+    place-items: center;
+    padding: 4px;
+    border-radius: 9px;
+}
+
+.curious-float.is-selected .curious-float__glyph {
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.curious-float.is-selected .curious-float__icon-label {
+    padding: 0 5px;
+    border-radius: 4px;
+    background: #0a5fd8;
+    color: #fff;
+    text-shadow: none;
+    -webkit-line-clamp: 6;
+}
+
+/* Finder isn't the active app — selection turns gray, like macOS */
+.curious-cloud--inactive .curious-float.is-selected .curious-float__glyph {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.curious-cloud--inactive .curious-float.is-selected .curious-float__icon-label {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.curious-float:focus-visible {
+    outline: none;
+}
+
+.curious-float:focus-visible .curious-float__glyph {
+    box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.75);
+}
+
+.curious-float--dragging {
+    opacity: 0.85;
+}
+
+/* Rubber-band selection */
+.curious-band {
+    position: fixed;
+    z-index: 15;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+/* ── Windows ─────────────────────────────────────────────────────────────── */
+
+/* Above the desktop, below the dock (40) and menu bar (50) */
+.curious-windows {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.curious-window {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    pointer-events: auto;
+    background: rgba(30, 30, 34, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 0 0 0.5px rgba(0, 0, 0, 0.6),
+        0 24px 70px rgba(0, 0, 0, 0.55);
+    color: var(--mac-text);
+    animation: curious-window-open 0.34s cubic-bezier(0.2, 0.9, 0.3, 1);
+    transition:
+        transform 0.42s cubic-bezier(0.45, 0, 0.2, 1),
+        opacity 0.36s ease,
+        box-shadow 0.2s ease;
+}
+
+.curious-window:not(.is-active) {
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 0 0 0.5px rgba(0, 0, 0, 0.5),
+        0 12px 36px rgba(0, 0, 0, 0.4);
+}
+
+/* Minimize: the window shrinks into the dock (transform-origin points there) */
+.curious-window.is-minimized {
+    transform: scale(0.05);
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes curious-window-open {
+    from {
+        transform: scale(0.25);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.curious-window__titlebar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 40px;
+    padding: 0 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    touch-action: none;
+    user-select: none;
+}
+
+.curious-window__title {
+    position: absolute;
+    left: 84px;
+    right: 84px;
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.85);
+    pointer-events: none;
+}
+
+.curious-window:not(.is-active) .curious-window__title {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.curious-window__lights {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 8px;
+}
+
+.curious-light {
+    display: grid;
+    place-items: center;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+    cursor: default;
+}
+
+.curious-light svg {
+    width: 8px;
+    height: 8px;
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.6);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    opacity: 0;
+}
+
+.curious-light svg .is-filled {
+    fill: rgba(0, 0, 0, 0.6);
+    stroke: none;
+}
+
+.curious-window__lights:hover .curious-light svg,
+.curious-light:focus-visible svg {
+    opacity: 1;
+}
+
+.curious-light:focus-visible {
+    outline: 2px solid rgba(10, 132, 255, 0.8);
+    outline-offset: 1px;
+}
+
+.curious-light--close {
+    background: #ff5f57;
+}
+
+.curious-light--min {
+    background: #febc2e;
+}
+
+.curious-light--zoom {
+    background: #28c840;
+}
+
+/* Background windows: gray lights until you hover them */
+.curious-window:not(.is-active) .curious-window__lights:not(:hover) .curious-light {
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: none;
+}
+
+.curious-window__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    user-select: text;
+}
+
+/* ── Context menus ───────────────────────────────────────────────────────── */
+
+.curious-menu--context {
+    position: fixed;
+    z-index: 300;
+    min-width: 220px;
+}
+
+.curious-menu__mark {
+    flex-shrink: 0;
+    width: 12px;
+    font-size: 11px;
+    text-align: center;
+}
+
+.curious-menu__label {
+    flex: 1;
+}
+
+/* ── Dock ────────────────────────────────────────────────────────────────── */
+
+/* macOS dock name label (above the magnified icon) */
+.curious-dock__label {
+    position: absolute;
+    bottom: calc(100% + 40px);
+    left: 50%;
+    z-index: 5;
+    padding: 4px 10px;
+    border-radius: 7px;
+    background: rgba(40, 40, 44, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transform: translateX(-50%);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.curious-dock__item:hover .curious-dock__label,
+.curious-dock__item:focus-visible .curious-dock__label {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Has a window open — a brighter indicator */
+.curious-dock__item.is-open .curious-dock__dot {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+}
+
+/* ── Notifications ───────────────────────────────────────────────────────── */
+
+.curious-toast__icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.curious-toast__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.curious-toast__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.curious-toast__head span {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ── Spotlight ───────────────────────────────────────────────────────────── */
+
+.curious-spotlight-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 18vh;
+}
+
+.curious-spotlight {
+    width: min(680px, calc(100vw - 32px));
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(32, 32, 36, 0.95);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 30px 90px rgba(0, 0, 0, 0.6);
+    animation: curious-spotlight-in 0.16s ease-out;
+}
+
+@keyframes curious-spotlight-in {
+    from {
+        opacity: 0;
+        transform: scale(0.98) translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.curious-spotlight__bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.curious-spotlight__bar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: none;
+    color: var(--mac-text);
+    font: inherit;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    user-select: text;
+}
+
+.curious-spotlight__bar input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.curious-spotlight__results {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    height: min(380px, 52vh);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.curious-spotlight__list {
+    overflow-y: auto;
+    padding: 6px;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.curious-spotlight__group {
+    padding: 8px 10px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.curious-spotlight__row {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    border-radius: 7px;
+    cursor: default;
+}
+
+.curious-spotlight__row.is-active {
+    background: #0a5fd8;
+}
+
+.curious-spotlight__row-title {
+    overflow: hidden;
+    font-size: 13.5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.curious-spotlight__row-sub {
+    font-size: 12px;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.curious-spotlight__row.is-active .curious-spotlight__row-sub {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.curious-spotlight__preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    overflow-y: auto;
+    padding: 22px 18px;
+    text-align: center;
+}
+
+.curious-spotlight__preview h3 {
+    margin: 6px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.curious-spotlight__preview p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--mac-text-muted);
+}
+
+.curious-spotlight__preview dl {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin: 8px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+}
+
+.curious-spotlight__preview dt {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.curious-spotlight__preview dd {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.curious-spotlight__hint {
+    margin-top: auto;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.curious-spotlight__empty {
+    padding: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 13px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* ── Small screens & reduced motion ──────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    /* Windows become full-width sheets on phones */
+    .curious-window:not(.is-maximized) {
+        top: 38px !important;
+        left: 8px !important;
+        width: calc(100vw - 16px) !important;
+        max-height: calc(100dvh - 38px - 96px) !important;
+    }
+
+    .curious-spotlight-layer {
+        padding-top: 56px;
+    }
+
+    .curious-spotlight__bar input {
+        font-size: 18px;
+    }
+
+    .curious-spotlight__results {
+        grid-template-columns: 1fr;
+    }
+
+    .curious-spotlight__list {
+        border-right: none;
+    }
+
+    .curious-spotlight__preview {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .curious-window,
+    .curious-spotlight,
+    .curious-menu {
         animation: none;
+        transition: none;
     }
 }
 

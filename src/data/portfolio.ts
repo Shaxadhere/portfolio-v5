@@ -80,9 +80,9 @@ export const PORTFOLIO = {
     { id: "featured", label: "Featured" },
     { id: "tools", label: "Tools" },
     { id: "skills", label: "Skills" },
-    { id: "products", label: "Products" },
     { id: "experience", label: "Experience" },
     { id: "education", label: "Education" },
+    { id: "products", label: "Products" },
     { id: "resume", label: "Resume" },
   ],
 
@@ -142,11 +142,24 @@ export const PORTFOLIO = {
 
   experience: [
     {
+      company: "DevDefy",
+      role: "Senior Full Stack Engineer",
+      location: "Karachi, Pakistan",
+      period: "Jun 2026 — Present",
+      highlights: [
+        "Architected and engineered scalable full-stack applications for the trucking and logistics industry using Next.js and NestJS.",
+        "Built high-concurrency microservices in Golang to process real-time fleet telemetry, dispatch workflows, and load tracking.",
+        "Designed and optimized robust data models in PostgreSQL, ensuring data integrity, indexing efficiency, and fast analytical queries.",
+        "Implemented Redis for low-latency caching, session management, and real-time event streaming across distributed services.",
+        "Delivered responsive driver and fleet management dashboards with Next.js, elevating dispatcher efficiency and shipment visibility.",
+        "Provisioned and managed cloud infrastructure on AWS with automated CI/CD pipelines, ensuring high availability and scalability.",
+      ],
+    },
+    {
       company: "Simplifi Pay",
       role: "Senior Software Engineer",
       location: "Dubai, UAE",
       period: "Sep 2024 — May 2026",
-      // iconImage: "/company-icons/simplifi.png",
       highlights: [
         "Developed core fintech product across web and mobile, elevating performance and reliability.",
         "Built transaction reporting, receipt workflows, debit card branding, and a reusable React Web SDK.",
@@ -873,8 +886,6 @@ export const PORTFOLIO = {
       "simplifipay-website",
       "artt-website",
     ],
-    /** Leave empty to auto-populate all projects with a live link on the desktop */
-    desktopProjectIds: [] as string[],
     dockLinks: [
       { id: "github", label: "GitHub", icon: "github" as const, accent: "#636366" },
       { id: "linkedin", label: "LinkedIn", icon: "linkedin" as const, accent: "#0a66c2" },
@@ -1000,11 +1011,6 @@ export const builtProjects = projects.map(
     accent,
   }),
 );
-
-const desktopProjectIds =
-  curious.desktopProjectIds.length > 0
-    ? curious.desktopProjectIds
-    : projects.filter((p) => p.url).map((p) => p.id);
 
 // ── Product groups & featured products ──────────────────────────────────────
 

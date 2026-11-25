@@ -177,45 +177,6 @@ export function RecruiterView() {
             </div>
           </section>
 
-          <section id="products" className="bento bento--products" data-bento-card>
-            <span className="bento__label">Featured work</span>
-            <h2>Products</h2>
-            <p className="bento-products__count">{projects.length} projects shipped</p>
-            <div className="bento-products">
-              {projects.map((project) => (
-                <article key={project.id} className="bento-product" data-track-project={project.name}>
-                  <CuriousAppIcon
-                    icon={project.icon}
-                    accent={project.accent}
-                    iconImage={project.iconImage}
-                    size={44}
-                  />
-                  <div className="bento-product__body">
-                    <div className="bento-product__meta">
-                      <span className="bento-product__tag">{project.tag}</span>
-                      <time className="bento-product__date">{project.date}</time>
-                    </div>
-                    <h3>
-                      {project.url ? (
-                        <a href={project.url} target="_blank" rel="noopener noreferrer">
-                          {project.name}
-                        </a>
-                      ) : (
-                        project.name
-                      )}
-                    </h3>
-                    <p>{project.description}</p>
-                    <div className="bento-product__stack">
-                      {project.stack.map((s) => (
-                        <span key={s}>{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </section>
-
           <section id="experience" className="bento bento--experience" data-bento-card>
             <span className="bento__label">Career</span>
             <h2>Experience</h2>
@@ -274,6 +235,45 @@ export function RecruiterView() {
                 <time>{edu.period}</time>
               </article>
             ))}
+          </section>
+
+          <section id="products" className="bento bento--products" data-bento-card>
+            <span className="bento__label">Featured work</span>
+            <h2>Products</h2>
+            <p className="bento-products__count">{projects.length} projects shipped</p>
+            <div className="bento-products">
+              {projects.map((project) => (
+                <article key={project.id} className="bento-product" data-track-project={project.name}>
+                  <CuriousAppIcon
+                    icon={project.icon}
+                    accent={project.accent}
+                    iconImage={project.iconImage}
+                    size={44}
+                  />
+                  <div className="bento-product__body">
+                    <div className="bento-product__meta">
+                      <span className="bento-product__tag">{project.tag}</span>
+                      <time className="bento-product__date">{project.date}</time>
+                    </div>
+                    <h3>
+                      {project.url ? (
+                        <a href={project.url} target="_blank" rel="noopener noreferrer">
+                          {project.name}
+                        </a>
+                      ) : (
+                        project.name
+                      )}
+                    </h3>
+                    <p>{project.description}</p>
+                    <div className="bento-product__stack">
+                      {project.stack.map((s) => (
+                        <span key={s}>{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           </section>
 
           <section id="resume" className="bento bento--resume" data-bento-card>

@@ -1,67 +1,52 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useSyncExternalStore } from "react";
 import type { CuriousItem } from "@/data/portfolio";
 import { buildFloatLayouts } from "@/data/curious-layout";
 import {
-  loadIconPositions,
-  saveIconPositions,
-  type SavedIconPositions,
+  getIconPositionsSnapshot,
+  getServerIconPositionsSnapshot,
+  setIconPosition,
+  subscribeIconPositions,
 } from "@/lib/curious-positions";
-import { FloatingProject } from "@/components/curious/FloatingProject";
+import { FloatingProject, type Point } from "@/components/curious/FloatingProject";
 
 type ProjectCloudProps = {
   items: CuriousItem[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
-  onOpen: (item: CuriousItem) => void;
+  selectedIds: string[];
+  /** Finder is the active app (no window focused) — blue selection instead of gray */
+  active: boolean;
+  onSelect: (id: string, additive: boolean) => void;
+  onOpen: (item: CuriousItem, origin: Point) => void;
+  onContextMenu: (item: CuriousItem, point: Point) => void;
 };
 
-export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectCloudProps) {
+export function ProjectCloud({
+  items,
+  selectedIds,
+  active,
+  onSelect,
+  onOpen,
+  onContextMenu,
+}: ProjectCloudProps) {
   const cloudRef = useRef<HTMLDivElement>(null);
   const defaultLayouts = useMemo(() => buildFloatLayouts(items), [items]);
-  const [savedPositions, setSavedPositions] = useState<SavedIconPositions>({});
-
-  useEffect(() => {
-    setSavedPositions(loadIconPositions());
-  }, []);
-
-  useEffect(() => {
-    const onReset = () => {
-      setSavedPositions({});
-      saveIconPositions({});
-    };
-
-    const onScramble = () => {
-      const next: SavedIconPositions = {};
-      items.forEach((item) => {
-        next[item.id] = {
-          x: Math.min(95, Math.max(5, 5 + Math.random() * 85)),
-          y: Math.min(90, Math.max(5, 5 + Math.random() * 80)),
-        };
-      });
-      setSavedPositions(next);
-      saveIconPositions(next);
-    };
-
-    window.addEventListener("curious:reset-icons", onReset);
-    window.addEventListener("curious:scramble-icons", onScramble);
-    return () => {
-      window.removeEventListener("curious:reset-icons", onReset);
-      window.removeEventListener("curious:scramble-icons", onScramble);
-    };
-  }, [items]);
+  const savedPositions = useSyncExternalStore(
+    subscribeIconPositions,
+    getIconPositionsSnapshot,
+    getServerIconPositionsSnapshot,
+  );
 
   const handlePositionChange = useCallback((id: string, x: number, y: number) => {
-    setSavedPositions((prev) => {
-      const next = { ...prev, [id]: { x, y } };
-      saveIconPositions(next);
-      return next;
-    });
+    setIconPosition(id, { x, y });
   }, []);
 
   return (
-    <div ref={cloudRef} className="curious-cloud" aria-label="Projects">
+    <div
+      ref={cloudRef}
+      className={`curious-cloud ${active ? "" : "curious-cloud--inactive"}`}
+      aria-label="Desktop"
+    >
       {items.map((item, index) => (
         <FloatingProject
           key={item.id}
@@ -69,10 +54,11 @@ export function ProjectCloud({ items, selectedId, onSelect, onOpen }: ProjectClo
           layout={defaultLayouts[index]}
           savedPosition={savedPositions[item.id]}
           index={index}
-          selected={selectedId === item.id}
+          selected={selectedIds.includes(item.id)}
           cloudRef={cloudRef}
           onSelect={onSelect}
           onOpen={onOpen}
+          onContextMenu={onContextMenu}
           onPositionChange={(x, y) => handlePositionChange(item.id, x, y)}
         />
       ))}

@@ -14,16 +14,18 @@ import type { CuriousItem } from "@/data/portfolio";
 import type { FloatLayout } from "@/data/curious-layout";
 import type { SavedIconPosition } from "@/lib/curious-positions";
 import { CuriousAppIcon } from "@/components/curious/icons/AppIcons";
-import { IconTooltip } from "@/components/curious/IconTooltip";
 
 gsap.registerPlugin(useGSAP);
 
 const DRAG_THRESHOLD = 5;
-const DESKTOP_ICON_SIZE = 72;
+const DESKTOP_ICON_SIZE = 60;
 const POSITION_BOUNDS = { minX: 2, maxX: 98, minY: 2, maxY: 93 };
+
+export type Point = { x: number; y: number };
 
 type DragState = {
   pointerId: number;
+  pointerType: string;
   startClientX: number;
   startClientY: number;
   startX: number;
@@ -37,8 +39,9 @@ type FloatingProjectProps = {
   index: number;
   selected: boolean;
   cloudRef: RefObject<HTMLDivElement | null>;
-  onSelect: (id: string) => void;
-  onOpen: (item: CuriousItem) => void;
+  onSelect: (id: string, additive: boolean) => void;
+  onOpen: (item: CuriousItem, origin: Point) => void;
+  onContextMenu: (item: CuriousItem, point: Point) => void;
   onPositionChange: (x: number, y: number) => void;
 };
 
@@ -49,6 +52,14 @@ function clampPosition(x: number, y: number) {
   };
 }
 
+function centerOf(element: HTMLElement | null): Point {
+  const rect = element?.getBoundingClientRect();
+  return rect
+    ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
+    : { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+}
+
+/** One Finder-style desktop icon — select, double-click to open, drag to move */
 export function FloatingProject({
   item,
   layout,
@@ -58,16 +69,14 @@ export function FloatingProject({
   cloudRef,
   onSelect,
   onOpen,
+  onContextMenu,
   onPositionChange,
 }: FloatingProjectProps) {
   const ref = useRef<HTMLButtonElement>(null);
   const innerRef = useRef<HTMLSpanElement>(null);
-  const clickTimer = useRef<number | null>(null);
   const dragState = useRef<DragState | null>(null);
-  const dragPosRef = useRef<{ x: number; y: number } | null>(null);
   const didDragRef = useRef(false);
-  const isDraggingRef = useRef(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const [dragPos, setDragPos] = useState<SavedIconPosition | null>(null);
 
   useGSAP(
     () => {
@@ -88,34 +97,14 @@ export function FloatingProject({
     { scope: ref, dependencies: [index] },
   );
 
-  const handleClick = (event: MouseEvent) => {
-    if (didDragRef.current) {
-      didDragRef.current = false;
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-
-    event.stopPropagation();
-    onSelect(item.id);
-
-    if (clickTimer.current) {
-      window.clearTimeout(clickTimer.current);
-      clickTimer.current = null;
-      onOpen(item);
-      return;
-    }
-
-    clickTimer.current = window.setTimeout(() => {
-      clickTimer.current = null;
-    }, 280);
-  };
+  const open = () => onOpen(item, centerOf(ref.current));
 
   const handlePointerDown = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return;
-
     event.stopPropagation();
-    onSelect(item.id);
+
+    const additive = event.metaKey || event.ctrlKey || event.shiftKey;
+    if (additive || !selected) onSelect(item.id, additive);
 
     const cloud = cloudRef.current;
     const element = ref.current;
@@ -125,27 +114,24 @@ export function FloatingProject({
     if ((startX === undefined || startY === undefined) && cloud && element) {
       const cloudRect = cloud.getBoundingClientRect();
       const elemRect = element.getBoundingClientRect();
-      const centerX = elemRect.left + elemRect.width / 2 - cloudRect.left;
-      const centerY = elemRect.top + elemRect.height / 2 - cloudRect.top;
-      startX = (centerX / cloudRect.width) * 100;
-      startY = (centerY / cloudRect.height) * 100;
+      startX = ((elemRect.left + elemRect.width / 2 - cloudRect.left) / cloudRect.width) * 100;
+      startY = ((elemRect.top + elemRect.height / 2 - cloudRect.top) / cloudRect.height) * 100;
     }
 
-    const currentX = startX ?? 5;
-    const currentY = startY ?? 5;
-
+    didDragRef.current = false;
     dragState.current = {
       pointerId: event.pointerId,
+      pointerType: event.pointerType,
       startClientX: event.clientX,
       startClientY: event.clientY,
-      startX: currentX,
-      startY: currentY,
+      startX: startX ?? 5,
+      startY: startY ?? 5,
     };
 
-    dragPosRef.current = { x: currentX, y: currentY };
-
-    if (event.currentTarget.setPointerCapture) {
+    try {
       event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      // pointer already released — dragging still works without capture
     }
   };
 
@@ -155,70 +141,51 @@ export function FloatingProject({
 
     const dx = event.clientX - state.startClientX;
     const dy = event.clientY - state.startClientY;
-
-    if (!isDraggingRef.current && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
+    if (!didDragRef.current && Math.hypot(dx, dy) < DRAG_THRESHOLD) return;
 
     const cloud = cloudRef.current;
-    if (!cloud || !ref.current) return;
+    if (!cloud) return;
 
     const rect = cloud.getBoundingClientRect();
-    const next = clampPosition(
-      state.startX + (dx / rect.width) * 100,
-      state.startY + (dy / rect.height) * 100,
+    didDragRef.current = true;
+    setDragPos(
+      clampPosition(state.startX + (dx / rect.width) * 100, state.startY + (dy / rect.height) * 100),
     );
-
-    dragPosRef.current = next;
-    ref.current.style.left = `${next.x}%`;
-    ref.current.style.top = `${next.y}%`;
-    ref.current.style.position = "absolute";
-    ref.current.style.transform = "translate(-50%, -50%)";
-
-    if (!isDraggingRef.current) {
-      didDragRef.current = true;
-      isDraggingRef.current = true;
-      setIsDragging(true);
-
-      if (clickTimer.current) {
-        window.clearTimeout(clickTimer.current);
-        clickTimer.current = null;
-      }
-    }
   };
 
-  const handlePointerUp = (event: PointerEvent<HTMLButtonElement>) => {
+  const finishPointer = (event: PointerEvent<HTMLButtonElement>, cancelled: boolean) => {
     const state = dragState.current;
     if (!state || state.pointerId !== event.pointerId) return;
 
-    if (event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
+    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
     dragState.current = null;
 
-    if (isDraggingRef.current) {
-      const finalX = dragPosRef.current?.x ?? (ref.current ? parseFloat(ref.current.style.left) : 5);
-      const finalY = dragPosRef.current?.y ?? (ref.current ? parseFloat(ref.current.style.top) : 5);
-      if (!Number.isNaN(finalX) && !Number.isNaN(finalY)) {
-        onPositionChange(finalX, finalY);
-      }
+    if (!cancelled && didDragRef.current && dragPos) {
+      onPositionChange(dragPos.x, dragPos.y);
+    } else if (!cancelled && !didDragRef.current && state.pointerType === "touch") {
+      // Phones and tablets: a single tap opens (no double-tap needed)
+      open();
     }
-
-    isDraggingRef.current = false;
-    setIsDragging(false);
-    dragPosRef.current = null;
+    setDragPos(null);
   };
 
-  const handlePointerCancel = (event: PointerEvent<HTMLButtonElement>) => {
-    if (!dragState.current) return;
-    if (event.currentTarget.hasPointerCapture && event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-    dragState.current = null;
-    isDraggingRef.current = false;
-    setIsDragging(false);
-    dragPosRef.current = null;
+  const handleDoubleClick = (event: MouseEvent) => {
+    event.stopPropagation();
+    if (didDragRef.current) return;
+    open();
   };
 
-  const activePos = isDragging && dragPosRef.current ? dragPosRef.current : savedPosition;
+  const handleContextMenu = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!selected) onSelect(item.id, false);
+    onContextMenu(item, { x: event.clientX, y: event.clientY });
+  };
+
+  const isDragging = dragPos !== null;
+  const activePos = dragPos ?? savedPosition;
   const isCustomPos = activePos !== undefined;
 
   const style: CSSProperties = isCustomPos
@@ -237,26 +204,37 @@ export function FloatingProject({
     <button
       ref={ref}
       type="button"
-      data-float-item
-      className={`curious-float curious-float--${layout.variant} ${selected ? "curious-float--selected" : ""} ${isDragging ? "curious-float--dragging" : ""} ${isCustomPos ? "curious-float--custom-pos" : ""}`}
+      data-icon-id={item.id}
+      className={[
+        "curious-float",
+        selected ? "is-selected" : "",
+        isDragging ? "curious-float--dragging" : "",
+        isCustomPos ? "curious-float--custom-pos" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={style}
-      onClick={handleClick}
+      title={item.label}
+      onClick={(event) => event.stopPropagation()}
+      onDoubleClick={handleDoubleClick}
+      onContextMenu={handleContextMenu}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerCancel}
+      onPointerUp={(event) => finishPointer(event, false)}
+      onPointerCancel={(event) => finishPointer(event, true)}
       aria-label={item.label}
-      aria-grabbed={isDragging}
+      aria-pressed={selected}
     >
-      {!isDragging ? <IconTooltip item={item} preferredPlacement="above" /> : null}
       <span ref={innerRef} className="curious-float__inner">
         <span className="curious-float__icon">
-          <CuriousAppIcon
-            icon={item.icon}
-            accent={item.accent}
-            iconImage={item.iconImage}
-            size={DESKTOP_ICON_SIZE}
-          />
+          <span className="curious-float__glyph">
+            <CuriousAppIcon
+              icon={item.icon}
+              accent={item.accent}
+              iconImage={item.iconImage}
+              size={DESKTOP_ICON_SIZE}
+            />
+          </span>
           <span className="curious-float__icon-label">{item.label}</span>
         </span>
       </span>
